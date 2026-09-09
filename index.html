@@ -13,9 +13,25 @@
         body {
             margin: 0;
             font-family: Arial, "Malgun Gothic", sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
+            /* 배경이 부드럽게 움직이도록 크기와 애니메이션 설정 */
+            background: linear-gradient(135deg, #0f172a, #1e293b, #090d16, #1e1b4b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: white;
             min-height: 100vh;
+        }
+
+        /* 배경 그라데이션이 물 흐르듯 움직이는 애니메이션 키프레임 */
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .container {
@@ -46,7 +62,9 @@
         }
 
         .card {
-            background: #1e293b;
+            /* 카드는 배경 위에서 살짝 투명하고 고급스러운 유리 느낌(Glassmorphism) 살짝 가미 */
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(8px);
             border: 1px solid #334155;
             border-radius: 18px;
             padding: 25px;
@@ -56,6 +74,7 @@
         .card:hover {
             transform: translateY(-5px);
             border-color: #60a5fa;
+            box-shadow: 0 10px 20px rgba(96, 165, 250, 0.1);
         }
 
         .icon {
