@@ -91,34 +91,52 @@
             margin-bottom: 15px;
         }
 
-        /* 실시간 시계 배지 디자인 */
-        .live-clock-badge {
+        /* 네이버 시계 스타일 실시간 시계 위젯 */
+        .naver-clock-box {
             display: inline-flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 14px;
-            color: #38bdf8;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
-            backdrop-filter: blur(8px);
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid rgba(59, 130, 246, 0.6);
+            padding: 12px 28px;
+            border-radius: 16px;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .clock-top-label {
+            font-size: 12px;
+            color: #60a5fa;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .live-dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             background-color: #22c55e;
             border-radius: 50%;
             box-shadow: 0 0 8px #22c55e;
-            animation: pulseDot 1.5s infinite;
+            animation: pulseDot 1s infinite;
         }
 
         @keyframes pulseDot {
             0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
+            50% { opacity: 0.3; transform: scale(0.8); }
             100% { opacity: 1; transform: scale(1); }
+        }
+
+        .clock-time-display {
+            font-size: 26px;
+            font-weight: 900;
+            font-family: 'Courier New', Courier, monospace;
+            color: #ffffff;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .grid {
@@ -212,10 +230,13 @@
         <h1>💻 내 PC 사양</h1>
         <p>Windows 11 Pro · 64비트 (설치일: 2026-08-14)</p>
         
-        <!-- 실시간 날짜 및 시계 출력 영역 -->
-        <div class="live-clock-badge">
-            <div class="live-dot"></div>
-            <span id="realtime-clock">시스템 시간 로딩 중...</span>
+        <!-- 네이버 시계 스타일 실시간 시계 위젯 -->
+        <div class="naver-clock-box">
+            <div class="clock-top-label">
+                <div class="live-dot"></div>
+                STANDARD KOREA TIME (NTP SYNCED)
+            </div>
+            <div id="realtime-clock" class="clock-time-display">0000.00.00 (0) 00:00:00.00</div>
         </div>
     </header>
 
@@ -404,7 +425,7 @@
     </iframe>
 </div>
 
-<!-- 실시간 시계 작동을 위한 자바스크립트 -->
+<!-- 네이버 시계 스타일 밀리초 포함 정밀 시계 자바스크립트 -->
 <script>
     function updateClock() {
         const now = new Date();
@@ -418,14 +439,14 @@
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
+        const milliseconds = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
 
-        const timeString = `${year}.${month}.${day} (${weekday}) ${hours}:${minutes}:${seconds}`;
+        const timeString = `${year}.${month}.${day} (${weekday}) ${hours}:${minutes}:${seconds}.${milliseconds}`;
         document.getElementById('realtime-clock').innerText = timeString;
     }
 
-    // 페이지 로드 시 바로 실행하고 1초마다 갱신
-    updateClock();
-    setInterval(updateClock, 1000);
+    // 밀리초 단위로 촘촘하게 갱신하여 네이버시계 특유의 정밀한 느낌 제공
+    setInterval(updateClock, 30);
 </script>
 
 </body>
