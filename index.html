@@ -88,6 +88,37 @@
 
         header p {
             color: #94a3b8;
+            margin-bottom: 15px;
+        }
+
+        /* 실시간 시계 배지 디자인 */
+        .live-clock-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #38bdf8;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(8px);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #22c55e;
+            animation: pulseDot 1.5s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .grid {
@@ -180,6 +211,12 @@
     <header>
         <h1>💻 내 PC 사양</h1>
         <p>Windows 11 Pro · 64비트 (설치일: 2026-08-14)</p>
+        
+        <!-- 실시간 날짜 및 시계 출력 영역 -->
+        <div class="live-clock-badge">
+            <div class="live-dot"></div>
+            <span id="realtime-clock">시스템 시간 로딩 중...</span>
+        </div>
     </header>
 
     <div class="grid">
@@ -335,7 +372,7 @@
             </div>
         </div>
 
-        <!-- 스피커 (모델명 반영) -->
+        <!-- 스피커 -->
         <div class="card">
             <div class="icon">🔊</div>
             <div class="title">스피커</div>
@@ -366,6 +403,30 @@
         frameborder="0">
     </iframe>
 </div>
+
+<!-- 실시간 시계 작동을 위한 자바스크립트 -->
+<script>
+    function updateClock() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        
+        const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+        const weekday = weekdays[now.getDay()];
+
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        const timeString = `${year}.${month}.${day} (${weekday}) ${hours}:${minutes}:${seconds}`;
+        document.getElementById('realtime-clock').innerText = timeString;
+    }
+
+    // 페이지 로드 시 바로 실행하고 1초마다 갱신
+    updateClock();
+    setInterval(updateClock, 1000);
+</script>
 
 </body>
 </html>
