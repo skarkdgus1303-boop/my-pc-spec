@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Malgun Gothic", sans-serif;
+  background: #f2f4f7;
+  color: #222;
+}
+
+.container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 5px;
+  font-size: 36px;
+}
+
+.subtitle {
+  color: #777;
+  margin-top: 0;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card .name {
+  color: #777;
+  font-size: 14px;
+}
+
+.card .value {
+  margin-top: 8px;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.updated {
+  margin-top: 25px;
+  color: #888;
+  font-size: 13px;
+}
