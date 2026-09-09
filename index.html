@@ -1,22 +1,81 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>내 PC 사양</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 컴퓨터 사양</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: white;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .spec {
+            background: #1f2937;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .title {
+            color: #60a5fa;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .value {
+            font-size: 17px;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>💻 내 PC 사양</h1>
-    <p class="subtitle">PC Hardware Information</p>
 
-    <div id="specs" class="spec-grid"></div>
+<div class="container">
 
-    <p id="updated" class="updated"></p>
-  </div>
+    <h1>💻 내 컴퓨터 사양</h1>
 
-  <script src="script.js"></script>
+    <div class="spec">
+        <div class="title">CPU</div>
+        <div class="value">Intel(R) Core(TM) i5-9600KF CPU @ 3.70GHz</div>
+    </div>
+
+    <div class="spec">
+        <div class="title">GPU</div>
+        <div class="value">NVIDIA GeForce GTX 970</div>
+    </div>
+
+    <div class="spec">
+        <div class="title">RAM</div>
+        <div class="value">15.9 GB</div>
+    </div>
+
+    <div class="spec">
+        <div class="title">SSD</div>
+        <div class="value">Samsung SSD 970 EVO 500GB</div>
+    </div>
+
+    <div class="spec">
+        <div class="title">운영체제</div>
+        <div class="value">Microsoft Windows 11 Pro</div>
+    </div>
+
+</div>
+
 </body>
 </html>
