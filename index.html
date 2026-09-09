@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 PC 사양</title>
-
+    <title>SYSTEM // SPECIFICATION</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,258 +11,330 @@
 
         body {
             margin: 0;
-            font-family: Arial, "Malgun Gothic", sans-serif;
-            /* 배경이 부드럽게 움직이도록 크기와 애니메이션 설정 */
-            background: linear-gradient(135deg, #0f172a, #1e293b, #090d16, #1e1b4b);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: white;
+            font-family: 'Courier New', Courier, monospace, "Malgun Gothic", sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* 배경 그라데이션이 물 흐르듯 움직이는 애니메이션 키프레임 */
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        /* 사이버펑크 느낌의 움직이는 배경 그리드 & 스캔라인 효과 */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 999;
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
+        /* 은은하게 움직이는 레이저 광원 배경 애니메이션 */
+        .bg-glow {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08), rgba(16, 185, 129, 0.03) 30%, transparent 60%);
+            animation: rotateBG 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotateBG {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .container {
-            width: 90%;
-            max-width: 1000px;
+            width: 92%;
+            max-width: 1200px;
             margin: auto;
-            padding: 50px 0;
+            padding: 40px 0;
+            position: relative;
+            z-index: 1;
         }
 
         header {
-            text-align: center;
-            margin-bottom: 40px;
+            text-align: left;
+            border-bottom: 2px solid #1e293b;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        header h1 {
-            font-size: 42px;
-            margin-bottom: 10px;
+        .header-title h1 {
+            font-size: 32px;
+            margin: 0;
+            color: #38bdf8;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
         }
 
-        header p {
+        .header-title p {
             color: #94a3b8;
+            margin: 5px 0 0 0;
+            font-size: 13px;
+        }
+
+        .live-status {
+            font-size: 12px;
+            color: #34d399;
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            padding: 6px 12px;
+            border-radius: 4px;
+            letter-spacing: 1px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .card {
-            /* 카드는 배경 위에서 살짝 투명하고 고급스러운 유리 느낌(Glassmorphism) 살짝 가미 */
-            background: rgba(30, 41, 59, 0.85);
-            backdrop-filter: blur(8px);
-            border: 1px solid #334155;
-            border-radius: 18px;
-            padding: 25px;
-            transition: 0.2s;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid #1e293b;
+            border-left: 3px solid #38bdf8;
+            border-radius: 6px;
+            padding: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, transparent 50%, rgba(56, 189, 248, 0.1) 50%);
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            border-color: #60a5fa;
-            box-shadow: 0 10px 20px rgba(96, 165, 250, 0.1);
+            transform: translateY(-4px);
+            border-color: #38bdf8;
+            border-left-color: #34d399;
+            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.3);
         }
 
-        .icon {
-            font-size: 32px;
+        .card-header {
+            display: flex;
+            align-items: center;
             margin-bottom: 12px;
         }
 
+        .icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
         .title {
-            color: #60a5fa;
-            font-size: 14px;
+            color: #94a3b8;
+            font-size: 12px;
             font-weight: bold;
-            margin-bottom: 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
         .value {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
-            line-height: 1.5;
-            word-break: keep-all;
+            color: #f8fafc;
+            margin-bottom: 8px;
+            word-break: break-all;
         }
 
         .detail {
-            color: #94a3b8;
-            font-size: 14px;
-            margin-top: 6px;
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.5;
+            border-top: 1px dashed #1e293b;
+            padding-top: 8px;
+        }
+
+        .detail span {
+            color: #cbd5e1;
         }
 
         footer {
             text-align: center;
-            color: #64748b;
-            margin-top: 40px;
-            font-size: 13px;
+            color: #475569;
+            margin-top: 50px;
+            font-size: 11px;
+            letter-spacing: 2px;
         }
 
-        /* 배경 음악 */
+        /* 배경 음악 아이프레임 숨김 */
         .music {
             position: fixed;
-            width: 1px;
-            height: 1px;
-            left: -10px;
-            top: -10px;
+            width: 1px; height: 1px;
+            left: -10px; top: -10px;
             opacity: 0;
             pointer-events: none;
-        }
-
-        @media (max-width: 700px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            header h1 {
-                font-size: 32px;
-            }
         }
     </style>
 </head>
 
 <body>
 
+<div class="bg-glow"></div>
+
 <div class="container">
 
     <header>
-        <h1>💻 내 PC 사양</h1>
-        <p>Windows 11 Pro · 64비트 (설치일: 2026-08-14)</p>
+        <div class="header-title">
+            <h1>⚡ SYSTEM CORE DIAGNOSTICS</h1>
+            <p>MACHINE_ID: INTEL-9600KF // GTX-970 // WIN11_PRO</p>
+        </div>
+        <div class="live-status" id="clock">
+            STATUS: ONLINE [LIVE]
+        </div>
     </header>
 
     <div class="grid">
 
         <!-- CPU -->
-        <div class="card">
-            <div class="icon">🧠</div>
-            <div class="title">CPU</div>
-            <div class="value">
-                Intel Core i5-9600KF
+        <div class="card" style="border-left-color: #38bdf8;">
+            <div class="card-header">
+                <div class="icon">🧠</div>
+                <div class="title">PROCESSOR (CPU)</div>
             </div>
+            <div class="value">Intel Core i5-9600KF</div>
             <div class="detail">
-                6코어 / 6스레드 · 3.696 GHz (클럭)<br>
-                L2 1.5MB, L3 9MB 캐시
+                Spec: <span>6코어 / 6스레드 · 3.696 GHz</span><br>
+                Cache: <span>L2 1.5MB / L3 9MB</span>
             </div>
         </div>
 
         <!-- GPU -->
-        <div class="card">
-            <div class="icon">🎮</div>
-            <div class="title">GPU</div>
-            <div class="value">
-                NVIDIA GeForce GTX 970
+        <div class="card" style="border-left-color: #34d399;">
+            <div class="card-header">
+                <div class="icon">🎮</div>
+                <div class="title">GRAPHICS (GPU)</div>
             </div>
+            <div class="value">NVIDIA GeForce GTX 970</div>
             <div class="detail">
-                VRAM 4 GB · 드라이버 32.0.15.8266 (2026-06-09)<br>
-                사운드: NVIDIA 오디오 포함
+                VRAM: <span>4 GB</span> | Driver: <span>32.0.15.8266 (2026-06-09)</span><br>
+                Audio: <span>NVIDIA High Definition Audio</span>
             </div>
         </div>
 
         <!-- RAM -->
-        <div class="card">
-            <div class="icon">🧠</div>
-            <div class="title">RAM</div>
-            <div class="value">
-                15.92 GB (약 16 GB)
+        <div class="card" style="border-left-color: #f43f5e;">
+            <div class="card-header">
+                <div class="icon">⚡</div>
+                <div class="title">MEMORY (RAM)</div>
             </div>
+            <div class="value">15.92 GB (약 16 GB)</div>
             <div class="detail">
-                Samsung 8GB × 2 · 속도 2666MHz
+                Config: <span>Samsung 8GB × 2 (Dual)</span><br>
+                Speed: <span>2666 MHz</span>
             </div>
         </div>
 
         <!-- SSD -->
-        <div class="card">
-            <div class="icon">💿</div>
-            <div class="title">SSD</div>
-            <div class="value">
-                Samsung SSD 970 EVO 500GB
+        <div class="card" style="border-left-color: #fbbf24;">
+            <div class="card-header">
+                <div class="icon">💿</div>
+                <div class="title">STORAGE (NVMe)</div>
             </div>
+            <div class="value">Samsung SSD 970 EVO 500GB</div>
             <div class="detail">
-                NVMe · 상태: Healthy / OK<br>
-                C드라이브: 464.07GB 중 260.84GB 여유
+                Health: <span style="color: #34d399;">Healthy / OK</span><br>
+                C Drive: <span>464.07GB 중 260.84GB 여유</span>
             </div>
         </div>
 
         <!-- 메인보드 -->
-        <div class="card">
-            <div class="icon">🧩</div>
-            <div class="title">메인보드</div>
-            <div class="value">
-                Gigabyte B360M DS3H
+        <div class="card" style="border-left-color: #a855f7;">
+            <div class="card-header">
+                <div class="icon">🧩</div>
+                <div class="title">MOTHERBOARD</div>
             </div>
+            <div class="value">Gigabyte B360M DS3H</div>
             <div class="detail">
-                BIOS: American Megatrends F19<br>
-                Secure Boot: 활성화
+                BIOS: <span>American Megatrends F19</span><br>
+                Security: <span style="color: #34d399;">Secure Boot 활성화</span>
             </div>
         </div>
 
         <!-- 운영체제 -->
-        <div class="card">
-            <div class="icon">🪟</div>
-            <div class="title">운영체제</div>
-            <div class="value">
-                Microsoft Windows 11 Pro
+        <div class="card" style="border-left-color: #38bdf8;">
+            <div class="card-header">
+                <div class="icon">🪟</div>
+                <div class="title">OPERATING SYSTEM</div>
             </div>
+            <div class="value">Microsoft Windows 11 Pro</div>
             <div class="detail">
-                64비트 · 빌드 26200 (설치: 2026-08-14)
+                Arch: <span>64비트 · 빌드 26200</span><br>
+                Install Date: <span>2026-08-14</span>
             </div>
         </div>
 
-        <!-- 네트워크 -->
-        <div class="card">
-            <div class="icon">🌐</div>
-            <div class="title">네트워크 & 오디오</div>
-            <div class="value">
-                Realtek Gaming GbE
+        <!-- 네트워크 & 사운드 -->
+        <div class="card" style="border-left-color: #34d399;">
+            <div class="card-header">
+                <div class="icon">🌐</div>
+                <div class="title">NETWORK & AUDIO</div>
             </div>
+            <div class="value">Realtek Gaming GbE</div>
             <div class="detail">
-                유선 연결 · 1 Gbps<br>
-                사운드: Realtek 오디오 / USB xHCI
+                Interface: <span>유선 연결 · 1 Gbps</span><br>
+                Sound: <span>Realtek Audio / USB xHCI</span>
             </div>
         </div>
 
-        <!-- 모니터 -->
-        <div class="card">
-            <div class="icon">🖥️</div>
-            <div class="title">모니터 & 주변기기</div>
-            <div class="value">
-                Samsung S27F350
+        <!-- 모니터 & 주변기기 -->
+        <div class="card" style="border-left-color: #f43f5e;">
+            <div class="card-header">
+                <div class="icon">🖥️</div>
+                <div class="title">DISPLAY & PERIPHERALS</div>
             </div>
+            <div class="value">Samsung S27F350</div>
             <div class="detail">
-                27인치 · FHD 1920×1080 · 60Hz (출력 71Hz)<br>
-                키보드·마우스 (HID/USB 장치 연결)
+                Specs: <span>27인치 · FHD 1920×1080 / 71Hz</span><br>
+                Devices: <span>USB 키보드·마우스 연결됨</span>
             </div>
         </div>
 
     </div>
 
     <footer>
-        My PC Specification
+        SECURE SYSTEM ARCHITECTURE // ALL HARDWARE DIAGNOSTICS NORMAL
     </footer>
 
 </div>
 
-<!-- YouTube 배경 음악 -->
+<!-- 배경 음악 -->
 <div class="music">
     <iframe
-        width="1"
-        height="1"
+        width="1" height="1"
         src="https://www.youtube.com/embed/wbqVXwi3fMQ?autoplay=1&loop=1&playlist=wbqVXwi3fMQ"
         title="Background Music"
         allow="autoplay"
         frameborder="0">
     </iframe>
 </div>
+
+<script>
+    // 실시간 시계 출력 자바스크립트 (간지 포인트)
+    function updateClock() {
+        const now = new Date();
+        const timeString = now.toTimeString().split(' ')[0];
+        document.getElementById('clock').innerText = `SYSTEM TIME: ${timeString} [ACTIVE]`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>
 
 </body>
 </html>
