@@ -10,7 +10,7 @@
             box-sizing: border-box;
         }
 
-        /* 원래의 어두운 톤을 바탕으로, 배경에 멋진 빛 오로라 효과 추가 */
+        /* 딥블랙 기반의 하이테크 게이밍 감성 배경 */
         body {
             margin: 0;
             font-family: Arial, "Malgun Gothic", sans-serif;
@@ -21,7 +21,7 @@
             overflow-x: hidden;
         }
 
-        /* 배경에서 은은하게 움직이는 간지나는 네온 오로라 조명 효과 */
+        /* 은은하게 빛나며 움직이는 네온 오로라 배경 조명 효과 */
         .neon-bg {
             position: fixed;
             top: 0;
@@ -39,22 +39,22 @@
             width: 50vw;
             height: 50vw;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.35;
-            animation: floatGlow 12s ease-in-out infinite alternate;
+            filter: blur(90px);
+            opacity: 0.4;
+            animation: floatGlow 14s ease-in-out infinite alternate;
         }
 
         .neon-bg::before {
-            background: #3b82f6; /* 파란빛 조명 */
-            top: -10%;
-            left: -10%;
+            background: #3b82f6; /* 일렉트릭 블루 빛 */
+            top: -15%;
+            left: -15%;
         }
 
         .neon-bg::after {
-            background: #8b5cf6; /* 보랏빛 조명 */
-            bottom: -10%;
-            right: -10%;
-            animation-delay: -6s;
+            background: #8b5cf6; /* 네온 퍼플 빛 */
+            bottom: -15%;
+            right: -15%;
+            animation-delay: -7s;
         }
 
         @keyframes floatGlow {
@@ -62,7 +62,7 @@
                 transform: translate(0, 0) scale(1);
             }
             100% {
-                transform: translate(10%, 15%) scale(1.2);
+                transform: translate(12%, 18%) scale(1.25);
             }
         }
 
@@ -83,6 +83,7 @@
         header h1 {
             font-size: 42px;
             margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         }
 
         header p {
@@ -96,16 +97,18 @@
         }
 
         .card {
-            background: #1e293b;
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(10px);
             border: 1px solid #334155;
             border-radius: 18px;
             padding: 25px;
-            transition: 0.2s;
+            transition: 0.25s ease;
         }
 
         .card:hover {
             transform: translateY(-5px);
             border-color: #60a5fa;
+            box-shadow: 0 10px 30px -10px rgba(96, 165, 250, 0.3);
         }
 
         .icon {
@@ -140,7 +143,7 @@
             font-size: 13px;
         }
 
-        /* 배경 음악 */
+        /* 배경 음악 오디오 플레이어 숨김 처리 */
         .music {
             position: fixed;
             width: 1px;
@@ -165,7 +168,7 @@
 
 <body>
 
-<!-- 움직이는 간지나는 네온 오로라 배경 레이어 -->
+<!-- 움직이는 네온 오로라 배경 레이어 -->
 <div class="neon-bg"></div>
 
 <div class="container">
@@ -259,7 +262,6 @@
             <div class="icon">⚡</div>
             <div class="title">파워서플라이</div>
             <div class="value">
-                <!-- 제조사명을 아신다면 '정격 600W' 앞에 추가하시면 됩니다 (예: 마이크로닉스 정격 600W) -->
                 정격 600W
             </div>
             <div class="detail">
