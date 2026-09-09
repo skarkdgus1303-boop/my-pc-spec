@@ -10,22 +10,60 @@
             box-sizing: border-box;
         }
 
+        /* 원래의 어두운 톤을 바탕으로, 배경에 멋진 빛 오로라 효과 추가 */
         body {
             margin: 0;
             font-family: Arial, "Malgun Gothic", sans-serif;
-            /* 원본 테마의 어두운 톤을 유지하면서, 배경 색상들이 부드럽게 흐르도록 설정 */
-            background: linear-gradient(135deg, #0f172a, #1e293b, #090d16, #172554);
-            background-size: 400% 400%;
-            animation: gradientMove 18s ease infinite;
+            background-color: #030712;
             color: white;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* 배경이 유기적으로 움직이는 애니메이션 */
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* 배경에서 은은하게 움직이는 간지나는 네온 오로라 조명 효과 */
+        .neon-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: #090d16;
+        }
+
+        .neon-bg::before, .neon-bg::after {
+            content: '';
+            position: absolute;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: floatGlow 12s ease-in-out infinite alternate;
+        }
+
+        .neon-bg::before {
+            background: #3b82f6; /* 파란빛 조명 */
+            top: -10%;
+            left: -10%;
+        }
+
+        .neon-bg::after {
+            background: #8b5cf6; /* 보랏빛 조명 */
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -6s;
+        }
+
+        @keyframes floatGlow {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(10%, 15%) scale(1.2);
+            }
         }
 
         .container {
@@ -33,6 +71,8 @@
             max-width: 1000px;
             margin: auto;
             padding: 50px 0;
+            position: relative;
+            z-index: 1;
         }
 
         header {
@@ -124,6 +164,9 @@
 </head>
 
 <body>
+
+<!-- 움직이는 간지나는 네온 오로라 배경 레이어 -->
+<div class="neon-bg"></div>
 
 <div class="container">
 
