@@ -236,21 +236,18 @@
         document.getElementById('realtime-clock').innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
     }, 30);
 
-    // 수정된 배치 파일 생성 함수 (인코딩 깨짐 방지 파워쉘 활용 우회 방식 적용)
+    // 인코딩 에러 원천 차단형 파워쉘 기반 다운로드 스크립트 생성
     function downloadCmdScript() {
         const batContent = `@echo off
-chcp 65001 > nul
-title DESKTOP-L0P5QLC 실시간 하드웨어 스캐너
+title DESKTOP-L0P5QLC HARDWARE SCANNER
 color 0a
 echo ========================================================
-echo   [!] 친구분의 PC 하드웨어를 정밀 진단하는 중...
+echo   [!] Scanning PC Hardware... Please wait.
 echo ========================================================
-echo.
-powershell -Command "Add-Type -AssemblyName System.Windows.Forms; [System.IO.File]::WriteAllText([Environment]::GetFolderPath('Desktop') + '\\myspec.txt', '=== [PC 하드웨어 진단 리포트] ===`r`n' + (systeminfo))"
+powershell -Command "$info = systeminfo; Set-Content -Path ([Environment]::GetFolderPath('Desktop') + '\\myspec.txt') -Value $info -Encoding UTF8"
 echo.
 echo ========================================================
-echo   [!] 진단 완료! 바탕화면에 [myspec.txt]가 생성되었습니다.
-echo   웹사이트로 돌아가서 이 파일을 업로드하세요!
+echo   [!] Complete! [myspec.txt] created on Desktop.
 echo ========================================================
 pause`;
 
@@ -261,7 +258,6 @@ pause`;
         link.click();
     }
 
-    // 업로드된 텍스트 파일 분석 (인코딩 자동 감지 대응)
     function compareFriendSpec(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -270,16 +266,16 @@ pause`;
         reader.onload = function(e) {
             const text = e.target.result;
             
-            let cpuInfo = "추출 완료";
-            let ramInfo = "확인 완료";
+            let cpuInfo = "Detected Successfully";
+            let ramInfo = "Detected Successfully";
 
             const lines = text.split('\n');
             for (let line of lines) {
-                if (line.includes("프로세서")) {
-                    cpuInfo = line.split(':')[1] ? line.split(':')[1].trim() : "Intel/AMD 프로세서";
+                if (line.includes("Processor") || line.includes("프로세서")) {
+                    cpuInfo = line.split(':')[1] ? line.split(':')[1].trim() : "CPU Detected";
                 }
-                if (line.includes("총 물리적 메모리")) {
-                    ramInfo = line.split(':')[1] ? line.split(':')[1].trim() : "16GB 등";
+                if (line.includes("Total Physical Memory") || line.includes("총 물리적 메모리")) {
+                    ramInfo = line.split(':')[1] ? line.split(':')[1].trim() : "RAM Detected";
                 }
             }
 
@@ -289,7 +285,7 @@ pause`;
                     <td><strong>CPU 프로세서</strong></td>
                     <td>Intel Core i5-9600KF</td>
                     <td>${cpuInfo}</td>
-                    <td><span class="badge-win">진짜 CMD 분석</span></td>
+                    <td><span class="badge-win">CMD 분석 완료</span></td>
                 </tr>
                 <tr>
                     <td><strong>그래픽카드 (GPU)</strong></td>
@@ -305,10 +301,10 @@ pause`;
                 </tr>
             `;
 
-            document.getElementById('modal-summary').innerHTML = "🔥 <b>[리얼 데이터 연동 완료]</b> 친구 컴퓨터의 진짜 CMD 창에서 털어온 시스템 정보가 성공적으로 반영되었습니다!";
+            document.getElementById('modal-summary').innerHTML = "🔥 <b>[리얼 데이터 연동 완료]</b> 친구 컴퓨터의 진짜 시스템 정보를 성공적으로 불러와 비교를 마쳤습니다!";
             document.getElementById('compareModal').style.display = 'flex';
         };
-        reader.readAsText(file);
+        reader.readAsText(file, "UTF-8");
     }
 
     function closeModal() { document.getElementById('compareModal').style.display = 'none'; }
