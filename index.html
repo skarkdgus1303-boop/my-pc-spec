@@ -24,6 +24,35 @@
             pointer-events: none;
             background: radial-gradient(circle at center, #140505 0%, #030101 100%);
         }
+
+        /* 비밀번호 잠금 화면 스타일 */
+        #auth-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(3, 1, 1, 0.95); backdrop-filter: blur(10px);
+            z-index: 99999; display: flex; justify-content: center; align-items: center;
+        }
+        .auth-box {
+            background: linear-gradient(135deg, rgba(30, 8, 8, 0.98) 0%, rgba(10, 2, 2, 0.98) 100%);
+            border: 2px solid #ff3333; border-radius: 12px; padding: 40px; text-align: center;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); width: 90%; max-width: 400px;
+        }
+        .auth-box h2 { color: #ff3333; margin-top: 0; margin-bottom: 15px; font-size: 22px; }
+        .auth-box p { color: #9ca3af; font-size: 13px; margin-bottom: 20px; }
+        .auth-box input[type="password"] {
+            width: 100%; padding: 12px; background: #1f0505; border: 1px solid #ff3333;
+            color: #fff; border-radius: 6px; font-size: 16px; text-align: center; margin-bottom: 15px; outline: none;
+        }
+        .auth-box button {
+            width: 100%; padding: 12px; background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
+            color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); transition: 0.2s;
+        }
+        .auth-box button:hover { background: linear-gradient(135deg, #ff4d4d, #cc0000); }
+        .auth-error { color: #f87171; font-size: 12px; margin-top: 10px; display: none; }
+
+        /* 메인 콘텐츠 (처기엔 숨김 처리) */
+        #main-content-wrapper { display: none; }
+
         .container {
             width: 90%; max-width: 1000px;
             margin: auto; padding: 50px 0;
@@ -142,46 +171,60 @@
 
 <canvas id="hardcore-canvas"></canvas>
 
-<div class="container">
-    <header>
-        <h1>⚔️ DESKTOP-L0P5QLC ⚔️</h1>
-        <p>Windows 11 Pro · HARDCORE SYSTEM COMMAND</p>
-        <div class="naver-clock-box">
-            <div class="clock-top-label"><div class="live-dot"></div>COMBAT TIME SYNCED</div>
-            <div id="realtime-clock" class="clock-time-display">0000.00.00 (0) 00:00:00.00</div>
-        </div>
-    </header>
-
-    <div class="section-title">📂 COMPLETE SYSTEM SPECS (모든 부품 13종 완벽 보존)</div>
-    <div class="grid">
-        <div class="card"><div class="icon">🧠</div><div class="title">CPU</div><div class="value" id="card-cpu-val">Intel Core i5-9600KF</div><div class="detail">6코어 / 6스레드 · 3.696 GHz</div></div>
-        <div class="card"><div class="icon">🎮</div><div class="title">GPU</div><div class="value" id="card-gpu-val">NVIDIA GeForce GTX 970</div><div class="detail">VRAM 4 GB · 실시간 스캔 연동</div></div>
-        <div class="card"><div class="icon">🧠</div><div class="title">RAM</div><div class="value" id="card-ram-val">15.92 GB (약 16 GB)</div><div class="detail">Samsung 8GB × 2 · 2666MHz</div></div>
-        <div class="card"><div class="icon">💿</div><div class="title">SSD</div><div class="value" id="card-ssd-val">Samsung SSD 970 EVO 500GB</div><div class="detail">NVMe ·실시간 스캔 연동</div></div>
-        <div class="card"><div class="icon">🧩</div><div class="title">메인보드</div><div class="value" id="card-mb-val">Gigabyte B360M DS3H</div><div class="detail">BIOS: American Megatrends F19</div></div>
-        <div class="card"><div class="icon">🖥️</div><div class="title">케이스</div><div class="value">ZALMAN Z10 PLUS KOR</div><div class="detail">미들타워 · ARGB 쿨링팬 4개</div></div>
-        <div class="card"><div class="icon">⚡</div><div class="title">파워서플라이</div><div class="value">정격 600W</div><div class="detail">ATX 규격 · 80 PLUS 인증</div></div>
-        <div class="card"><div class="icon">🪟</div><div class="title">운영체제</div><div class="value" id="card-os-val">Microsoft Windows 11 Pro</div><div class="detail">64비트 · 빌드 26200</div></div>
-        <div class="card"><div class="icon">🌐</div><div class="title">네트워크 & 오디오</div><div class="value">Realtek Gaming GbE</div><div class="detail">유선 연결 · 1 Gbps</div></div>
-        <div class="card"><div class="icon">🖥️</div><div class="title">모니터</div><div class="value">Samsung S27F350</div><div class="detail">27인치 · FHD 1920×1080 · 60Hz</div></div>
-        <div class="card"><div class="icon">⌨️</div><div class="title">키보드</div><div class="value">darkFlash GD108</div><div class="detail">유무선 기계식 키보드</div></div>
-        <div class="card"><div class="icon">🖱️</div><div class="title">마우스</div><div class="value">ABKO HACKER KM400M</div><div class="detail">광학 게이밍 마우스</div></div>
-        <div class="card"><div class="icon">🔊</div><div class="title">스피커</div><div class="value">ZIO-S100 SOUNDBAR-US</div><div class="detail">USB 전원 공급형 PC 사운드바</div></div>
+<!-- 비밀번호 입력 오버레이 (보안 잠금) -->
+<div id="auth-overlay">
+    <div class="auth-box">
+        <h2>🔒 SYSTEM ACCESS LOCKED</h2>
+        <p>보안된 하드웨어 사양을 보려면 비밀번호를 입력하세요.</p>
+        <input type="password" id="access-password" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter') checkPassword()">
+        <button onclick="checkPassword()">시스템 해제</button>
+        <div id="auth-error" class="auth-error">⚠️ 비밀번호가 틀렸습니다!</div>
     </div>
+</div>
 
-    <div class="remote-compare-section">
-        <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ ULTIMATE HARDWARE RADAR</h3>
-        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 눌러 스크립트를 다운로드하세요. 실행 즉시 백그라운드에서 <b>CPU, GPU, RAM, SSD, OS, 메인보드를 정밀 스캔</b>합니다.</p>
-        
-        <button class="remote-compare-btn" onclick="downloadCmdScript()">📥 [1단계] 정밀 하드웨어 스캔 프로그램(.bat) 다운로드</button>
-        
-        <div class="file-upload-box">
-            <p style="color: #f3f4f6; font-size: 13px; margin-bottom: 8px;">2단계: 바탕화면의 <code>myspec.txt</code> 파일 업로드</p>
-            <input type="file" id="specFileInput" onchange="compareSystemSpec(event)">
+<!-- 메인 사양 콘텐츠 -->
+<div id="main-content-wrapper">
+    <div class="container">
+        <header>
+            <h1>⚔️ DESKTOP-L0P5QLC ⚔️</h1>
+            <p>Windows 11 Pro · HARDCORE SYSTEM COMMAND</p>
+            <div class="naver-clock-box">
+                <div class="clock-top-label"><div class="live-dot"></div>COMBAT TIME SYNCED</div>
+                <div id="realtime-clock" class="clock-time-display">0000.00.00 (0) 00:00:00.00</div>
+            </div>
+        </header>
+
+        <div class="section-title">📂 COMPLETE SYSTEM SPECS (모든 부품 13종 완벽 보존)</div>
+        <div class="grid">
+            <div class="card"><div class="icon">🧠</div><div class="title">CPU</div><div class="value" id="card-cpu-val">Intel Core i5-9600KF</div><div class="detail">6코어 / 6스레드 · 3.696 GHz</div></div>
+            <div class="card"><div class="icon">🎮</div><div class="title">GPU</div><div class="value" id="card-gpu-val">NVIDIA GeForce GTX 970</div><div class="detail">VRAM 4 GB · 실시간 스캔 연동</div></div>
+            <div class="card"><div class="icon">🧠</div><div class="title">RAM</div><div class="value" id="card-ram-val">15.92 GB (약 16 GB)</div><div class="detail">Samsung 8GB × 2 · 2666MHz</div></div>
+            <div class="card"><div class="icon">💿</div><div class="title">SSD</div><div class="value" id="card-ssd-val">Samsung SSD 970 EVO 500GB</div><div class="detail">NVMe · 실시간 스캔 연동</div></div>
+            <div class="card"><div class="icon">🧩</div><div class="title">메인보드</div><div class="value" id="card-mb-val">Gigabyte B360M DS3H</div><div class="detail">BIOS: American Megatrends F19</div></div>
+            <div class="card"><div class="icon">🖥️</div><div class="title">케이스</div><div class="value">ZALMAN Z10 PLUS KOR</div><div class="detail">미들타워 · ARGB 쿨링팬 4개</div></div>
+            <div class="card"><div class="icon">⚡</div><div class="title">파워서플라이</div><div class="value">정격 600W</div><div class="detail">ATX 규격 · 80 PLUS 인증</div></div>
+            <div class="card"><div class="icon">🪟</div><div class="title">운영체제</div><div class="value" id="card-os-val">Microsoft Windows 11 Pro</div><div class="detail">64비트 · 빌드 26200</div></div>
+            <div class="card"><div class="icon">🌐</div><div class="title">네트워크 & 오디오</div><div class="value">Realtek Gaming GbE</div><div class="detail">유선 연결 · 1 Gbps</div></div>
+            <div class="card"><div class="icon">🖥️</div><div class="title">모니터</div><div class="value">Samsung S27F350</div><div class="detail">27인치 · FHD 1920×1080 · 60Hz</div></div>
+            <div class="card"><div class="icon">⌨️</div><div class="title">키보드</div><div class="value">darkFlash GD108</div><div class="detail">유무선 기계식 키보드</div></div>
+            <div class="card"><div class="icon">🖱️</div><div class="title">마우스</div><div class="value">ABKO HACKER KM400M</div><div class="detail">광학 게이밍 마우스</div></div>
+            <div class="card"><div class="icon">🔊</div><div class="title">스피커</div><div class="value">ZIO-S100 SOUNDBAR-US</div><div class="detail">USB 전원 공급형 PC 사운드바</div></div>
         </div>
-    </div>
 
-    <footer>DESKTOP-L0P5QLC</footer>
+        <div class="remote-compare-section">
+            <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ ULTIMATE HARDWARE RADAR</h3>
+            <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 눌러 스크립트를 다운로드하세요. 실행 즉시 백그라운드에서 <b>CPU, GPU, RAM, SSD, OS, 메인보드를 정밀 스캔</b>합니다.</p>
+            
+            <button class="remote-compare-btn" onclick="downloadCmdScript()">📥 [1단계] 정밀 하드웨어 스캔 프로그램(.bat) 다운로드</button>
+            
+            <div class="file-upload-box">
+                <p style="color: #f3f4f6; font-size: 13px; margin-bottom: 8px;">2단계: 바탕화면의 <code>myspec.txt</code> 파일 업로드</p>
+                <input type="file" id="specFileInput" onchange="compareSystemSpec(event)">
+            </div>
+        </div>
+
+        <footer>DESKTOP-L0P5QLC</footer>
+    </div>
 </div>
 
 <div class="modal-overlay" id="compareModal">
@@ -210,6 +253,23 @@
 </div>
 
 <script>
+    // ★ 비밀번호 설정 (0912 적용 완료)
+    const correctPassword = "0912";
+
+    function checkPassword() {
+        const inputVal = document.getElementById('access-password').value;
+        const errorMsg = document.getElementById('auth-error');
+
+        if (inputVal === correctPassword) {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('main-content-wrapper').style.display = 'block';
+        } else {
+            errorMsg.style.display = 'block';
+            document.getElementById('access-password').value = '';
+            document.getElementById('access-password').focus();
+        }
+    }
+
     const canvas = document.getElementById('hardcore-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, sparks = [];
@@ -281,7 +341,6 @@ exit`;
                 if (line.startsWith("Mainboard:")) mbInfo = line.replace("Mainboard:", "").trim();
             }
 
-            // 화면 반영
             document.getElementById('card-cpu-val').innerText = cpuInfo;
             document.getElementById('card-gpu-val').innerText = gpuInfo;
             document.getElementById('card-ram-val').innerText = ramInfoNum + " GB (약 16 GB)";
@@ -289,7 +348,6 @@ exit`;
             document.getElementById('card-os-val').innerText = osInfo;
             document.getElementById('card-mb-val').innerText = mbInfo;
 
-            // --- CPU 성능 평가 로직 ---
             let cpuStatusHtml = '<span class="badge-match">일치 (동급 성능)</span>';
             let cpuAnalysisText = "기준 스펙과 동일한 동급 프로세서로 구동 중입니다.";
             if (cpuInfo.includes("i7") || cpuInfo.includes("i9") || cpuInfo.includes("7700") || cpuInfo.includes("12") || cpuInfo.includes("13") || cpuInfo.includes("14") || cpuInfo.includes("Ryzen 7") || cpuInfo.includes("Ryzen 9")) {
@@ -300,7 +358,6 @@ exit`;
                 cpuAnalysisText = "기준 스펙 대비 낮은 사양의 프로세서입니다.";
             }
 
-            // --- GPU(그래픽카드) 성능 평가 로직 ---
             let gpuStatusHtml = '<span class="badge-match">일치 (동급 성능)</span>';
             let gpuAnalysisText = "기준 스펙과 일치하는 그래픽카드입니다.";
             if (gpuInfo.includes("RTX") || gpuInfo.includes("RX 6") || gpuInfo.includes("RX 7") || gpuInfo.includes("GTX 1080") || gpuInfo.includes("GTX 1660") || gpuInfo.includes("RTX 30") || gpuInfo.includes("RTX 40")) {
@@ -311,7 +368,6 @@ exit`;
                 gpuAnalysisText = "외장 그래픽이 아니거나 저사양 그래픽카드로 확인되어 게이밍 성능이 떨어집니다.";
             }
 
-            // --- RAM 평가 ---
             let ramStatusHtml = '<span class="badge-match">일치 (동급 용량)</span>';
             let ramAnalysisText = "16GB 표준 용량으로 원활합니다.";
             if (ramInfoNum > 18) {
@@ -322,7 +378,6 @@ exit`;
                 ramAnalysisText = "용량이 다소 부족합니다.";
             }
 
-            // --- SSD 평가 ---
             let ssdStatusHtml = '<span class="badge-match">일치 (스토리지 정상)</span>';
             let ssdAnalysisText = "기준 스펙과 유사한 스토리지 환경입니다.";
             if (ssdInfo.includes("NVMe") || ssdInfo.includes("970 EVO") || ssdInfo.includes("980") || ssdInfo.includes("990") || ssdInfo.includes("PM9A1") || ssdInfo.includes("FireCuda")) {
@@ -379,7 +434,7 @@ exit`;
                 • <b>GPU 진단:</b> ${gpuAnalysisText}<br>
                 • <b>RAM 진단:</b> ${ramAnalysisText}<br>
                 • <b>SSD 진단:</b> ${ssdAnalysisText}<br>
-                • <b>종합 결론:</b> 기존 13개 부품은 단 하나도 빠짐없이 모두 유지되면서, GPU와 SSD까지 실시간 자동 스캔 및 성능 비교가 적용되었습니다!
+                • <b>종합 결론:</b> 비밀번호(0912) 보안 인증이 완료되었으며 13개 부품 및 실시간 스캔 기능이 완벽하게 작동합니다!
             `;
             document.getElementById('compareModal').style.display = 'flex';
         };
