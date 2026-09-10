@@ -71,7 +71,7 @@
             background: rgba(20, 5, 5, 0.9);
             border: 2px solid rgba(255, 51, 51, 0.7);
             padding: 12px 28px;
-            border-radius: 8px; /* 각진 테토남 스타일로 변경 */
+            border-radius: 8px;
             box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
             backdrop-filter: blur(10px);
         }
@@ -124,7 +124,7 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 51, 51, 0.25);
             box-shadow: 0 8px 32px 0 rgba(255, 0, 0, 0.15);
-            border-radius: 10px; /* 각진 매력 */
+            border-radius: 10px;
             padding: 25px;
             transition: all 0.2s ease;
         }
@@ -318,7 +318,7 @@
     </div>
 
     <footer>
-        MY PC - ALL SYSTEMS GO
+        DESKTOP-L0P5QLC
     </footer>
 
 </div>
@@ -351,7 +351,6 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // 1. 사방으로 튀는 강렬한 전기 스파크 파편
     function createSpark() {
         return {
             x: Math.random() * width,
@@ -364,7 +363,6 @@
         };
     }
 
-    // 2. 대각선으로 묵직하게 떨어지는 화염/운석 파편
     function createDebris() {
         return {
             x: Math.random() * width * 1.5,
@@ -380,10 +378,9 @@
     for (let i = 0; i < 5; i++) heavyDebris.push(createDebris());
 
     function animateHardcore() {
-        ctx.fillStyle = 'rgba(3, 1, 1, 0.25)'; // 잔상 효과 부여로 속도감 극대화
+        ctx.fillStyle = 'rgba(3, 1, 1, 0.25)';
         ctx.fillRect(0, 0, width, height);
 
-        // 스파크 렌더링
         sparks.forEach((s, index) => {
             s.x += s.vx;
             s.y += s.vy;
@@ -393,7 +390,7 @@
             ctx.shadowBlur = 10;
             ctx.shadowColor = s.color;
             ctx.fillRect(s.x, s.y, s.size, s.size);
-            ctx.shadowBlur = 0; // 초기화
+            ctx.shadowBlur = 0;
 
             if (s.life <= 0 || s.x < 0 || s.x > width || s.y < 0 || s.y > height) {
                 sparks[index] = createSpark();
@@ -402,7 +399,6 @@
             }
         });
 
-        // 묵직한 화염 데브리스(운석/유성) 낙하
         heavyDebris.forEach((d, index) => {
             d.x -= d.speed * Math.cos(d.angle);
             d.y += d.speed * Math.sin(d.angle);
@@ -436,7 +432,6 @@
     }
     animateHardcore();
 
-    // 실시간 시계 스크립트
     function updateClock() {
         const now = new Date();
         const year = now.getFullYear();
