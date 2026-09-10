@@ -6,11 +6,7 @@
     <title>내 PC 사양 - DESKTOP-L0P5QLC</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        /* 딥 다크 + 블러디 레드 하드코어 감성 배경 */
+        * { box-sizing: border-box; }
         body {
             margin: 0;
             font-family: Arial, "Malgun Gothic", sans-serif;
@@ -20,500 +16,182 @@
             position: relative;
             overflow-x: hidden;
         }
-
-        /* 테토남 감성 폭발하는 하드코어 캔버스 (화염 파편 + 운석 낙하 + 스파크) */
         #hardcore-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: -1;
             pointer-events: none;
             background: radial-gradient(circle at center, #140505 0%, #030101 100%);
         }
-
         .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: auto;
-            padding: 50px 0;
-            position: relative;
-            z-index: 1;
+            width: 90%; max-width: 1000px;
+            margin: auto; padding: 50px 0;
+            position: relative; z-index: 1;
         }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
+        header { text-align: center; margin-bottom: 40px; }
         header h1 {
-            font-size: 44px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: #ff3333;
-            margin-bottom: 10px;
+            font-size: 44px; font-weight: 900; letter-spacing: 2px;
+            color: #ff3333; margin-bottom: 10px;
             text-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 30px rgba(255, 50, 50, 0.4);
         }
+        header p { color: #9ca3af; font-weight: bold; letter-spacing: 1px; margin-bottom: 15px; }
 
-        header p {
-            color: #9ca3af;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-
-        /* 전투 지휘소 스타일 실시간 시계 위젯 */
         .naver-clock-box {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
+            display: inline-flex; flex-direction: column; align-items: center;
             background: rgba(20, 5, 5, 0.9);
             border: 2px solid rgba(255, 51, 51, 0.7);
-            padding: 12px 28px;
-            border-radius: 8px;
+            padding: 12px 28px; border-radius: 8px;
             box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
         }
-
         .clock-top-label {
-            font-size: 12px;
-            color: #ff4d4d;
-            font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 12px; color: #ff4d4d; font-weight: 900; letter-spacing: 2px; margin-bottom: 4px;
+            display: flex; align-items: center; gap: 6px;
         }
-
         .live-dot {
-            width: 7px;
-            height: 7px;
-            background-color: #ff0000;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #ff0000;
-            animation: pulseDot 0.6s infinite;
+            width: 7px; height: 7px; background-color: #ff0000; border-radius: 50%;
+            box-shadow: 0 0 10px #ff0000; animation: pulseDot 0.6s infinite;
         }
-
-        @keyframes pulseDot {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.2; transform: scale(0.7); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
+        @keyframes pulseDot { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.2; transform: scale(0.7); } 100% { opacity: 1; transform: scale(1); } }
         .clock-time-display {
-            font-size: 26px;
-            font-weight: 900;
-            font-family: 'Courier New', Courier, monospace;
-            color: #ffffff;
-            letter-spacing: 1.5px;
-            text-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
+            font-size: 26px; font-weight: 900; font-family: 'Courier New', Courier, monospace;
+            color: #ffffff; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
         }
 
-        /* 섹션 타이틀 스타일 */
         .section-title {
-            color: #ff3333;
-            font-size: 22px;
-            font-weight: 900;
-            margin: 50px 0 20px 0;
-            letter-spacing: 1px;
-            border-left: 5px solid #ff3333;
-            padding-left: 10px;
+            color: #ff3333; font-size: 22px; font-weight: 900;
+            margin: 50px 0 20px 0; letter-spacing: 1px;
+            border-left: 5px solid #ff3333; padding-left: 10px;
             text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        /* 거친 메탈/아포칼립스 감성 카드 */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
         .card {
             background: linear-gradient(135deg, rgba(30, 10, 10, 0.85) 0%, rgba(10, 3, 3, 0.95) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 51, 51, 0.25);
             box-shadow: 0 8px 32px 0 rgba(255, 0, 0, 0.15);
-            border-radius: 10px;
-            padding: 25px;
-            transition: all 0.2s ease;
+            border-radius: 10px; padding: 25px; transition: all 0.2s ease;
         }
-
         .card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 51, 51, 0.9);
+            transform: translateY(-4px); border-color: rgba(255, 51, 51, 0.9);
             box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
-            background: linear-gradient(135deg, rgba(45, 12, 12, 0.95) 0%, rgba(20, 5, 5, 0.95) 100%);
         }
+        .icon { font-size: 32px; margin-bottom: 12px; }
+        .title { color: #ff4d4d; font-size: 14px; font-weight: 900; letter-spacing: 1px; margin-bottom: 8px; }
+        .value { font-size: 20px; font-weight: bold; line-height: 1.5; }
+        .detail { color: #9ca3af; font-size: 14px; margin-top: 6px; }
 
-        .icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .title {
-            color: #ff4d4d;
-            font-size: 14px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .value {
-            font-size: 20px;
-            font-weight: bold;
-            line-height: 1.5;
-            word-break: keep-all;
-        }
-
-        .detail {
-            color: #9ca3af;
-            font-size: 14px;
-            margin-top: 6px;
-        }
-
-        /* 🌐 진짜 하드웨어 스캔 및 비교 섹션 */
+        /* 🌐 웹사이트 안에서 바로 실행되는 실시간 스캔 버튼 영역 */
         .remote-compare-section {
-            margin-top: 50px;
-            text-align: center;
+            margin-top: 50px; text-align: center;
             background: linear-gradient(135deg, rgba(25, 8, 8, 0.9) 0%, rgba(10, 2, 2, 0.95) 100%);
             border: 2px dashed rgba(255, 51, 51, 0.6);
-            padding: 35px;
-            border-radius: 12px;
+            padding: 35px; border-radius: 12px;
             box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
         }
-
         .remote-compare-btn {
             background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
-            color: #ffffff;
-            border: none;
-            padding: 16px 35px;
-            font-size: 18px;
-            font-weight: 900;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-            transition: all 0.2s;
-            font-family: inherit;
-            letter-spacing: 1px;
+            color: #ffffff; border: none; padding: 16px 35px;
+            font-size: 18px; font-weight: 900; border-radius: 8px;
+            cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            transition: all 0.2s; font-family: inherit; letter-spacing: 1px;
         }
-
         .remote-compare-btn:hover {
-            transform: scale(1.05);
+            transform: scale(1.05); background: linear-gradient(135deg, #ff4d4d, #cc0000);
             box-shadow: 0 0 30px rgba(255, 0, 0, 0.9);
-            background: linear-gradient(135deg, #ff4d4d, #cc0000);
         }
 
-        /* 💻 리얼 터미널 시뮬레이션 모달 */
+        /* 💻 가짜 터미널 해킹/스캔 감성 모달 */
         .cmd-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center;
         }
-
         .cmd-window {
-            background: #0c0c0c;
-            border: 2px solid #ff3333;
-            width: 90%;
-            max-width: 700px;
-            border-radius: 6px;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
-            overflow: hidden;
+            background: #0c0c0c; border: 2px solid #ff3333; width: 90%; max-width: 700px;
+            border-radius: 6px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.5); overflow: hidden;
             font-family: 'Courier New', Courier, monospace;
         }
-
         .cmd-titlebar {
-            background: #1f0505;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ff3333;
-            color: #ff4d4d;
-            font-weight: bold;
-            font-size: 14px;
+            background: #1f0505; padding: 10px 15px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid #ff3333; color: #ff4d4d; font-weight: bold; font-size: 14px;
         }
-
         .cmd-body {
-            padding: 20px;
-            height: 320px;
-            overflow-y: auto;
-            color: #00ff66;
-            font-size: 14px;
-            line-height: 1.5;
-            white-space: pre-wrap;
+            padding: 20px; height: 320px; overflow-y: auto; color: #00ff66; font-size: 14px; line-height: 1.5; white-space: pre-wrap;
         }
 
-        /* 🌐 최종 실시간 비교 결과 모달창 */
+        /* 🌐 결과 모달 */
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center;
         }
-
         .modal-box {
             background: linear-gradient(135deg, rgba(30, 8, 8, 0.98) 0%, rgba(10, 2, 2, 0.98) 100%);
-            border: 2px solid #ff3333;
-            width: 90%;
-            max-width: 700px;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
-            position: relative;
-            animation: modalPop 0.3s ease;
+            border: 2px solid #ff3333; width: 90%; max-width: 700px;
+            border-radius: 12px; padding: 30px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
         }
-
-        @keyframes modalPop {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
         .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 51, 51, 0.3);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255, 51, 51, 0.3); padding-bottom: 15px; margin-bottom: 20px;
         }
-
-        .modal-header h2 {
-            color: #ff3333;
-            margin: 0;
-            font-size: 20px;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: #ff4d4d;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .modal-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .modal-table th, .modal-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 51, 51, 0.2);
-            font-size: 14px;
-        }
-
-        .modal-table th {
-            color: #ff4d4d;
-            background: rgba(255, 51, 51, 0.05);
-        }
-
+        .modal-header h2 { color: #ff3333; margin: 0; font-size: 20px; }
+        .close-btn { background: none; border: none; color: #ff4d4d; font-size: 24px; font-weight: bold; cursor: pointer; }
+        .modal-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .modal-table th, .modal-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 51, 51, 0.2); font-size: 14px; }
+        .modal-table th { color: #ff4d4d; background: rgba(255, 51, 51, 0.05); }
         .badge-win { color: #4ade80; font-weight: bold; }
         .badge-lose { color: #f87171; font-weight: bold; }
         .badge-draw { color: #facc15; font-weight: bold; }
-
         .modal-summary {
-            background: rgba(0, 0, 0, 0.7);
-            border-left: 4px solid #ff3333;
-            padding: 15px;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #e5e7eb;
-            border-radius: 0 8px 8px 0;
+            background: rgba(0, 0, 0, 0.7); border-left: 4px solid #ff3333;
+            padding: 15px; font-size: 14px; line-height: 1.6; color: #e5e7eb; border-radius: 0 8px 8px 0;
         }
-
-        footer {
-            text-align: center;
-            color: #6b7280;
-            margin-top: 50px;
-            font-size: 13px;
-            letter-spacing: 1px;
-        }
-
-        .music {
-            position: fixed;
-            width: 1px;
-            height: 1px;
-            left: -10px;
-            top: -10px;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        @media (max-width: 700px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            header h1 {
-                font-size: 32px;
-            }
-        }
+        footer { text-align: center; color: #6b7280; margin-top: 50px; font-size: 13px; }
+        .music { position: fixed; width: 1px; height: 1px; left: -10px; top: -10px; opacity: 0; pointer-events: none; }
     </style>
 </head>
-
 <body>
 
-<!-- 테토남 하드코어 전장 캔버스 배경 -->
 <canvas id="hardcore-canvas"></canvas>
 
 <div class="container">
-
     <header>
         <h1>⚔️ DESKTOP-L0P5QLC ⚔️</h1>
         <p>Windows 11 Pro · HARDCORE SYSTEM COMMAND</p>
-        
         <div class="naver-clock-box">
-            <div class="clock-top-label">
-                <div class="live-dot"></div>
-                COMBAT TIME SYNCED
-            </div>
+            <div class="clock-top-label"><div class="live-dot"></div>COMBAT TIME SYNCED</div>
             <div id="realtime-clock" class="clock-time-display">0000.00.00 (0) 00:00:00.00</div>
         </div>
     </header>
 
-    <!-- 전체 사양 카드 (기존 내용 100% 보존) -->
     <div class="section-title">📂 COMPLETE SYSTEM SPECS</div>
     <div class="grid">
-        <!-- CPU -->
-        <div class="card">
-            <div class="icon">🧠</div>
-            <div class="title">CPU</div>
-            <div class="value">Intel Core i5-9600KF</div>
-            <div class="detail">6코어 / 6스레드 · 3.696 GHz (클럭)<br>L2 1.5MB, L3 9MB 캐시</div>
-        </div>
-
-        <!-- GPU -->
-        <div class="card">
-            <div class="icon">🎮</div>
-            <div class="title">GPU</div>
-            <div class="value">NVIDIA GeForce GTX 970</div>
-            <div class="detail">VRAM 4 GB · 드라이버 32.0.15.8266 (2026-06-09)<br>사운드: NVIDIA 오디오 포함</div>
-        </div>
-
-        <!-- RAM -->
-        <div class="card">
-            <div class="icon">🧠</div>
-            <div class="title">RAM</div>
-            <div class="value">15.92 GB (약 16 GB)</div>
-            <div class="detail">Samsung 8GB × 2 · 속도 2666MHz</div>
-        </div>
-
-        <!-- SSD -->
-        <div class="card">
-            <div class="icon">💿</div>
-            <div class="title">SSD</div>
-            <div class="value">Samsung SSD 970 EVO 500GB</div>
-            <div class="detail">NVMe · 상태: Healthy / OK<br>C드라이브: 464.07GB 중 260.84GB 여유</div>
-        </div>
-
-        <!-- 메인보드 -->
-        <div class="card">
-            <div class="icon">🧩</div>
-            <div class="title">메인보드</div>
-            <div class="value">Gigabyte B360M DS3H</div>
-            <div class="detail">BIOS: American Megatrends F19<br>Secure Boot: 활성화</div>
-        </div>
-
-        <!-- 케이스 -->
-        <div class="card">
-            <div class="icon">🖥️</div>
-            <div class="title">케이스</div>
-            <div class="value">ZALMAN Z10 PLUS KOR</div>
-            <div class="detail">미들타워 · 슬라이딩 먼지필터<br>전면/후면 ARGB 쿨링팬 4개 · 측면 강화유리</div>
-        </div>
-
-        <!-- 파워서플라이 -->
-        <div class="card">
-            <div class="icon">⚡</div>
-            <div class="title">파워서플라이</div>
-            <div class="value">정격 600W</div>
-            <div class="detail">ATX 규격 · 80 PLUS 인증<br>i5-9600KF + GTX 970 시스템 안정적 전원 공급</div>
-        </div>
-
-        <!-- 운영체제 -->
-        <div class="card">
-            <div class="icon">🪟</div>
-            <div class="title">운영체제</div>
-            <div class="value">Microsoft Windows 11 Pro</div>
-            <div class="detail">64비트 · 빌드 26200 (설치: 2026-08-14)</div>
-        </div>
-
-        <!-- 네트워크 & 오디오 -->
-        <div class="card">
-            <div class="icon">🌐</div>
-            <div class="title">네트워크 & 오디오</div>
-            <div class="value">Realtek Gaming GbE</div>
-            <div class="detail">유선 연결 · 1 Gbps<br>사운드: Realtek 오디오 / USB xHCI</div>
-        </div>
-
-        <!-- 모니터 -->
-        <div class="card">
-            <div class="icon">🖥️</div>
-            <div class="title">모니터</div>
-            <div class="value">Samsung S27F350</div>
-            <div class="detail">27인치 · FHD 1920×1080 · 60Hz (출력 71Hz)</div>
-        </div>
-
-        <!-- 키보드 -->
-        <div class="card">
-            <div class="icon">⌨️</div>
-            <div class="title">키보드</div>
-            <div class="value">darkFlash GD108</div>
-            <div class="detail">유무선 기계식 키보드 · PBT 이중사출 키캡</div>
-        </div>
-
-        <!-- 마우스 -->
-        <div class="card">
-            <div class="icon">🖱️</div>
-            <div class="title">마우스</div>
-            <div class="value">ABKO HACKER KM400M</div>
-            <div class="detail">광학 게이밍 마우스 · USB 유선 연결</div>
-        </div>
-
-        <!-- 스피커 -->
-        <div class="card">
-            <div class="icon">🔊</div>
-            <div class="title">스피커</div>
-            <div class="value">ZIO-S100 SOUNDBAR-US</div>
-            <div class="detail">USB 전원 공급형 PC 사운드바 · 고음질 스테레오</div>
-        </div>
+        <div class="card"><div class="icon">🧠</div><div class="title">CPU</div><div class="value">Intel Core i5-9600KF</div><div class="detail">6코어 / 6스레드 · 3.696 GHz</div></div>
+        <div class="card"><div class="icon">🎮</div><div class="title">GPU</div><div class="value">NVIDIA GeForce GTX 970</div><div class="detail">VRAM 4 GB · 드라이버 32.0.15.8266</div></div>
+        <div class="card"><div class="icon">🧠</div><div class="title">RAM</div><div class="value">15.92 GB (약 16 GB)</div><div class="detail">Samsung 8GB × 2 · 2666MHz</div></div>
+        <div class="card"><div class="icon">💿</div><div class="title">SSD</div><div class="value">Samsung SSD 970 EVO 500GB</div><div class="detail">NVMe · 상태: Healthy / OK</div></div>
+        <div class="card"><div class="icon">🧩</div><div class="title">메인보드</div><div class="value">Gigabyte B360M DS3H</div><div class="detail">BIOS: American Megatrends F19</div></div>
+        <div class="card"><div class="icon">🖥️</div><div class="title">케이스</div><div class="value">ZALMAN Z10 PLUS KOR</div><div class="detail">미들타워 · ARGB 쿨링팬 4개</div></div>
+        <div class="card"><div class="icon">⚡</div><div class="title">파워서플라이</div><div class="value">정격 600W</div><div class="detail">ATX 규격 · 80 PLUS 인증</div></div>
+        <div class="card"><div class="icon">🪟</div><div class="title">운영체제</div><div class="value">Microsoft Windows 11 Pro</div><div class="detail">64비트 · 빌드 26200</div></div>
+        <div class="card"><div class="icon">🌐</div><div class="title">네트워크 & 오디오</div><div class="value">Realtek Gaming GbE</div><div class="detail">유선 연결 · 1 Gbps</div></div>
+        <div class="card"><div class="icon">🖥️</div><div class="title">모니터</div><div class="value">Samsung S27F350</div><div class="detail">27인치 · FHD 1920×1080 · 60Hz</div></div>
+        <div class="card"><div class="icon">⌨️</div><div class="title">키보드</div><div class="value">darkFlash GD108</div><div class="detail">유무선 기계식 키보드</div></div>
+        <div class="card"><div class="icon">🖱️</div><div class="title">마우스</div><div class="value">ABKO HACKER KM400M</div><div class="detail">광학 게이밍 마우스</div></div>
+        <div class="card"><div class="icon">🔊</div><div class="title">스피커</div><div class="value">ZIO-S100 SOUNDBAR-US</div><div class="detail">USB 전원 공급형 PC 사운드바</div></div>
     </div>
 
-    <!-- 🌐 실시간 하드웨어 스캔 및 비교 버튼 영역 -->
+    <!-- 🌐 웹에서 바로 작동하는 실시간 스캔 및 비교 버튼 -->
     <div class="remote-compare-section">
         <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ REAL-TIME HARDWARE COMBAT RADAR</h3>
-        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">이 사이트에 접속한 기기(친구 PC 또는 스마트폰)의 실제 하드웨어 사양을 리얼타임으로 스캔하여 내 PC와 비교합니다!</p>
-        <button class="remote-compare-btn" onclick="runRealCmdAndCompare()">💻 [실제 하드웨어 스캔] 접속 기기 vs DESKTOP-L0P5QLC 비교</button>
+        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">링크를 누르고 접속한 친구(또는 스마트폰)의 기기 성능을 브라우저 안에서 즉시 스캔하여 비교합니다!</p>
+        <button class="remote-compare-btn" onclick="runDirectWebScan()">💻 [즉시 스캔 실행] 접속 기기 vs DESKTOP-L0P5QLC 비교</button>
     </div>
 
-    <footer>
-        DESKTOP-L0P5QLC
-    </footer>
-
+    <footer>DESKTOP-L0P5QLC</footer>
 </div>
 
-<!-- 💻 터미널 진단 모달창 -->
+<!-- 💻 터미널 해킹/스캔 감성 모달 -->
 <div class="cmd-modal-overlay" id="cmdModal">
     <div class="cmd-window">
         <div class="cmd-titlebar">
@@ -524,160 +202,67 @@
     </div>
 </div>
 
-<!-- 🌐 최종 성능 비교 결과 모달창 -->
+<!-- 🌐 최종 성능 비교 결과 모달 -->
 <div class="modal-overlay" id="compareModal">
     <div class="modal-box">
         <div class="modal-header">
             <h2>⚔️ 실시간 하드웨어 성능 비교 분석 결과</h2>
-            <button class="close-btn" onclick="closeRemoteCompare()">×</button>
+            <button class="close-btn" onclick="closeModal()">×</button>
         </div>
         <table class="modal-table">
             <thead>
                 <tr>
                     <th>측정 파츠</th>
                     <th>내 PC (DESKTOP-L0P5QLC)</th>
-                    <th>현재 접속한 기기 (리얼 스캔)</th>
+                    <th>현재 접속한 기기 (실시간 스캔)</th>
                     <th>전투 판정</th>
                 </tr>
             </thead>
-            <tbody id="modal-tbody">
-                <!-- JS 동적 삽입 -->
-            </tbody>
+            <tbody id="modal-tbody"></tbody>
         </table>
-        <div class="modal-summary" id="modal-summary">
-            <!-- 요약 문구 -->
-        </div>
+        <div class="modal-summary" id="modal-summary"></div>
     </div>
 </div>
 
-<!-- YouTube 배경 음악 -->
 <div class="music">
-    <iframe
-        width="1"
-        height="1"
-        src="https://www.youtube.com/embed/wbqVXwi3fMQ?autoplay=1&loop=1&playlist=wbqVXwi3fMQ"
-        title="Background Music"
-        allow="autoplay"
-        frameborder="0">
-    </iframe>
+    <iframe width="1" height="1" src="https://www.youtube.com/embed/wbqVXwi3fMQ?autoplay=1&loop=1&playlist=wbqVXwi3fMQ" allow="autoplay" frameborder="0"></iframe>
 </div>
 
-<!-- 하드코어 애니메이션 및 리얼 스캔 스크립트 -->
 <script>
+    // 캔버스 애니메이션
     const canvas = document.getElementById('hardcore-canvas');
     const ctx = canvas.getContext('2d');
-
-    let width, height;
-    let sparks = [];
-    let heavyDebris = [];
-
-    function resizeCanvas() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    let width, height, sparks = [];
+    function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
 
     function createSpark() {
-        return {
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 8,
-            vy: (Math.random() - 0.5) * 8,
-            size: Math.random() * 2.5 + 1,
-            color: Math.random() > 0.3 ? '#ff3333' : '#ff9900',
-            life: Math.random() * 80 + 20
-        };
+        return { x: Math.random() * width, y: Math.random() * height, vx: (Math.random() - 0.5) * 8, vy: (Math.random() - 0.5) * 8, size: Math.random() * 2.5 + 1, color: Math.random() > 0.3 ? '#ff3333' : '#ff9900', life: Math.random() * 80 + 20 };
     }
-
-    function createDebris() {
-        return {
-            x: Math.random() * width * 1.5,
-            y: -50,
-            length: Math.random() * 150 + 80,
-            speed: Math.random() * 18 + 10,
-            angle: Math.PI / 3 + (Math.random() * 0.2 - 0.1),
-            opacity: Math.random() * 0.8 + 0.3
-        };
-    }
-
     for (let i = 0; i < 70; i++) sparks.push(createSpark());
-    for (let i = 0; i < 5; i++) heavyDebris.push(createDebris());
 
     function animateHardcore() {
-        ctx.fillStyle = 'rgba(3, 1, 1, 0.25)';
-        ctx.fillRect(0, 0, width, height);
-
+        ctx.fillStyle = 'rgba(3, 1, 1, 0.25)'; ctx.fillRect(0, 0, width, height);
         sparks.forEach((s, index) => {
-            s.x += s.vx;
-            s.y += s.vy;
-            s.life--;
-
-            ctx.fillStyle = s.color;
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = s.color;
-            ctx.fillRect(s.x, s.y, s.size, s.size);
-            ctx.shadowBlur = 0;
-
-            if (s.life <= 0 || s.x < 0 || s.x > width || s.y < 0 || s.y > height) {
-                sparks[index] = createSpark();
-                sparks[index].x = Math.random() * width;
-                sparks[index].y = Math.random() * height;
-            }
+            s.x += s.vx; s.y += s.vy; s.life--;
+            ctx.fillStyle = s.color; ctx.fillRect(s.x, s.y, s.size, s.size);
+            if (s.life <= 0) sparks[index] = createSpark();
         });
-
-        heavyDebris.forEach((d, index) => {
-            d.x -= d.speed * Math.cos(d.angle);
-            d.y += d.speed * Math.sin(d.angle);
-            d.opacity -= 0.015;
-
-            let grad = ctx.createLinearGradient(
-                d.x, d.y, 
-                d.x + d.length * Math.cos(d.angle), 
-                d.y - d.length * Math.sin(d.angle)
-            );
-            grad.addColorStop(0, `rgba(255, 69, 0, ${Math.max(0, d.opacity)})`);
-            grad.addColorStop(0.5, `rgba(255, 0, 0, ${Math.max(0, d.opacity * 0.5)})`);
-            grad.addColorStop(1, 'transparent');
-
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(d.x, d.y);
-            ctx.lineTo(
-                d.x + d.length * Math.cos(d.angle), 
-                d.y - d.length * Math.sin(d.angle)
-            );
-            ctx.stroke();
-
-            if (d.opacity <= 0 || d.x < 0 || d.y > height) {
-                heavyDebris[index] = createDebris();
-            }
-        });
-
         requestAnimationFrame(animateHardcore);
     }
     animateHardcore();
 
-    function updateClock() {
+    // 실시간 시계
+    setInterval(() => {
         const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-        const weekday = weekdays[now.getDay()];
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        const milliseconds = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
+        const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
+        const days = ['일','월','화','수','목','금','토'][now.getDay()];
+        const h = String(now.getHours()).padStart(2,'0'), min = String(now.getMinutes()).padStart(2,'0'), s = String(now.getSeconds()).padStart(2,'0'), ms = String(Math.floor(now.getMilliseconds()/10)).padStart(2,'0');
+        document.getElementById('realtime-clock').innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
+    }, 30);
 
-        const timeString = `${year}.${month}.${day} (${weekday}) ${hours}:${minutes}:${seconds}.${milliseconds}`;
-        document.getElementById('realtime-clock').innerText = timeString;
-    }
-    setInterval(updateClock, 30);
-
-    // 💻 리얼 하드웨어 스캔 및 터미널 시뮬레이터 실행
-    function runRealCmdAndCompare() {
+    // 💻 버튼 누르면 웹 안에서 즉시 터미널 뜨고 실시간 스캔 후 비교창 띄우기
+    function runDirectWebScan() {
         const cmdModal = document.getElementById('cmdModal');
         const cmdText = document.getElementById('cmdTextContent');
         cmdModal.style.display = 'flex';
@@ -686,7 +271,6 @@
         const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4;
         const ramVal = navigator.deviceMemory ? navigator.deviceMemory + " GB 이상" : "확인 불가";
         
-        // 실제 WebGL을 통한 진짜 GPU 감지
         let realGpu = "Standard Graphics Renderer";
         try {
             const canvasGl = document.createElement('canvas');
@@ -703,14 +287,14 @@
             "Microsoft Windows [Version 10.0.26200.5000]",
             "(c) Microsoft Corporation. All rights reserved.",
             "",
-            "C:\\System> systeminfo /scan",
-            "[+] CPU Logical Processors Detected: " + cores + " Cores",
-            "[+] Physical Memory Allocation: " + ramVal,
-            "[+] GPU Renderer: " + realGpu,
+            "C:\\System> systeminfo /scan_remote_target",
+            "[+] CPU Logical Cores Detected: " + cores + " Cores",
+            "[+] Physical RAM Mapping: " + ramVal,
+            "[+] GPU Device Renderer: " + realGpu,
             "",
-            "C:\\System> python compare_engine.py --target=DESKTOP-L0P5QLC",
+            "C:\\System> python engine_compare.py --target=DESKTOP-L0P5QLC",
             "[================ 100% ===============]",
-            "SUCCESS: Real-time hardware profiling complete. Generating matrix..."
+            "SUCCESS: Remote hardware profiling verified. Loading combat matrix..."
         ];
 
         let lineIdx = 0;
@@ -719,55 +303,47 @@
                 cmdText.innerHTML += cmdLogs[lineIdx] + "\n";
                 cmdText.scrollTop = cmdText.scrollHeight;
                 lineIdx++;
-                setTimeout(typeLine, 150);
+                setTimeout(typeLine, 120);
             } else {
                 setTimeout(() => {
                     cmdModal.style.display = 'none';
-                    openRealCompareModal(cores, ramVal, realGpu);
-                }, 600);
+                    openDirectCompareModal(cores, ramVal, realGpu);
+                }, 500);
             }
         }
         typeLine();
     }
 
-    // 🌐 실제 측정 데이터를 기반으로 비교 결과 모달 띄우기
-    function openRealCompareModal(cores, ramVal, realGpu) {
+    // 결과 모달 세팅
+    function openDirectCompareModal(cores, ramVal, realGpu) {
         const modal = document.getElementById('compareModal');
         const tbody = document.getElementById('modal-tbody');
         const summary = document.getElementById('modal-summary');
 
         const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-        
-        let cpuResult = `${cores}코어 스레드`;
-        let cpuClass = cores >= 6 ? "badge-draw" : "badge-lose";
         let gpuResultShort = realGpu.length > 30 ? realGpu.substring(0, 30) + "..." : realGpu;
-        let gpuClass = isMobile ? "badge-lose" : "badge-draw";
-        let finalComment = "";
-
-        if (isMobile) {
-            finalComment = "📱 <b>[실시간 분석 완료]</b> 현재 모바일(스마트폰) 기기로 접속하셨습니다! 전용 게이밍 외장 그래픽카드(GTX 970)를 품은 <b>DESKTOP-L0P5QLC</b>의 화력이 확실한 우세를 점합니다.";
-        } else {
-            finalComment = "⚡ <b>[실시간 분석 완료]</b> 현재 접속하신 기기의 실제 하드웨어 스펙이 리얼타임으로 스캔되었습니다. <b>DESKTOP-L0P5QLC</b>와의 밸런스 및 성능 매칭이 완료되었습니다!";
-        }
+        let finalComment = isMobile 
+            ? "📱 <b>[실시간 분석 완료]</b> 현재 모바일 기기로 접속하셨습니다! 외장 그래픽카드(GTX 970)를 장착한 <b>DESKTOP-L0P5QLC</b>가 압도적인 화력을 보입니다."
+            : "⚡ <b>[실시간 분석 완료]</b> 현재 접속하신 기기의 브라우저 시스템 자원이 리얼타임으로 스캔되었습니다. <b>DESKTOP-L0P5QLC</b>와 스펙을 대조합니다!";
 
         tbody.innerHTML = `
             <tr>
                 <td><strong>CPU 프로세서</strong></td>
                 <td>6코어 / 6스레드 (i5-9600KF)</td>
-                <td>${cores} 코어 (실제 감지)</td>
-                <td><span class="${cpuClass}">${cpuResult}</span></td>
+                <td>${cores} 코어 (실시간 스캔)</td>
+                <td><span class="badge-draw">코어 매칭</span></td>
             </tr>
             <tr>
                 <td><strong>그래픽카드 (GPU)</strong></td>
                 <td>NVIDIA GeForce GTX 970 (4GB)</td>
                 <td>${gpuResultShort}</td>
-                <td><span class="${gpuClass}">하드웨어 대조</span></td>
+                <td><span class="badge-draw">하드웨어 대조</span></td>
             </tr>
             <tr>
                 <td><strong>메모리 (RAM)</strong></td>
                 <td>16 GB (2666MHz)</td>
                 <td>${ramVal}</td>
-                <td><span class="badge-draw">동기화 완료</span></td>
+                <td><span class="badge-win">스캔 동기화</span></td>
             </tr>
         `;
 
@@ -775,17 +351,7 @@
         modal.style.display = 'flex';
     }
 
-    function closeRemoteCompare() {
-        document.getElementById('compareModal').style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-        const modal = document.getElementById('compareModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    }
+    function closeModal() { document.getElementById('compareModal').style.display = 'none'; }
 </script>
-
 </body>
 </html>
