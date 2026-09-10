@@ -21,6 +21,17 @@
             overflow-x: hidden;
         }
 
+        /* 파티클 캔버스가 배경 전체를 채우도록 설정 */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2; /* 네온 배경보다 뒤에 위치 */
+            pointer-events: none;
+        }
+
         /* 은은하게 빛나며 움직이는 네온 오로라 배경 조명 효과 */
         .neon-bg {
             position: fixed;
@@ -220,6 +231,9 @@
 </head>
 
 <body>
+
+<!-- 움직이는 별빛/파티클 캔버스 배경 -->
+<canvas id="particle-canvas"></canvas>
 
 <!-- 움직이는 네온 오로라 배경 레이어 -->
 <div class="neon-bg"></div>
@@ -425,8 +439,65 @@
     </iframe>
 </div>
 
-<!-- 네이버 시계 스타일 밀리초 포함 정밀 시계 자바스크립트 -->
+<!-- 스크립트 모음 -->
 <script>
+    // 1. 움직이는 별빛/파티클 효과 구현
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let particlesArray = [];
+    const numberOfParticles = 50;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2.5 + 0.5;
+            this.speedY = Math.random() * 0.5 + 0.2; // 아래로 흐르는 속도
+            this.opacity = Math.random() * 0.5 + 0.2;
+        }
+        update() {
+            this.y += this.speedY;
+            if (this.y > canvas.height) {
+                this.y = 0;
+                this.x = Math.random() * canvas.width;
+            }
+        }
+        draw() {
+            ctx.fillStyle = `rgba(96, 165, 250, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function initParticles() {
+        particlesArray = [];
+        for (let i = 0; i < numberOfParticles; i++) {
+            particlesArray.push(new Particle());
+        }
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particlesArray.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
+
+    // 2. 네이버 시계 스타일 밀리초 포함 정밀 시계
     function updateClock() {
         const now = new Date();
         const year = now.getFullYear();
@@ -445,7 +516,6 @@
         document.getElementById('realtime-clock').innerText = timeString;
     }
 
-    // 밀리초 단위로 촘촘하게 갱신하여 네이버시계 특유의 정밀한 느낌 제공
     setInterval(updateClock, 30);
 </script>
 
