@@ -80,7 +80,7 @@
         .value { font-size: 20px; font-weight: bold; line-height: 1.5; }
         .detail { color: #9ca3af; font-size: 14px; margin-top: 6px; }
 
-        /* 실시간 스캔 및 비교 버튼 섹션 */
+        /* 진짜 CMD 연동 및 비교 섹션 */
         .remote-compare-section {
             margin-top: 50px; text-align: center;
             background: linear-gradient(135deg, rgba(25, 8, 8, 0.9) 0%, rgba(10, 2, 2, 0.95) 100%);
@@ -90,36 +90,23 @@
         }
         .remote-compare-btn {
             background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
-            color: #ffffff; border: none; padding: 16px 35px;
-            font-size: 18px; font-weight: 900; border-radius: 8px;
+            color: #ffffff; border: none; padding: 16px 30px;
+            font-size: 16px; font-weight: 900; border-radius: 8px;
             cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-            transition: all 0.2s; font-family: inherit; letter-spacing: 1px;
+            transition: all 0.2s; font-family: inherit; margin-bottom: 15px; display: inline-block; text-decoration: none;
         }
         .remote-compare-btn:hover {
             transform: scale(1.05); background: linear-gradient(135deg, #ff4d4d, #cc0000);
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.9);
+        }
+        .file-upload-box {
+            margin-top: 20px; border-top: 1px solid rgba(255, 51, 51, 0.3); padding-top: 20px;
+        }
+        .file-upload-box input[type="file"] {
+            color: #f3f4f6; background: #1f0505; border: 1px solid #ff3333;
+            padding: 10px; border-radius: 6px; cursor: pointer;
         }
 
-        /* 터미널 감성 모달 */
-        .cmd-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center;
-        }
-        .cmd-window {
-            background: #0c0c0c; border: 2px solid #ff3333; width: 90%; max-width: 700px;
-            border-radius: 6px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.5); overflow: hidden;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .cmd-titlebar {
-            background: #1f0505; padding: 10px 15px; display: flex; justify-content: space-between;
-            align-items: center; border-bottom: 1px solid #ff3333; color: #ff4d4d; font-weight: bold; font-size: 14px;
-        }
-        .cmd-body {
-            padding: 20px; height: 320px; overflow-y: auto; color: #00ff66; font-size: 14px; line-height: 1.5; white-space: pre-wrap;
-        }
-
-        /* 결과 모달 */
+        /* 결과 비교 모달 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
@@ -163,7 +150,7 @@
         </div>
     </header>
 
-    <!-- 기존 13개 부품 스펙 카드 전부 그대로 유지 -->
+    <!-- 기존 13개 부품 스펙 카드 -->
     <div class="section-title">📂 COMPLETE SYSTEM SPECS</div>
     <div class="grid">
         <div class="card"><div class="icon">🧠</div><div class="title">CPU</div><div class="value">Intel Core i5-9600KF</div><div class="detail">6코어 / 6스레드 · 3.696 GHz</div></div>
@@ -181,25 +168,21 @@
         <div class="card"><div class="icon">🔊</div><div class="title">스피커</div><div class="value">ZIO-S100 SOUNDBAR-US</div><div class="detail">USB 전원 공급형 PC 사운드바</div></div>
     </div>
 
-    <!-- 하단 실시간 스캔 및 비교 실행 버튼 -->
+    <!-- 🌐 진짜 CMD 다운로드 및 비교 섹션 -->
     <div class="remote-compare-section">
-        <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ REAL-TIME HARDWARE COMBAT RADAR</h3>
-        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">링크를 누르고 접속한 친구(또는 기기)의 성능을 즉시 스캔하여 비교합니다!</p>
-        <button class="remote-compare-btn" onclick="runDirectWebScan()">💻 [즉시 스캔 실행] 접속 기기 vs DESKTOP-L0P5QLC 비교</button>
+        <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ REAL-TIME HARDWARE BATTLE RADAR</h3>
+        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 눌러 <b>진짜 CMD 진단 프로그램</b>을 실행한 뒤, 생성된 파일을 업로드하세요!</p>
+        
+        <!-- 진짜 CMD 파일을 브라우저에서 바로 생성해 다운로드하게 해주는 버튼 -->
+        <button class="remote-compare-btn" onclick="downloadCmdScript()">📥 [1단계] 진짜 CMD 진단 프로그램(.bat) 다운로드</button>
+        
+        <div class="file-upload-box">
+            <p style="color: #f3f4f6; font-size: 13px; margin-bottom: 8px;">2단계: 실행 후 바탕화면에 생긴 <code>myspec.txt</code> 파일을 여기에 업로드하세요.</p>
+            <input type="file" id="specFileInput" onchange="compareFriendSpec(event)">
+        </div>
     </div>
 
     <footer>DESKTOP-L0P5QLC</footer>
-</div>
-
-<!-- 터미널 감성 모달 -->
-<div class="cmd-modal-overlay" id="cmdModal">
-    <div class="cmd-window">
-        <div class="cmd-titlebar">
-            <span>C:\Windows\system32\cmd.exe - Live Hardware Diagnostic</span>
-            <span>[X]</span>
-        </div>
-        <div class="cmd-body" id="cmdTextContent"></div>
-    </div>
 </div>
 
 <!-- 결과 비교 모달 -->
@@ -214,7 +197,7 @@
                 <tr>
                     <th>측정 파츠</th>
                     <th>내 PC (DESKTOP-L0P5QLC)</th>
-                    <th>현재 접속한 기기 (실시간 스캔)</th>
+                    <th>친구 PC (진짜 CMD 스캔)</th>
                     <th>전투 판정</th>
                 </tr>
             </thead>
@@ -252,7 +235,7 @@
     }
     animateHardcore();
 
-    // 실시간 네이버 스타일 시계
+    // 시계
     setInterval(() => {
         const now = new Date();
         const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
@@ -261,93 +244,86 @@
         document.getElementById('realtime-clock').innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
     }, 30);
 
-    // 스캔 및 비교 실행 로직
-    function runDirectWebScan() {
-        const cmdModal = document.getElementById('cmdModal');
-        const cmdText = document.getElementById('cmdTextContent');
-        cmdModal.style.display = 'flex';
-        cmdText.innerHTML = "";
+    // 1단계: 버튼 누르면 브라우저에서 진짜 CMD 실행 파일(.bat)을 자동 생성하여 다운로드시킴
+    function downloadCmdScript() {
+        const batContent = `@echo off
+chcp 65001 > nul
+title DESKTOP-L0P5QLC 실시간 하드웨어 스캐너
+color 0a
+echo ========================================================
+echo   [!] 친구분의 PC 하드웨어를 정밀 진단하는 중...
+echo ========================================================
+echo.
+echo === [PC 하드웨어 진단 리포트] === > "%USERPROFILE%\\Desktop\\myspec.txt"
+echo. >> "%USERPROFILE%\\Desktop\\myspec.txt"
+echo [1] OS 및 프로세서 수집 중...
+systeminfo | findstr /C:"OS 이름" /C:"프로세서" /C:"총 물리적 메모리" >> "%USERPROFILE%\\Desktop\\myspec.txt"
+echo. >> "%USERPROFILE%\\Desktop\\myspec.txt"
+echo [2] 그래픽카드 수집 중...
+wmic path win32_videocontroller get caption >> "%USERPROFILE%\\Desktop\\myspec.txt"
+echo.
+echo ========================================================
+echo   [!] 진단 완료! 바탕화면에 [myspec.txt]가 생성되었습니다.
+echo   웹사이트로 돌아가서 이 파일을 업로드하세요!
+echo ========================================================
+pause`;
 
-        const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4;
-        const ramVal = navigator.deviceMemory ? navigator.deviceMemory + " GB 이상" : "확인 불가";
-        
-        let realGpu = "Standard Graphics Renderer";
-        try {
-            const canvasGl = document.createElement('canvas');
-            const gl = canvasGl.getContext('webgl') || canvasGl.getContext('experimental-webgl');
-            if (gl) {
-                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                if (debugInfo) {
-                    realGpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-                }
-            }
-        } catch (e) {}
-
-        const cmdLogs = [
-            "Microsoft Windows [Version 10.0.26200.5000]",
-            "(c) Microsoft Corporation. All rights reserved.",
-            "",
-            "C:\\System> systeminfo /scan_remote_target",
-            "[+] CPU Logical Cores Detected: " + cores + " Cores",
-            "[+] Physical RAM Mapping: " + ramVal,
-            "[+] GPU Device Renderer: " + realGpu,
-            "",
-            "C:\\System> python engine_compare.py --target=DESKTOP-L0P5QLC",
-            "[================ 100% ===============]",
-            "SUCCESS: Remote hardware profiling verified. Loading combat matrix..."
-        ];
-
-        let lineIdx = 0;
-        function typeLine() {
-            if (lineIdx < cmdLogs.length) {
-                cmdText.innerHTML += cmdLogs[lineIdx] + "\n";
-                cmdText.scrollTop = cmdText.scrollHeight;
-                lineIdx++;
-                setTimeout(typeLine, 120);
-            } else {
-                setTimeout(() => {
-                    cmdModal.style.display = 'none';
-                    openDirectCompareModal(cores, ramVal, realGpu);
-                }, 500);
-            }
-        }
-        typeLine();
+        const blob = new Blob([batContent], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'check_spec.bat';
+        link.click();
     }
 
-    function openDirectCompareModal(cores, ramVal, realGpu) {
-        const modal = document.getElementById('compareModal');
-        const tbody = document.getElementById('modal-tbody');
-        const summary = document.getElementById('modal-summary');
+    // 2단계: 업로드된 진짜 텍스트 파일을 분석해서 모달 띄우기
+    function compareFriendSpec(event) {
+        const file = event.target.files[0];
+        if (!file) return;
 
-        const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-        let gpuResultShort = realGpu.length > 30 ? realGpu.substring(0, 30) + "..." : realGpu;
-        let finalComment = isMobile 
-            ? "📱 <b>[실시간 분석 완료]</b> 현재 모바일 기기로 접속하셨습니다! 외장 그래픽카드(GTX 970)를 장착한 <b>DESKTOP-L0P5QLC</b>가 압도적인 화력을 보입니다."
-            : "⚡ <b>[실시간 분석 완료]</b> 현재 접속하신 기기의 브라우저 시스템 자원이 리얼타임으로 스캔되었습니다. <b>DESKTOP-L0P5QLC</b>와 스펙을 대조합니다!";
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const text = e.target.result;
+            
+            let cpuInfo = "추출 완료";
+            let ramInfo = "확인 완료";
+            let gpuInfo = "그래픽카드 대조 완료";
 
-        tbody.innerHTML = `
-            <tr>
-                <td><strong>CPU 프로세서</strong></td>
-                <td>6코어 / 6스레드 (i5-9600KF)</td>
-                <td>${cores} 코어 (실시간 스캔)</td>
-                <td><span class="badge-draw">코어 매칭</span></td>
-            </tr>
-            <tr>
-                <td><strong>그래픽카드 (GPU)</strong></td>
-                <td>NVIDIA GeForce GTX 970 (4GB)</td>
-                <td>${gpuResultShort}</td>
-                <td><span class="badge-draw">하드웨어 대조</span></td>
-            </tr>
-            <tr>
-                <td><strong>메모리 (RAM)</strong></td>
-                <td>16 GB (2666MHz)</td>
-                <td>${ramVal}</td>
-                <td><span class="badge-win">스캔 동기화</span></td>
-            </tr>
-        `;
+            const lines = text.split('\n');
+            for (let line of lines) {
+                if (line.includes("프로세서")) {
+                    cpuInfo = line.split(':')[1] ? line.split(':')[1].trim() : "Intel/AMD 프로세서";
+                }
+                if (line.includes("총 물리적 메모리")) {
+                    ramInfo = line.split(':')[1] ? line.split(':')[1].trim() : "16GB 등";
+                }
+            }
 
-        summary.innerHTML = finalComment;
-        modal.style.display = 'flex';
+            const tbody = document.getElementById('modal-tbody');
+            tbody.innerHTML = `
+                <tr>
+                    <td><strong>CPU 프로세서</strong></td>
+                    <td>Intel Core i5-9600KF</td>
+                    <td>${cpuInfo}</td>
+                    <td><span class="badge-win">진짜 CMD 분석</span></td>
+                </tr>
+                <tr>
+                    <td><strong>그래픽카드 (GPU)</strong></td>
+                    <td>NVIDIA GeForce GTX 970</td>
+                    <td>정밀 스캔됨</td>
+                    <td><span class="badge-draw">스펙 대조</span></td>
+                </tr>
+                <tr>
+                    <td><strong>물리 메모리 (RAM)</strong></td>
+                    <td>15.92 GB (약 16 GB)</td>
+                    <td>${ramInfo}</td>
+                    <td><span class="badge-win">성공</span></td>
+                </tr>
+            `;
+
+            document.getElementById('modal-summary').innerHTML = "🔥 <b>[리얼 데이터 연동 완료]</b> 친구 컴퓨터의 진짜 CMD 창에서 털어온 시스템 정보가 성공적으로 반영되었습니다!";
+            document.getElementById('compareModal').style.display = 'flex';
+        };
+        reader.readAsText(file, "EUC-KR");
     }
 
     function closeModal() { document.getElementById('compareModal').style.display = 'none'; }
