@@ -14,21 +14,21 @@
         body {
             margin: 0;
             font-family: Arial, "Malgun Gothic", sans-serif;
-            background-color: #030712;
+            background-color: #02040a;
             color: white;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* 파티클 캔버스가 배경 전체를 채우도록 설정 */
-        #particle-canvas {
+        /* 오로라 배경 캔버스 */
+        #aurora-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -2; /* 네온 배경보다 뒤에 위치 */
+            z-index: -2;
             pointer-events: none;
         }
 
@@ -41,7 +41,7 @@
             height: 100vh;
             z-index: -1;
             overflow: hidden;
-            background: #090d16;
+            background: #050811;
         }
 
         .neon-bg::before, .neon-bg::after {
@@ -50,31 +50,27 @@
             width: 50vw;
             height: 50vw;
             border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.4;
+            filter: blur(100px);
+            opacity: 0.35;
             animation: floatGlow 14s ease-in-out infinite alternate;
         }
 
         .neon-bg::before {
-            background: #3b82f6; /* 일렉트릭 블루 빛 */
+            background: #06b6d4; /* 시안 블루 */
             top: -15%;
             left: -15%;
         }
 
         .neon-bg::after {
-            background: #8b5cf6; /* 네온 퍼플 빛 */
+            background: #6366f1; /* 인디고 퍼플 */
             bottom: -15%;
             right: -15%;
             animation-delay: -7s;
         }
 
         @keyframes floatGlow {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                transform: translate(12%, 18%) scale(1.25);
-            }
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(12%, 18%) scale(1.25); }
         }
 
         .container {
@@ -94,7 +90,7 @@
         header h1 {
             font-size: 42px;
             margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
         }
 
         header p {
@@ -108,16 +104,16 @@
             flex-direction: column;
             align-items: center;
             background: rgba(15, 23, 42, 0.85);
-            border: 2px solid rgba(59, 130, 246, 0.6);
+            border: 2px solid rgba(6, 182, 212, 0.6);
             padding: 12px 28px;
             border-radius: 16px;
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.3);
             backdrop-filter: blur(10px);
         }
 
         .clock-top-label {
             font-size: 12px;
-            color: #60a5fa;
+            color: #22d3ee;
             font-weight: bold;
             letter-spacing: 1px;
             margin-bottom: 4px;
@@ -156,7 +152,7 @@
             gap: 20px;
         }
 
-        /* 투명하고 입체감 있는 간지나는 글래스 스타일 카드 */
+        /* 글래스모피즘 카드 */
         .card {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.9) 100%);
             backdrop-filter: blur(12px);
@@ -170,8 +166,8 @@
 
         .card:hover {
             transform: translateY(-6px);
-            border-color: rgba(96, 165, 250, 0.6);
-            box-shadow: 0 12px 40px -10px rgba(59, 130, 246, 0.35);
+            border-color: rgba(34, 211, 238, 0.7);
+            box-shadow: 0 12px 40px -10px rgba(6, 182, 212, 0.4);
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
         }
 
@@ -181,7 +177,7 @@
         }
 
         .title {
-            color: #60a5fa;
+            color: #22d3ee;
             font-size: 14px;
             font-weight: bold;
             margin-bottom: 8px;
@@ -207,7 +203,6 @@
             font-size: 13px;
         }
 
-        /* 배경 음악 오디오 플레이어 숨김 처리 */
         .music {
             position: fixed;
             width: 1px;
@@ -222,7 +217,6 @@
             .grid {
                 grid-template-columns: 1fr;
             }
-
             header h1 {
                 font-size: 32px;
             }
@@ -232,10 +226,10 @@
 
 <body>
 
-<!-- 움직이는 별빛/파티클 캔버스 배경 -->
-<canvas id="particle-canvas"></canvas>
+<!-- 오로라 웨이브 캔버스 배경 -->
+<canvas id="aurora-canvas"></canvas>
 
-<!-- 움직이는 네온 오로라 배경 레이어 -->
+<!-- 네온 오로라 배경 레이어 -->
 <div class="neon-bg"></div>
 
 <div class="container">
@@ -244,7 +238,6 @@
         <h1>💻 내 PC 사양</h1>
         <p>Windows 11 Pro · 64비트 (설치일: 2026-08-14)</p>
         
-        <!-- 네이버 시계 스타일 실시간 시계 위젯 -->
         <div class="naver-clock-box">
             <div class="clock-top-label">
                 <div class="live-dot"></div>
@@ -255,170 +248,109 @@
     </header>
 
     <div class="grid">
-
         <!-- CPU -->
         <div class="card">
             <div class="icon">🧠</div>
             <div class="title">CPU</div>
-            <div class="value">
-                Intel Core i5-9600KF
-            </div>
-            <div class="detail">
-                6코어 / 6스레드 · 3.696 GHz (클럭)<br>
-                L2 1.5MB, L3 9MB 캐시
-            </div>
+            <div class="value">Intel Core i5-9600KF</div>
+            <div class="detail">6코어 / 6스레드 · 3.696 GHz (클럭)<br>L2 1.5MB, L3 9MB 캐시</div>
         </div>
 
         <!-- GPU -->
         <div class="card">
             <div class="icon">🎮</div>
             <div class="title">GPU</div>
-            <div class="value">
-                NVIDIA GeForce GTX 970
-            </div>
-            <div class="detail">
-                VRAM 4 GB · 드라이버 32.0.15.8266 (2026-06-09)<br>
-                사운드: NVIDIA 오디오 포함
-            </div>
+            <div class="value">NVIDIA GeForce GTX 970</div>
+            <div class="detail">VRAM 4 GB · 드라이버 32.0.15.8266 (2026-06-09)<br>사운드: NVIDIA 오디오 포함</div>
         </div>
 
         <!-- RAM -->
         <div class="card">
             <div class="icon">🧠</div>
             <div class="title">RAM</div>
-            <div class="value">
-                15.92 GB (약 16 GB)
-            </div>
-            <div class="detail">
-                Samsung 8GB × 2 · 속도 2666MHz
-            </div>
+            <div class="value">15.92 GB (약 16 GB)</div>
+            <div class="detail">Samsung 8GB × 2 · 속도 2666MHz</div>
         </div>
 
         <!-- SSD -->
         <div class="card">
             <div class="icon">💿</div>
             <div class="title">SSD</div>
-            <div class="value">
-                Samsung SSD 970 EVO 500GB
-            </div>
-            <div class="detail">
-                NVMe · 상태: Healthy / OK<br>
-                C드라이브: 464.07GB 중 260.84GB 여유
-            </div>
+            <div class="value">Samsung SSD 970 EVO 500GB</div>
+            <div class="detail">NVMe · 상태: Healthy / OK<br>C드라이브: 464.07GB 중 260.84GB 여유</div>
         </div>
 
         <!-- 메인보드 -->
         <div class="card">
             <div class="icon">🧩</div>
             <div class="title">메인보드</div>
-            <div class="value">
-                Gigabyte B360M DS3H
-            </div>
-            <div class="detail">
-                BIOS: American Megatrends F19<br>
-                Secure Boot: 활성화
-            </div>
+            <div class="value">Gigabyte B360M DS3H</div>
+            <div class="detail">BIOS: American Megatrends F19<br>Secure Boot: 활성화</div>
         </div>
 
         <!-- 케이스 -->
         <div class="card">
             <div class="icon">🖥️</div>
             <div class="title">케이스</div>
-            <div class="value">
-                ZALMAN Z10 PLUS KOR
-            </div>
-            <div class="detail">
-                미들타워 · 슬라이딩 먼지필터<br>
-                전면/후면 ARGB 쿨링팬 4개 · 측면 강화유리
-            </div>
+            <div class="value">ZALMAN Z10 PLUS KOR</div>
+            <div class="detail">미들타워 · 슬라이딩 먼지필터<br>전면/후면 ARGB 쿨링팬 4개 · 측면 강화유리</div>
         </div>
 
         <!-- 파워서플라이 -->
         <div class="card">
             <div class="icon">⚡</div>
             <div class="title">파워서플라이</div>
-            <div class="value">
-                정격 600W
-            </div>
-            <div class="detail">
-                ATX 규격 · 80 PLUS 인증<br>
-                i5-9600KF + GTX 970 시스템 안정적 전원 공급
-            </div>
+            <div class="value">정격 600W</div>
+            <div class="detail">ATX 규격 · 80 PLUS 인증<br>i5-9600KF + GTX 970 시스템 안정적 전원 공급</div>
         </div>
 
         <!-- 운영체제 -->
         <div class="card">
             <div class="icon">🪟</div>
             <div class="title">운영체제</div>
-            <div class="value">
-                Microsoft Windows 11 Pro
-            </div>
-            <div class="detail">
-                64비트 · 빌드 26200 (설치: 2026-08-14)
-            </div>
+            <div class="value">Microsoft Windows 11 Pro</div>
+            <div class="detail">64비트 · 빌드 26200 (설치: 2026-08-14)</div>
         </div>
 
         <!-- 네트워크 & 오디오 -->
         <div class="card">
             <div class="icon">🌐</div>
             <div class="title">네트워크 & 오디오</div>
-            <div class="value">
-                Realtek Gaming GbE
-            </div>
-            <div class="detail">
-                유선 연결 · 1 Gbps<br>
-                사운드: Realtek 오디오 / USB xHCI
-            </div>
+            <div class="value">Realtek Gaming GbE</div>
+            <div class="detail">유선 연결 · 1 Gbps<br>사운드: Realtek 오디오 / USB xHCI</div>
         </div>
 
         <!-- 모니터 -->
         <div class="card">
             <div class="icon">🖥️</div>
             <div class="title">모니터</div>
-            <div class="value">
-                Samsung S27F350
-            </div>
-            <div class="detail">
-                27인치 · FHD 1920×1080 · 60Hz (출력 71Hz)
-            </div>
+            <div class="value">Samsung S27F350</div>
+            <div class="detail">27인치 · FHD 1920×1080 · 60Hz (출력 71Hz)</div>
         </div>
 
         <!-- 키보드 -->
         <div class="card">
             <div class="icon">⌨️</div>
             <div class="title">키보드</div>
-            <div class="value">
-                darkFlash GD108
-            </div>
-            <div class="detail">
-                유무선 기계식 키보드 · PBT 이중사출 키캡
-            </div>
+            <div class="value">darkFlash GD108</div>
+            <div class="detail">유무선 기계식 키보드 · PBT 이중사출 키캡</div>
         </div>
 
         <!-- 마우스 -->
         <div class="card">
             <div class="icon">🖱️</div>
             <div class="title">마우스</div>
-            <div class="value">
-                ABKO HACKER KM400M
-            </div>
-            <div class="detail">
-                광학 게이밍 마우스 · USB 유선 연결
-            </div>
+            <div class="value">ABKO HACKER KM400M</div>
+            <div class="detail">광학 게이밍 마우스 · USB 유선 연결</div>
         </div>
 
         <!-- 스피커 -->
         <div class="card">
             <div class="icon">🔊</div>
             <div class="title">스피커</div>
-            <div class="value">
-                ZIO-S100 SOUNDBAR-US
-            </div>
-            <div class="detail">
-                USB 전원 공급형 PC 사운드바 · 고음질 스테레오
-            </div>
+            <div class="value">ZIO-S100 SOUNDBAR-US</div>
+            <div class="detail">USB 전원 공급형 PC 사운드바 · 고음질 스테레오</div>
         </div>
-
     </div>
 
     <footer>
@@ -439,63 +371,61 @@
     </iframe>
 </div>
 
-<!-- 스크립트 모음 -->
+<!-- 오로라 애니메이션 & 시계 스크립트 -->
 <script>
-    // 1. 움직이는 별빛/파티클 효과 구현
-    const canvas = document.getElementById('particle-canvas');
+    // 1. 오로라 웨이브 캔버스 애니메이션
+    const canvas = document.getElementById('aurora-canvas');
     const ctx = canvas.getContext('2d');
 
-    let particlesArray = [];
-    const numberOfParticles = 50;
+    let width, height;
+    let step = 0;
 
     function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2.5 + 0.5;
-            this.speedY = Math.random() * 0.5 + 0.2; // 아래로 흐르는 속도
-            this.opacity = Math.random() * 0.5 + 0.2;
-        }
-        update() {
-            this.y += this.speedY;
-            if (this.y > canvas.height) {
-                this.y = 0;
-                this.x = Math.random() * canvas.width;
-            }
-        }
-        draw() {
-            ctx.fillStyle = `rgba(96, 165, 250, ${this.opacity})`;
+    function drawAurora() {
+        ctx.clearRect(0, 0, width, height);
+        step += 0.008;
+
+        // 부드러운 웨이브 오로라 라인 여러 개 렌더링
+        for (let i = 0; i < 3; i++) {
             ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.moveTo(0, height);
+
+            for (let x = 0; x <= width; x += 40) {
+                let y = height * 0.4 + 
+                        Math.sin(x * 0.002 + step + i) * 120 + 
+                        Math.cos(x * 0.005 - step * 0.5) * 60 + 
+                        i * 80;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.lineTo(width, height);
+            ctx.closePath();
+
+            let gradient = ctx.createLinearGradient(0, 0, width, height);
+            if (i === 0) {
+                gradient.addColorStop(0, 'rgba(6, 182, 212, 0.08)');
+                gradient.addColorStop(1, 'transparent');
+            } else if (i === 1) {
+                gradient.addColorStop(0, 'rgba(99, 102, 241, 0.06)');
+                gradient.addColorStop(1, 'transparent');
+            } else {
+                gradient.addColorStop(0, 'rgba(139, 92, 246, 0.05)');
+                gradient.addColorStop(1, 'transparent');
+            }
+
+            ctx.fillStyle = gradient;
             ctx.fill();
         }
-    }
 
-    function initParticles() {
-        particlesArray = [];
-        for (let i = 0; i < numberOfParticles; i++) {
-            particlesArray.push(new Particle());
-        }
+        requestAnimationFrame(drawAurora);
     }
-
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particlesArray.forEach(particle => {
-            particle.update();
-            particle.draw();
-        });
-        requestAnimationFrame(animateParticles);
-    }
-
-    initParticles();
-    animateParticles();
+    drawAurora();
 
     // 2. 네이버 시계 스타일 밀리초 포함 정밀 시계
     function updateClock() {
