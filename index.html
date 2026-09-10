@@ -21,8 +21,8 @@
             overflow-x: hidden;
         }
 
-        /* 오로라 배경 캔버스 */
-        #aurora-canvas {
+        /* 별똥별 & 화성 떨어지는 실시간 캔버스 배경 */
+        #space-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -226,8 +226,8 @@
 
 <body>
 
-<!-- 오로라 웨이브 캔버스 배경 -->
-<canvas id="aurora-canvas"></canvas>
+<!-- 별똥별 & 화성 우주 캔버스 배경 -->
+<canvas id="space-canvas"></canvas>
 
 <!-- 네온 오로라 배경 레이어 -->
 <div class="neon-bg"></div>
@@ -371,14 +371,16 @@
     </iframe>
 </div>
 
-<!-- 오로라 애니메이션 & 시계 스크립트 -->
+<!-- 우주 애니메이션 & 시계 스크립트 -->
 <script>
-    // 1. 오로라 웨이브 캔버스 애니메이션
-    const canvas = document.getElementById('aurora-canvas');
+    // 별똥별 및 화성 실시간 캔버스 애니메이션
+    const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
 
     let width, height;
-    let step = 0;
+    let stars = [];
+    let shootingStars = [];
+    let marsMeteors = [];
 
     function resizeCanvas() {
         width = canvas.width = window.innerWidth;
@@ -387,47 +389,121 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    function drawAurora() {
-        ctx.clearRect(0, 0, width, height);
-        step += 0.008;
-
-        // 부드러운 웨이브 오로라 라인 여러 개 렌더링
-        for (let i = 0; i < 3; i++) {
-            ctx.beginPath();
-            ctx.moveTo(0, height);
-
-            for (let x = 0; x <= width; x += 40) {
-                let y = height * 0.4 + 
-                        Math.sin(x * 0.002 + step + i) * 120 + 
-                        Math.cos(x * 0.005 - step * 0.5) * 60 + 
-                        i * 80;
-                ctx.lineTo(x, y);
-            }
-
-            ctx.lineTo(width, height);
-            ctx.closePath();
-
-            let gradient = ctx.createLinearGradient(0, 0, width, height);
-            if (i === 0) {
-                gradient.addColorStop(0, 'rgba(6, 182, 212, 0.08)');
-                gradient.addColorStop(1, 'transparent');
-            } else if (i === 1) {
-                gradient.addColorStop(0, 'rgba(99, 102, 241, 0.06)');
-                gradient.addColorStop(1, 'transparent');
-            } else {
-                gradient.addColorStop(0, 'rgba(139, 92, 246, 0.05)');
-                gradient.addColorStop(1, 'transparent');
-            }
-
-            ctx.fillStyle = gradient;
-            ctx.fill();
-        }
-
-        requestAnimationFrame(drawAurora);
+    // 배경 밤하늘 별 생성
+    for (let i = 0; i < 100; i++) {
+        stars.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: Math.random() * 1.5,
+            alpha: Math.random(),
+            speed: Math.random() * 0.02 + 0.005
+        });
     }
-    drawAurora();
 
-    // 2. 네이버 시계 스타일 밀리초 포함 정밀 시계
+    // 별똥별 객체 생성
+    function createShootingStar() {
+        return {
+            x: Math.random() * width * 1.2,
+            y: Math.random() * height * 0.4,
+            length: Math.random() * 80 + 40,
+            speed: Math.random() * 12 + 8,
+            angle: Math.PI / 4 + (Math.random() * 0.2 - 0.1),
+            opacity: Math.random() * 0.8 + 0.2
+        };
+    }
+
+    // 떨어지는 화성(붉은 행성) 객체 생성
+    function createMarsMeteor() {
+        return {
+            x: Math.random() * width,
+            y: -50,
+            radius: Math.random() * 12 + 6, // 크기 다양화
+            speedX: (Math.random() - 0.5) * 3, // 미세한 대각선 방향 낙하
+            speedY: Math.random() * 2 + 1.5,
+            opacity: Math.random() * 0.5 + 0.4,
+            rotation: Math.random() * Math.PI
+        };
+    }
+
+    for (let i = 0; i < 4; i++) shootingStars.push(createShootingStar());
+    for (let i = 0; i < 3; i++) marsMeteors.push(createMarsMeteor());
+
+    function animateSpace() {
+        ctx.clearRect(0, 0, width, height);
+
+        // 1. 배경 반짝이는 별 렌더링
+        stars.forEach(star => {
+            star.alpha += star.speed;
+            if (star.alpha > 1 || star.alpha < 0.1) star.speed = -star.speed;
+            ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        // 2. 다채로운 별똥별(유성우) 실시간 렌더링
+        shootingStars.forEach((star, index) => {
+            star.x -= star.speed * Math.cos(star.angle);
+            star.y += star.speed * Math.sin(star.angle);
+            star.opacity -= 0.01;
+
+            let gradient = ctx.createLinearGradient(
+                star.x, star.y, 
+                star.x + star.length * Math.cos(star.angle), 
+                star.y - star.length * Math.sin(star.angle)
+            );
+            gradient.addColorStop(0, `rgba(255, 255, 255, ${Math.max(0, star.opacity)})`);
+            gradient.addColorStop(1, 'transparent');
+
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(star.x, star.y);
+            ctx.lineTo(
+                star.x + star.length * Math.cos(star.angle), 
+                star.y - star.length * Math.sin(star.angle)
+            );
+            ctx.stroke();
+
+            // 화면 밖으로 나가거나 사라지면 새로운 위치에서 리셋 (평생 무한 반복)
+            if (star.opacity <= 0 || star.x < 0 || star.y > height) {
+                shootingStars[index] = createShootingStar();
+            }
+        });
+
+        // 3. 붉은 화성 떨어지는 장면 렌더링
+        marsMeteors.forEach((mars, index) => {
+            mars.x += mars.speedX;
+            mars.y += mars.speedY;
+
+            // 화성 주변 대기/광채 효과
+            let marsGlow = ctx.createRadialGradient(mars.x, mars.y, 0, mars.x, mars.y, mars.radius * 2);
+            marsGlow.addColorStop(0, `rgba(239, 68, 68, ${mars.opacity})`);
+            marsGlow.addColorStop(0.5, `rgba(185, 28, 28, ${mars.opacity * 0.6})`);
+            marsGlow.addColorStop(1, 'transparent');
+
+            ctx.fillStyle = marsGlow;
+            ctx.beginPath();
+            ctx.arc(mars.x, mars.y, mars.radius * 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 화성 본체 구체
+            ctx.fillStyle = `rgba(220, 38, 38, ${mars.opacity})`;
+            ctx.beginPath();
+            ctx.arc(mars.x, mars.y, mars.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 바닥이나 화면 아래로 떨어지면 새로운 위치에서 다시 낙하 (평생 무한 반복)
+            if (mars.y > height + 50 || mars.x < -50 || mars.x > width + 50) {
+                marsMeteors[index] = createMarsMeteor();
+            }
+        });
+
+        requestAnimationFrame(animateSpace);
+    }
+    animateSpace();
+
+    // 네이버 시계 스타일 밀리초 포함 정밀 시계
     function updateClock() {
         const now = new Date();
         const year = now.getFullYear();
