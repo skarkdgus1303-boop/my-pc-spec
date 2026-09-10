@@ -58,28 +58,6 @@
             color: #ffffff; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
         }
 
-        .cpu-hero-banner {
-            background: linear-gradient(135deg, rgba(40, 10, 10, 0.95) 0%, rgba(15, 3, 3, 0.98) 100%);
-            border: 2px solid #ff3333;
-            border-radius: 12px;
-            padding: 25px 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-        .cpu-hero-icon { font-size: 50px; text-shadow: 0 0 15px rgba(255,0,0,0.8); }
-        .cpu-hero-content .cpu-badge {
-            font-size: 11px; color: #ff4d4d; font-weight: 900; letter-spacing: 2px; margin-bottom: 5px; display: inline-block;
-            background: rgba(255, 51, 51, 0.15); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(255,51,51,0.4);
-        }
-        .cpu-hero-content h2 {
-            margin: 0; font-size: 28px; color: #ffffff; font-weight: 900; letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-        }
-        .cpu-hero-content p { margin: 8px 0 0 0; color: #9ca3af; font-size: 14px; }
-
         .section-title {
             color: #ff3333; font-size: 22px; font-weight: 900;
             margin: 30px 0 20px 0; letter-spacing: 1px;
@@ -174,21 +152,12 @@
         </div>
     </header>
 
-    <div class="cpu-hero-banner">
-        <div class="cpu-hero-icon">🧠</div>
-        <div class="cpu-hero-content">
-            <span class="cpu-badge">VERIFIED PROCESSOR CORE</span>
-            <h2 id="hero-cpu-name">Intel Core i5-9600KF</h2>
-            <p>Windows 요약 문구(프로세서 1개 설치됨)를 거부하고 정밀 하드웨어 스캔 값을 직접 출력합니다.</p>
-        </div>
-    </div>
-
     <div class="section-title">📂 COMPLETE SYSTEM SPECS (모든 부품 13종 완벽 보존)</div>
     <div class="grid">
         <div class="card"><div class="icon">🧠</div><div class="title">CPU</div><div class="value" id="card-cpu-val">Intel Core i5-9600KF</div><div class="detail">6코어 / 6스레드 · 3.696 GHz</div></div>
         <div class="card"><div class="icon">🎮</div><div class="title">GPU</div><div class="value" id="card-gpu-val">NVIDIA GeForce GTX 970</div><div class="detail">VRAM 4 GB · 실시간 스캔 연동</div></div>
         <div class="card"><div class="icon">🧠</div><div class="title">RAM</div><div class="value" id="card-ram-val">15.92 GB (약 16 GB)</div><div class="detail">Samsung 8GB × 2 · 2666MHz</div></div>
-        <div class="card"><div class="icon">💿</div><div class="title">SSD</div><div class="value">Samsung SSD 970 EVO 500GB</div><div class="detail">NVMe · 상태: Healthy / OK</div></div>
+        <div class="card"><div class="icon">💿</div><div class="title">SSD</div><div class="value" id="card-ssd-val">Samsung SSD 970 EVO 500GB</div><div class="detail">NVMe ·실시간 스캔 연동</div></div>
         <div class="card"><div class="icon">🧩</div><div class="title">메인보드</div><div class="value" id="card-mb-val">Gigabyte B360M DS3H</div><div class="detail">BIOS: American Megatrends F19</div></div>
         <div class="card"><div class="icon">🖥️</div><div class="title">케이스</div><div class="value">ZALMAN Z10 PLUS KOR</div><div class="detail">미들타워 · ARGB 쿨링팬 4개</div></div>
         <div class="card"><div class="icon">⚡</div><div class="title">파워서플라이</div><div class="value">정격 600W</div><div class="detail">ATX 규격 · 80 PLUS 인증</div></div>
@@ -202,7 +171,7 @@
 
     <div class="remote-compare-section">
         <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ ULTIMATE HARDWARE RADAR</h3>
-        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 눌러 스크립트를 다운로드하세요. 실행 즉시 백그라운드에서 <b>CPU, GPU, RAM, OS, 메인보드를 정밀 스캔</b>합니다.</p>
+        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 눌러 스크립트를 다운로드하세요. 실행 즉시 백그라운드에서 <b>CPU, GPU, RAM, SSD, OS, 메인보드를 정밀 스캔</b>합니다.</p>
         
         <button class="remote-compare-btn" onclick="downloadCmdScript()">📥 [1단계] 정밀 하드웨어 스캔 프로그램(.bat) 다운로드</button>
         
@@ -218,7 +187,7 @@
 <div class="modal-overlay" id="compareModal">
     <div class="modal-box">
         <div class="modal-header">
-            <h2>⚔️ 실시간 하드웨어(CPU/GPU 포함) 성능 비교 리포트</h2>
+            <h2>⚔️ 실시간 하드웨어(CPU/GPU/SSD 포함) 성능 비교 리포트</h2>
             <button class="close-btn" onclick="closeModal()">×</button>
         </div>
         <table class="modal-table">
@@ -274,7 +243,7 @@
     function downloadCmdScript() {
         const batContent = `@echo off
 title DESKTOP-L0P5QLC HARDWARE SCANNER
-powershell -Command "$cpu = (Get-CimInstance Win32_Processor).Name; $gpu = (Get-CimInstance Win32_VideoController).Name; $ram = [math]::round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 2); $os = (Get-CimInstance Win32_OperatingSystem).Caption; $mb = (Get-CimInstance Win32_BaseBoard).Product; $content = \"CPU: $cpu\`nGPU: $gpu\`nRAM: $ram GB\`nOS: $os\`nMainboard: $mb\"; Set-Content -Path ([Environment]::GetFolderPath('Desktop') + '\\myspec.txt') -Value $content -Encoding UTF8"
+powershell -Command "$cpu = (Get-CimInstance Win32_Processor).Name; $gpu = (Get-CimInstance Win32_VideoController).Name; $ram = [math]::round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 2); $ssd = (Get-CimInstance Win32_DiskDrive | Select-Object -First 1).Model; $os = (Get-CimInstance Win32_OperatingSystem).Caption; $mb = (Get-CimInstance Win32_BaseBoard).Product; $content = \"CPU: $cpu\`nGPU: $gpu\`nRAM: $ram GB\`nSSD: $ssd\`nOS: $os\`nMainboard: $mb\"; Set-Content -Path ([Environment]::GetFolderPath('Desktop') + '\\myspec.txt') -Value $content -Encoding UTF8"
 exit`;
 
         const blob = new Blob([batContent], { type: 'text/plain;charset=utf-8' });
@@ -295,6 +264,7 @@ exit`;
             let cpuInfo = "Intel Core i5-9600KF";
             let gpuInfo = "NVIDIA GeForce GTX 970";
             let ramInfoNum = 15.92;
+            let ssdInfo = "Samsung SSD 970 EVO 500GB";
             let osInfo = "Microsoft Windows 11 Pro";
             let mbInfo = "Gigabyte B360M DS3H";
 
@@ -306,15 +276,16 @@ exit`;
                     let rVal = line.replace("RAM:", "").replace("GB", "").trim();
                     ramInfoNum = parseFloat(rVal) || 15.92;
                 }
+                if (line.startsWith("SSD:")) ssdInfo = line.replace("SSD:", "").trim();
                 if (line.startsWith("OS:")) osInfo = line.replace("OS:", "").trim();
                 if (line.startsWith("Mainboard:")) mbInfo = line.replace("Mainboard:", "").trim();
             }
 
             // 화면 반영
-            document.getElementById('hero-cpu-name').innerText = cpuInfo;
             document.getElementById('card-cpu-val').innerText = cpuInfo;
             document.getElementById('card-gpu-val').innerText = gpuInfo;
             document.getElementById('card-ram-val').innerText = ramInfoNum + " GB (약 16 GB)";
+            document.getElementById('card-ssd-val').innerText = ssdInfo;
             document.getElementById('card-os-val').innerText = osInfo;
             document.getElementById('card-mb-val').innerText = mbInfo;
 
@@ -351,6 +322,14 @@ exit`;
                 ramAnalysisText = "용량이 다소 부족합니다.";
             }
 
+            // --- SSD 평가 ---
+            let ssdStatusHtml = '<span class="badge-match">일치 (스토리지 정상)</span>';
+            let ssdAnalysisText = "기준 스펙과 유사한 스토리지 환경입니다.";
+            if (ssdInfo.includes("NVMe") || ssdInfo.includes("970 EVO") || ssdInfo.includes("980") || ssdInfo.includes("990") || ssdInfo.includes("PM9A1") || ssdInfo.includes("FireCuda")) {
+                ssdStatusHtml = '<span class="badge-better">좋음 (고속 NVMe)</span>';
+                ssdAnalysisText = "고속 NVMe SSD로 로딩 속도와 시스템 반응 속도가 매우 빠릅니다.";
+            }
+
             let osStatusHtml = '<span class="badge-match">일치 (정상 구동)</span>';
             let mbStatusHtml = '<span class="badge-match">일치 (칩셋 매칭)</span>';
 
@@ -375,6 +354,12 @@ exit`;
                     <td>${ramStatusHtml}</td>
                 </tr>
                 <tr>
+                    <td><strong>💿 SSD 스토리지</strong></td>
+                    <td>Samsung SSD 970 EVO 500GB</td>
+                    <td>${ssdInfo}</td>
+                    <td>${ssdStatusHtml}</td>
+                </tr>
+                <tr>
                     <td><strong>🪟 운영체제 (OS)</strong></td>
                     <td>Microsoft Windows 11 Pro</td>
                     <td>${osInfo}</td>
@@ -393,7 +378,8 @@ exit`;
                 • <b>CPU 진단:</b> ${cpuAnalysisText}<br>
                 • <b>GPU 진단:</b> ${gpuAnalysisText}<br>
                 • <b>RAM 진단:</b> ${ramAnalysisText}<br>
-                • <b>종합 결론:</b> 13개 전체 부품 틀은 그대로 보존된 채, 실시간 스캔된 핵심 하드웨어(CPU/GPU) 성능 비교가 완벽하게 반영되었습니다!
+                • <b>SSD 진단:</b> ${ssdAnalysisText}<br>
+                • <b>종합 결론:</b> 기존 13개 부품은 단 하나도 빠짐없이 모두 유지되면서, GPU와 SSD까지 실시간 자동 스캔 및 성능 비교가 적용되었습니다!
             `;
             document.getElementById('compareModal').style.display = 'flex';
         };
