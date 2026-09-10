@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 PC 사양 - MY PC</title>
+    <title>내 PC 사양 - DESKTOP-L0P5QLC</title>
 
     <style>
         * {
@@ -111,6 +111,18 @@
             text-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
         }
 
+        /* 섹션 타이틀 스타일 */
+        .section-title {
+            color: #ff3333;
+            font-size: 22px;
+            font-weight: 900;
+            margin: 50px 0 20px 0;
+            letter-spacing: 1px;
+            border-left: 5px solid #ff3333;
+            padding-left: 10px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -162,10 +174,92 @@
             margin-top: 6px;
         }
 
+        /* ⚔️ 사양 비교 아레나 스타일 */
+        .arena-box {
+            background: linear-gradient(135deg, rgba(20, 5, 5, 0.95) 0%, rgba(5, 2, 2, 0.98) 100%);
+            border: 2px solid rgba(255, 51, 51, 0.6);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.25);
+        }
+
+        .arena-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .arena-btn {
+            background: rgba(40, 10, 10, 0.8);
+            border: 1px solid #ff3333;
+            color: #ff9999;
+            padding: 10px 18px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .arena-btn:hover, .arena-btn.active {
+            background: #ff3333;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 51, 51, 0.2);
+            font-size: 15px;
+        }
+
+        .comparison-table th {
+            color: #ff4d4d;
+            font-size: 14px;
+            letter-spacing: 1px;
+            background: rgba(255, 51, 51, 0.05);
+        }
+
+        .badge-win {
+            color: #4ade80;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+        }
+
+        .badge-lose {
+            color: #f87171;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(248, 113, 113, 0.4);
+        }
+
+        .badge-draw {
+            color: #facc15;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+        }
+
+        .arena-summary {
+            background: rgba(0, 0, 0, 0.6);
+            border-left: 4px solid #ff3333;
+            padding: 15px 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #e5e7eb;
+            border-radius: 0 8px 8px 0;
+        }
+
         footer {
             text-align: center;
             color: #6b7280;
-            margin-top: 40px;
+            margin-top: 50px;
             font-size: 13px;
             letter-spacing: 1px;
         }
@@ -199,7 +293,7 @@
 <div class="container">
 
     <header>
-        <h1>⚔️ MY PC ⚔️</h1>
+        <h1>⚔️ DESKTOP-L0P5QLC ⚔️</h1>
         <p>Windows 11 Pro · HARDCORE SYSTEM COMMAND</p>
         
         <div class="naver-clock-box">
@@ -211,109 +305,60 @@
         </div>
     </header>
 
+    <!-- 내 PC 사양 그리드 -->
+    <div class="section-title">📂 MY SYSTEM SPECS</div>
     <div class="grid">
-        <!-- CPU -->
         <div class="card">
             <div class="icon">🧠</div>
             <div class="title">CPU</div>
             <div class="value">Intel Core i5-9600KF</div>
-            <div class="detail">6코어 / 6스레드 · 3.696 GHz (클럭)<br>L2 1.5MB, L3 9MB 캐시</div>
+            <div class="detail">6코어 / 6스레드 · 3.696 GHz</div>
         </div>
-
-        <!-- GPU -->
         <div class="card">
             <div class="icon">🎮</div>
             <div class="title">GPU</div>
             <div class="value">NVIDIA GeForce GTX 970</div>
-            <div class="detail">VRAM 4 GB · 드라이버 32.0.15.8266 (2026-06-09)<br>사운드: NVIDIA 오디오 포함</div>
+            <div class="detail">VRAM 4 GB · 드라이버 최신 유지</div>
         </div>
-
-        <!-- RAM -->
         <div class="card">
             <div class="icon">🧠</div>
             <div class="title">RAM</div>
-            <div class="value">15.92 GB (약 16 GB)</div>
-            <div class="detail">Samsung 8GB × 2 · 속도 2666MHz</div>
+            <div class="value">16 GB (15.92 GB)</div>
+            <div class="detail">Samsung 8GB × 2 · 2666MHz</div>
         </div>
-
-        <!-- SSD -->
         <div class="card">
             <div class="icon">💿</div>
             <div class="title">SSD</div>
             <div class="value">Samsung SSD 970 EVO 500GB</div>
-            <div class="detail">NVMe · 상태: Healthy / OK<br>C드라이브: 464.07GB 중 260.84GB 여유</div>
+            <div class="detail">NVMe 고속 스토리지 (Healthy)</div>
+        </div>
+    </div>
+
+    <!-- ⚔️ 사양 비교 전투실 (BATTLE ARENA) -->
+    <div class="section-title">⚔️ BATTLE ARENA (사양 비교 전투실)</div>
+    <div class="arena-box">
+        <div class="arena-controls">
+            <button class="arena-btn active" onclick="switchTarget('budget')">국민 가성비 PC (i5-12400 + RTX 4060)</button>
+            <button class="arena-btn" onclick="switchTarget('high')">하이엔드 최신 PC (i7-14700K + RTX 4080)</button>
+            <button class="arena-btn" onclick="switchTarget('office')">사무용 보급형 PC (i3-10100 + 내장그래픽)</button>
         </div>
 
-        <!-- 메인보드 -->
-        <div class="card">
-            <div class="icon">🧩</div>
-            <div class="title">메인보드</div>
-            <div class="value">Gigabyte B360M DS3H</div>
-            <div class="detail">BIOS: American Megatrends F19<br>Secure Boot: 활성화</div>
-        </div>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>파츠</th>
+                    <th>내 PC (DESKTOP-L0P5QLC)</th>
+                    <th>비교 대상 PC</th>
+                    <th>전투 판정</th>
+                </tr>
+            </thead>
+            <tbody id="arena-tbody">
+                <!-- JS로 동적 렌더링 -->
+            </tbody>
+        </table>
 
-        <!-- 케이스 -->
-        <div class="card">
-            <div class="icon">🖥️</div>
-            <div class="title">케이스</div>
-            <div class="value">ZALMAN Z10 PLUS KOR</div>
-            <div class="detail">미들타워 · 슬라이딩 먼지필터<br>전면/후면 ARGB 쿨링팬 4개 · 측면 강화유리</div>
-        </div>
-
-        <!-- 파워서플라이 -->
-        <div class="card">
-            <div class="icon">⚡</div>
-            <div class="title">파워서플라이</div>
-            <div class="value">정격 600W</div>
-            <div class="detail">ATX 규격 · 80 PLUS 인증<br>i5-9600KF + GTX 970 시스템 안정적 전원 공급</div>
-        </div>
-
-        <!-- 운영체제 -->
-        <div class="card">
-            <div class="icon">🪟</div>
-            <div class="title">운영체제</div>
-            <div class="value">Microsoft Windows 11 Pro</div>
-            <div class="detail">64비트 · 빌드 26200 (설치: 2026-08-14)</div>
-        </div>
-
-        <!-- 네트워크 & 오디오 -->
-        <div class="card">
-            <div class="icon">🌐</div>
-            <div class="title">네트워크 & 오디오</div>
-            <div class="value">Realtek Gaming GbE</div>
-            <div class="detail">유선 연결 · 1 Gbps<br>사운드: Realtek 오디오 / USB xHCI</div>
-        </div>
-
-        <!-- 모니터 -->
-        <div class="card">
-            <div class="icon">🖥️</div>
-            <div class="title">모니터</div>
-            <div class="value">Samsung S27F350</div>
-            <div class="detail">27인치 · FHD 1920×1080 · 60Hz (출력 71Hz)</div>
-        </div>
-
-        <!-- 키보드 -->
-        <div class="card">
-            <div class="icon">⌨️</div>
-            <div class="title">키보드</div>
-            <div class="value">darkFlash GD108</div>
-            <div class="detail">유무선 기계식 키보드 · PBT 이중사출 키캡</div>
-        </div>
-
-        <!-- 마우스 -->
-        <div class="card">
-            <div class="icon">🖱️</div>
-            <div class="title">마우스</div>
-            <div class="value">ABKO HACKER KM400M</div>
-            <div class="detail">광학 게이밍 마우스 · USB 유선 연결</div>
-        </div>
-
-        <!-- 스피커 -->
-        <div class="card">
-            <div class="icon">🔊</div>
-            <div class="title">스피커</div>
-            <div class="value">ZIO-S100 SOUNDBAR-US</div>
-            <div class="detail">USB 전원 공급형 PC 사운드바 · 고음질 스테레오</div>
+        <div class="arena-summary" id="arena-summary">
+            <!-- 팩폭 총평 -->
         </div>
     </div>
 
@@ -335,8 +380,9 @@
     </iframe>
 </div>
 
-<!-- 테토남 하드코어 전장 애니메이션 & 시계 스크립트 -->
+<!-- 테토남 하드코어 전장 애니메이션 & 비교 로직 스크립트 -->
 <script>
+    // 캔버스 배경 애니메이션
     const canvas = document.getElementById('hardcore-canvas');
     const ctx = canvas.getContext('2d');
 
@@ -432,15 +478,14 @@
     }
     animateHardcore();
 
+    // 실시간 시계 스크립트
     function updateClock() {
         const now = new Date();
         const year = now.getFullYear();
         const month = String(now.getMonth() + 1).padStart(2, '0');
         const day = String(now.getDate()).padStart(2, '0');
-        
         const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
         const weekday = weekdays[now.getDay()];
-
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
@@ -449,8 +494,76 @@
         const timeString = `${year}.${month}.${day} (${weekday}) ${hours}:${minutes}:${seconds}.${milliseconds}`;
         document.getElementById('realtime-clock').innerText = timeString;
     }
-
     setInterval(updateClock, 30);
+
+    // ⚔️ 사양 비교 데이터베이스 및 로직
+    const compareData = {
+        budget: {
+            name: "국민 가성비 PC (i5-12400 + RTX 4060)",
+            cpu: { name: "Intel Core i5-12400", result: "열세 (패배)", class: "badge-lose" },
+            gpu: { name: "NVIDIA RTX 4060", result: "참패 (구세대 압살)", class: "badge-lose" },
+            ram: { name: "16 GB DDR4/DDR5", result: "동등 (호각)", class: "badge-draw" },
+            ssd: { name: "M.2 NVMe 500GB", result: "동등 (준수함)", class: "badge-draw" },
+            summary: "🔥 <b>[전투 분석 총평]</b> GPU(GTX 970)가 현세대 RTX 4060에 비해 전력 소비와 성능 면에서 크게 밀립니다. 하지만 롤, 피파, 발로란트 같은 국민 게임은 풀옵션으로 신나게 돌릴 수 있는 가성비 생존형 전투력입니다!"
+        },
+        high: {
+            name: "하이엔드 최신 PC (i7-14700K + RTX 4080)",
+            cpu: { name: "Intel Core i7-14700K", result: "참패 (상대 안 됨)", class: "badge-lose" },
+            gpu: { name: "NVIDIA RTX 4080", result: "초토화 (상대 불가)", class: "badge-lose" },
+            ram: { name: "32 GB DDR5", result: "용량 부족 (패배)", class: "badge-lose" },
+            ssd: { name: "PCIe 4.0 NVMe 2TB", result: "속도 차이 압도당함", class: "badge-lose" },
+            summary: "⚡ <b>[전투 분석 총평]</b> 상대는 모든 면에서 압도적인 화력을 가진 괴물입니다. 사이버펑크 2077 풀옵이나 언리얼 엔진 5 개발용으로는 상대가 안 되지만, 일상적인 웹서핑과 국밥 같은 가벼운 작업에서는 내 PC도 충분히 버팁니다!"
+        },
+        office: {
+            name: "사무용 보급형 PC (i3-10100 + 내장그래픽)",
+            cpu: { name: "Intel Core i3-10100", result: "승리 (내 CPU가 위!)", class: "badge-win" },
+            gpu: { name: "Intel UHD Graphics 630", result: "압승 (GTX 970 승리!)", class: "badge-win" },
+            ram: { name: "8 GB RAM", result: "압승 (16GB 넉넉함)", class: "badge-win" },
+            ssd: { name: "SATA SSD / HDD", result: "NVMe 승리!", class: "badge-win" },
+            summary: "🏆 <b>[전투 분석 총평]</b> 완벽한 승리입니다! 일반적인 회사 사무용 컴퓨터나 저가형 PC들과 비교하면 그래픽카드(GTX 970)와 6코어 CPU의 힘으로 압도적인 우위를 점합니다. 당당하게 게이밍 지휘소의 자격을 가졌습니다!"
+        }
+    };
+
+    function switchTarget(type) {
+        // 버튼 활성화 토글
+        document.querySelectorAll('.arena-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        const target = compareData[type];
+        const tbody = document.getElementById('arena-tbody');
+        
+        tbody.innerHTML = `
+            <tr>
+                <td><strong>CPU</strong></td>
+                <td>Intel Core i5-9600KF</td>
+                <td>${target.cpu.name}</td>
+                <td><span class="${target.cpu.class}">${target.cpu.result}</span></td>
+            </tr>
+            <tr>
+                <td><strong>GPU</strong></td>
+                <td>NVIDIA GeForce GTX 970</td>
+                <td>${target.gpu.name}</td>
+                <td><span class="${target.gpu.class}">${target.gpu.result}</span></td>
+            </tr>
+            <tr>
+                <td><strong>RAM</strong></td>
+                <td>16 GB</td>
+                <td>${target.ram.name}</td>
+                <td><span class="${target.ram.class}">${target.ram.result}</span></td>
+            </tr>
+            <tr>
+                <td><strong>SSD</strong></td>
+                <td>Samsung 970 EVO 500GB</td>
+                <td>${target.ssd.name}</td>
+                <td><span class="${target.ssd.class}">${target.ssd.result}</span></td>
+            </tr>
+        `;
+
+        document.getElementById('arena-summary').innerHTML = target.summary;
+    }
+
+    // 초기 실행 시 '국민 가성비 PC' 기본 선택
+    switchTarget('budget');
 </script>
 
 </body>
