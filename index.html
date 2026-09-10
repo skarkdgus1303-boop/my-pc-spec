@@ -174,7 +174,7 @@
             margin-top: 6px;
         }
 
-        /* 🌐 상대방 기기 사양 비교 컨트롤 버튼 영역 */
+        /* 🌐 접속자(다른 컴퓨터/폰) 사양 비교 트리거 버튼 */
         .remote-compare-section {
             margin-top: 40px;
             text-align: center;
@@ -206,7 +206,56 @@
             background: linear-gradient(135deg, #ff4d4d, #cc0000);
         }
 
-        /* 팝업 모달창 스타일 */
+        /* 💻 가짜 CMD 터미널 창 모달 */
+        .cmd-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cmd-window {
+            background: #0c0c0c;
+            border: 2px solid #33ff33; /* 터미널은 간지나는 네온 그린 혹은 레드 중 택일 (여기선 하드코어 레드 통일감 위해 #ff3333) */
+            border-color: #ff3333;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 6px;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .cmd-titlebar {
+            background: #1f0505;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ff3333;
+            color: #ff4d4d;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .cmd-body {
+            padding: 20px;
+            height: 320px;
+            overflow-y: auto;
+            color: #00ff66; /* 터미널 텍스트 컬러 */
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        /* 🌐 최종 비교 결과 팝업 모달창 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -451,8 +500,8 @@
     <!-- 🌐 접속자(다른 컴퓨터/폰) 사양 비교 트리거 버튼 -->
     <div class="remote-compare-section">
         <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ BATTLE STATION RADAR</h3>
-        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">지금 이 사이트에 접속한 상대방(친구 PC 또는 스마트폰)의 기기 성능을 스캔하여 내 PC와 비교합니다!</p>
-        <button class="remote-compare-btn" onclick="openRemoteCompare()">🌐 내 기기와 'DESKTOP-L0P5QLC' 비교하기</button>
+        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 누르면 터미널(CMD)을 열어 실시간으로 기기 스펙을 스캔한 뒤 내 PC와 비교합니다!</p>
+        <button class="remote-compare-btn" onclick="runFakeCmdAndCompare()">💻 [CMD 실행] 내 기기 사양 스캔 후 비교하기</button>
     </div>
 
     <footer>
@@ -461,7 +510,18 @@
 
 </div>
 
-<!-- 🌐 상대방 비교 결과 팝업 모달창 -->
+<!-- 💻 가짜 CMD 터미널 창 모달 -->
+<div class="cmd-modal-overlay" id="cmdModal">
+    <div class="cmd-window">
+        <div class="cmd-titlebar">
+            <span>C:\Windows\system32\cmd.exe - Hardware Diagnostic Tool</span>
+            <span>[X]</span>
+        </div>
+        <div class="cmd-body" id="cmdTextContent"></div>
+    </div>
+</div>
+
+<!-- 🌐 최종 비교 결과 팝업 모달창 -->
 <div class="modal-overlay" id="compareModal">
     <div class="modal-box">
         <div class="modal-header">
@@ -499,7 +559,7 @@
     </iframe>
 </div>
 
-<!-- 테토남 하드코어 전장 애니메이션 & 실시간 접속자 사양 비교 스크립트 -->
+<!-- 테토남 하드코어 전장 애니메이션 & CMD 시뮬레이터 스크립트 -->
 <script>
     const canvas = document.getElementById('hardcore-canvas');
     const ctx = canvas.getContext('2d');
@@ -613,39 +673,78 @@
     }
     setInterval(updateClock, 30);
 
-    // 🌐 상대방 기기 사양 감지 및 비교 로직
-    function openRemoteCompare() {
+    // 💻 가짜 CMD 터미널 시뮬레이션 후 결과 창 띄우기
+    function runFakeCmdAndCompare() {
+        const cmdModal = document.getElementById('cmdModal');
+        const cmdText = document.getElementById('cmdTextContent');
+        cmdModal.style.display = 'flex';
+        cmdText.innerHTML = "";
+
+        const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4;
+        const ramVal = navigator.deviceMemory ? navigator.deviceMemory + " GB" : "8 GB 이상";
+        const platform = navigator.platform || "Win32";
+        const userAgent = navigator.userAgent;
+
+        const cmdLogs = [
+            "Microsoft Windows [Version 10.0.26200.5000]",
+            "(c) Microsoft Corporation. All rights reserved.",
+            "",
+            "C:\\Users\\Guest> systeminfo /s LOCALHOST",
+            "[+] Host Name: " + platform + " BATTLE-CLIENT",
+            "[+] Processor(s): " + cores + " Cores Detected.",
+            "[+] Total Physical Memory: " + ramVal,
+            "",
+            "C:\\Users\\Guest> dxdiag /t /whql:off",
+            "[+] Initializing DirectX Graphics Diagnostic...",
+            "[+] UserAgent: " + userAgent.substring(0, 45) + "...",
+            "[+] GPU Acceleration Status: ENABLED",
+            "",
+            "C:\\Users\\Guest> python combat_eval.py --target=DESKTOP-L0P5QLC",
+            "[================ 100% ===============]",
+            "SUCCESS: Hardware profiling complete. Launching comparison matrix..."
+        ];
+
+        let lineIdx = 0;
+        function typeLine() {
+            if (lineIdx < cmdLogs.length) {
+                cmdText.innerHTML += cmdLogs[lineIdx] + "\n";
+                cmdText.scrollTop = cmdText.scrollHeight;
+                lineIdx++;
+                setTimeout(typeLine, 180); // 타이핑 속도감
+            } else {
+                setTimeout(() => {
+                    cmdModal.style.display = 'none'; // CMD 창 닫고
+                    openRealCompareModal(cores, ramVal, platform); // 결과 모달 오픈
+                }, 700);
+            }
+        }
+        typeLine();
+    }
+
+    // 🌐 실제 비교 데이터 창 오픈
+    function openRealCompareModal(cores, ramVal, platform) {
         const modal = document.getElementById('compareModal');
         const tbody = document.getElementById('modal-tbody');
         const summary = document.getElementById('modal-summary');
 
-        // 브라우저 정보로부터 상대방 스펙 측정
-        const cores = navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} 코어 (추정)` : "정보 없음";
-        const rawRam = navigator.deviceMemory ? `${navigator.deviceMemory} GB 이상` : "측정 불가";
         const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-        const deviceType = isMobile ? "스마트폰 / 모바일 기기" : "데스크톱 / 노트북 PC";
-        const screenRes = `${window.screen.width} × ${window.screen.height}`;
-
-        // 비교 판정 로직
-        let cpuResult = "호각 / 알 수 없음";
-        let cpuClass = "badge-draw";
-        let gpuResult = "데스크톱 GTX 970 우세";
-        let gpuClass = "badge-win";
+        const deviceType = isMobile ? "스마트폰 / 모바일 기기" : "데스크톱 / 노트북 PC (" + platform + ")";
+        
+        let cpuResult = `${cores}코어 탑재`;
+        let cpuClass = cores >= 6 ? "badge-draw" : "badge-lose";
+        let gpuResult = isMobile ? "모바일 내장 그래픽" : "일반 외장/내장 그래픽";
+        let gpuClass = isMobile ? "badge-win" : "badge-draw";
         let finalComment = "";
 
         if (isMobile) {
-            cpuResult = "모바일 프로세서";
-            cpuClass = "badge-lose";
-            gpuResult = "모바일 내장 그래픽";
-            gpuClass = "badge-win";
-            finalComment = "📱 <b>[스캔 결과 요약]</b> 현재 스마트폰이나 모바일 기기로 접속하셨군요! 전용 게이밍 본체인 <b>DESKTOP-L0P5QLC (i5-9600KF + GTX 970)</b>의 압도적인 데스크톱 화력이 승리했습니다.";
+            finalComment = "📱 <b>[전투 분석 완료]</b> 모바일 기기로 접속하셨습니다! 전용 게이밍 본체인 <b>DESKTOP-L0P5QLC (i5-9600KF + GTX 970)</b>의 압도적인 하드웨어 파워가 승리했습니다.";
         } else {
-            if (navigator.hardwareConcurrency && navigator.hardwareConcurrency > 6) {
-                cpuResult = "멀티스레드 우세";
-                cpuClass = "badge-lose";
-                finalComment = "⚡ <b>[스캔 결과 요약]</b> 상대방 기기의 CPU 코어 수가 더 많습니다! 하지만 전용 외장 그래픽카드(GTX 970)를 품은 <b>DESKTOP-L0P5QLC</b>의 게이밍 감성과 전력 밸런스는 여전히 강력합니다.";
+            if (cores > 6) {
+                cpuResult = "코어 수 우세 (승리)";
+                cpuClass = "badge-win";
+                finalComment = "⚡ <b>[전투 분석 완료]</b> 상대방 PC의 CPU 코어 화력이 더 강력합니다! 하지만 <b>DESKTOP-L0P5QLC</b>의 GTX 970 감성과 안정적인 밸런스는 여전히 현역입니다.";
             } else {
-                finalComment = "🏆 <b>[스캔 결과 요약]</b> 접속하신 기기와 <b>DESKTOP-L0P5QLC</b>의 사양 대결 결과, 메인 게이밍 지휘소의 성능이 동등하거나 더 우세합니다!";
+                finalComment = "🏆 <b>[전투 분석 완료]</b> 접속하신 기기와 <b>DESKTOP-L0P5QLC</b>의 비교 결과, 메인 지휘소의 게이밍 성능이 훌륭하게 방어해 냈습니다!";
             }
         }
 
@@ -654,25 +753,25 @@
                 <td><strong>기기 형태</strong></td>
                 <td>데스크톱 PC (지휘소)</td>
                 <td>${deviceType}</td>
-                <td><span class="badge-win">타입 분석 완료</span></td>
+                <td><span class="badge-win">스캔 완료</span></td>
             </tr>
             <tr>
-                <td><strong>CPU 코어</strong></td>
-                <td>6 코어 (i5-9600KF)</td>
-                <td>${cores}</td>
+                <td><strong>CPU 프로세서</strong></td>
+                <td>6코어 (i5-9600KF)</td>
+                <td>${cores} 코어 스레드 감지</td>
                 <td><span class="${cpuClass}">${cpuResult}</span></td>
             </tr>
             <tr>
-                <td><strong>그래픽 / 화면</strong></td>
+                <td><strong>그래픽카드</strong></td>
                 <td>NVIDIA GTX 970 (4GB)</td>
-                <td>해상도: ${screenRes}</td>
-                <td><span class="${gpuClass}">${gpuResult}</span></td>
+                <td>${gpuResult}</td>
+                <td><span class="${gpuClass}">성능 대조 완료</span></td>
             </tr>
             <tr>
-                <td><strong>메모리 (RAM)</strong></td>
-                <td>16 GB (삼성 2666MHz)</td>
-                <td>${rawRam}</td>
-                <td><span class="badge-draw">환경 연동 완료</span></td>
+                <td><strong>시스템 메모리</strong></td>
+                <td>16 GB (2666MHz)</td>
+                <td>${ramVal}</td>
+                <td><span class="badge-draw">동기화 완료</span></td>
             </tr>
         `;
 
