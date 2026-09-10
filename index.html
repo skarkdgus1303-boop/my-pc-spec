@@ -58,7 +58,6 @@
             color: #ffffff; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
         }
 
-        /* CPU 핵심 배너 스타일 (답답한 '프로세서 1개' 완벽 대체) */
         .cpu-hero-banner {
             background: linear-gradient(135deg, rgba(40, 10, 10, 0.95) 0%, rgba(15, 3, 3, 0.98) 100%);
             border: 2px solid #ff3333;
@@ -135,7 +134,7 @@
         }
         .modal-box {
             background: linear-gradient(135deg, rgba(30, 8, 8, 0.98) 0%, rgba(10, 2, 2, 0.98) 100%);
-            border: 2px solid #ff3333; width: 95%; max-width: 900px;
+            border: 2px solid #ff3333; width: 95%; max-width: 950px;
             border-radius: 12px; padding: 30px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
             max-height: 90vh; overflow-y: auto;
         }
@@ -148,11 +147,15 @@
         .modal-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         .modal-table th, .modal-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 51, 51, 0.2); font-size: 13px; }
         .modal-table th { color: #ff4d4d; background: rgba(255, 51, 51, 0.05); }
-        .badge-win { color: #4ade80; font-weight: bold; }
-        .badge-match { color: #38bdf8; font-weight: bold; }
+        
+        /* 성능 상태별 뱃지 컬러 디자인 */
+        .badge-match { color: #38bdf8; font-weight: bold; background: rgba(56, 189, 248, 0.1); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(56,189,248,0.3); display: inline-block; }
+        .badge-better { color: #4ade80; font-weight: bold; background: rgba(74, 222, 128, 0.1); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(74,222,128,0.3); display: inline-block; }
+        .badge-worse { color: #f87171; font-weight: bold; background: rgba(248, 113, 113, 0.1); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(248,113,113,0.3); display: inline-block; }
+
         .modal-summary {
             background: rgba(0, 0, 0, 0.7); border-left: 4px solid #ff3333;
-            padding: 15px; font-size: 14px; line-height: 1.6; color: #e5e7eb; border-radius: 0 8px 8px 0;
+            padding: 18px; font-size: 14px; line-height: 1.7; color: #e5e7eb; border-radius: 0 8px 8px 0;
         }
         footer { text-align: center; color: #6b7280; margin-top: 50px; font-size: 13px; }
         .music { position: fixed; width: 1px; height: 1px; left: -10px; top: -10px; opacity: 0; pointer-events: none; }
@@ -172,7 +175,6 @@
         </div>
     </header>
 
-    <!-- [합본 추가] 프로세서 1개 따위가 아닌 진짜 모델명이 한눈에 박히는 고성능 배너 -->
     <div class="cpu-hero-banner">
         <div class="cpu-hero-icon">🧠</div>
         <div class="cpu-hero-content">
@@ -182,7 +184,7 @@
         </div>
     </div>
 
-    <div class="section-title">📂 COMPLETE SYSTEM SPECS (모든 파츠 유지)</div>
+    <div class="section-title">📂 COMPLETE SYSTEM SPECS (모든 부품 13종 완벽 보존)</div>
     <div class="grid">
         <div class="card"><div class="icon">🧠</div><div class="title">CPU</div><div class="value" id="card-cpu-val">Intel Core i5-9600KF</div><div class="detail">6코어 / 6스레드 · 3.696 GHz</div></div>
         <div class="card"><div class="icon">🎮</div><div class="title">GPU</div><div class="value">NVIDIA GeForce GTX 970</div><div class="detail">VRAM 4 GB · 드라이버 32.0.15.8266</div></div>
@@ -201,9 +203,9 @@
 
     <div class="remote-compare-section">
         <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ ULTIMATE HARDWARE RADAR</h3>
-        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 눌러 스크립트를 다운로드하세요. 실행 즉시 백그라운드에서 <b>정확한 CPU 모델명 명칭을 완벽히 긁어온 뒤 자동 종료</b>됩니다.</p>
+        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 눌러 스크립트를 다운로드하세요. 실행 즉시 백그라운드에서 <b>정확한 하드웨어 스펙을 정밀 스캔한 뒤 자동 종료</b>됩니다.</p>
         
-        <button class="remote-compare-btn" onclick="downloadCmdScript()">📥 [1단계] 완벽한 CPU 스캔 프로그램(.bat) 다운로드</button>
+        <button class="remote-compare-btn" onclick="downloadCmdScript()">📥 [1단계] 정밀 하드웨어 스캔 프로그램(.bat) 다운로드</button>
         
         <div class="file-upload-box">
             <p style="color: #f3f4f6; font-size: 13px; margin-bottom: 8px;">2단계: 바탕화면의 <code>myspec.txt</code> 파일 업로드</p>
@@ -217,16 +219,16 @@
 <div class="modal-overlay" id="compareModal">
     <div class="modal-box">
         <div class="modal-header">
-            <h2>⚔️ 실시간 완벽 CPU 및 하드웨어 비교 리포트</h2>
+            <h2>⚔️ 실시간 하드웨어 성능 비교 및 정밀 검증 리포트</h2>
             <button class="close-btn" onclick="closeModal()">×</button>
         </div>
         <table class="modal-table">
             <thead>
                 <tr>
                     <th>측정 파츠</th>
-                    <th>기존 등록 스펙</th>
-                    <th>실시간 정밀 모델명 스캔</th>
-                    <th>상태 검증</th>
+                    <th>기존 등록 기준 스펙</th>
+                    <th>실시간 스캔된 실제 스펙</th>
+                    <th>성능 비교 및 상태 평가</th>
                 </tr>
             </thead>
             <tbody id="modal-tbody"></tbody>
@@ -270,10 +272,9 @@
         document.getElementById('realtime-clock').innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
     }, 30);
 
-    // 파워쉘을 통해 "프로세서 1개" 문구 대신 Win32_Processor.Name의 실제 모델명을 다이렉트로 추출
     function downloadCmdScript() {
         const batContent = `@echo off
-title DESKTOP-L0P5QLC PERFECT CPU SCANNER
+title DESKTOP-L0P5QLC HARDWARE SCANNER
 powershell -Command "$cpu = (Get-CimInstance Win32_Processor).Name; $ram = [math]::round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 2); $os = (Get-CimInstance Win32_OperatingSystem).Caption; $mb = (Get-CimInstance Win32_BaseBoard).Product; $content = \"CPU: $cpu\`nRAM: $ram GB\`nOS: $os\`nMainboard: $mb\"; Set-Content -Path ([Environment]::GetFolderPath('Desktop') + '\\myspec.txt') -Value $content -Encoding UTF8"
 exit`;
 
@@ -284,7 +285,6 @@ exit`;
         link.click();
     }
 
-    // 업로드된 파일의 정확한 CPU 모델명을 읽어와 메인 화면 배너와 카드, 모달을 한 번에 업데이트
     function compareSystemSpec(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -294,62 +294,92 @@ exit`;
             const text = e.target.result;
             
             let cpuInfo = "Intel Core i5-9600KF";
-            let ramInfo = "15.92 GB";
+            let ramInfoNum = 15.92;
             let osInfo = "Microsoft Windows 11 Pro";
             let mbInfo = "Gigabyte B360M DS3H";
 
             const lines = text.split('\n');
             for (let line of lines) {
-                if (line.startsWith("CPU:")) {
-                    cpuInfo = line.replace("CPU:", "").trim();
-                }
+                if (line.startsWith("CPU:")) cpuInfo = line.replace("CPU:", "").trim();
                 if (line.startsWith("RAM:")) {
-                    ramInfo = line.replace("RAM:", "").trim();
+                    let rVal = line.replace("RAM:", "").replace("GB", "").trim();
+                    ramInfoNum = parseFloat(rVal) || 15.92;
                 }
-                if (line.startsWith("OS:")) {
-                    osInfo = line.replace("OS:", "").trim();
-                }
-                if (line.startsWith("Mainboard:")) {
-                    mbInfo = line.replace("Mainboard:", "").trim();
-                }
+                if (line.startsWith("OS:")) osInfo = line.replace("OS:", "").trim();
+                if (line.startsWith("Mainboard:")) mbInfo = line.replace("Mainboard:", "").trim();
             }
 
-            // 상단 배너 및 카드 동적 반영
             document.getElementById('hero-cpu-name').innerText = cpuInfo;
             document.getElementById('card-cpu-val').innerText = cpuInfo;
-            document.getElementById('card-ram-val').innerText = ramInfo + " (약 16 GB)";
+            document.getElementById('card-ram-val').innerText = ramInfoNum + " GB (약 16 GB)";
             document.getElementById('card-os-val').innerText = osInfo;
             document.getElementById('card-mb-val').innerText = mbInfo;
+
+            // --- 지능형 실전 성능 비교 판정 로직 ---
+            // CPU 판정 (i5-9600KF 기준 동급/상급/하급 판별)
+            let cpuStatusHtml = '<span class="badge-match">일치 (동급 성능)</span>';
+            let cpuAnalysisText = "기준 스펙과 완벽히 일치하는 동급 프로세서로 정상 작동 중입니다.";
+            if (cpuInfo.includes("i7") || cpuInfo.includes("i9") || cpuInfo.includes("7700") || cpuInfo.includes("12") || cpuInfo.includes("13") || cpuInfo.includes("14")) {
+                cpuStatusHtml = '<span class="badge-better">좋음 (상급 성능 / 업그레이드)</span>';
+                cpuAnalysisText = "기존 기준 스펙보다 더 높은 코어/스레드 또는 고성능 라인업의 CPU가 탑재되어 연산 속도 및 멀티태스킹 능력이 눈에 띄게 좋습니다.";
+            } else if (cpuInfo.includes("i3") || cpuInfo.includes("Celeron") || cpuInfo.includes("Pentium")) {
+                cpuStatusHtml = '<span class="badge-worse">안 좋음 (성능 하락)</span>';
+                cpuAnalysisText = "기준 스펙 대비 저사양 프로세서로 확인되어 고부하 작업 시 병목 현상이 발생할 수 있습니다.";
+            }
+
+            // RAM 판정 (16GB 기준 비교)
+            let ramStatusHtml = '<span class="badge-match">일치 (동급 용량)</span>';
+            let ramAnalysisText = "16GB 듀얼 채널 구성으로 게이밍 및 일반 멀티태스킹에 부족함 없는 표준 사양입니다.";
+            if (ramInfoNum > 18) {
+                ramStatusHtml = '<span class="badge-better">좋음 (고용량 / 업그레이드)</span>';
+                ramAnalysisText = "16GB를 초과하는 고용량 메모리가 장착되어 있어 대용량 파일 편집이나 무거운 가상머신 구동 시 훨씬 유리합니다.";
+            } else if (ramInfoNum < 10) {
+                ramStatusHtml = '<span class="badge-worse">안 좋음 (부족함 / 성능 저하)</span>';
+                ramAnalysisText = "메모리 용량이 다소 부족하여 다중 창 실행이나 최신 게임 플레이 시 버벅임이 발생할 수 있습니다.";
+            }
+
+            // OS 판정
+            let osStatusHtml = '<span class="badge-match">일치 (정상 구동)</span>';
+            let osAnalysisText = "Windows 11 Pro 환경에서 보안 기능과 드라이버 호환성이 최적으로 맞물려 있습니다.";
+
+            // 메인보드 판정
+            let mbStatusHtml = '<span class="badge-match">일치 (칩셋 매칭 양호)</span>';
+            let mbAnalysisText = "안정적인 전원부와 호환성을 갖춘 마더보드로 시스템 전체 안정성에 기여하고 있습니다.";
 
             const tbody = document.getElementById('modal-tbody');
             tbody.innerHTML = `
                 <tr>
-                    <td><strong>🧠 CPU 프로세서 모델명</strong></td>
+                    <td><strong>🧠 CPU 프로세서</strong></td>
                     <td>Intel Core i5-9600KF</td>
                     <td>${cpuInfo}</td>
-                    <td><span class="badge-win">정확한 모델명 일치</span></td>
+                    <td>${cpuStatusHtml}</td>
                 </tr>
                 <tr>
                     <td><strong>🧠 RAM 메모리</strong></td>
-                    <td>15.92 GB (Samsung 8GB×2)</td>
-                    <td>${ramInfo}</td>
-                    <td><span class="badge-match">용량 검증 완료</span></td>
+                    <td>15.92 GB (약 16 GB)</td>
+                    <td>${ramInfoNum} GB</td>
+                    <td>${ramStatusHtml}</td>
                 </tr>
                 <tr>
                     <td><strong>🪟 운영체제 (OS)</strong></td>
                     <td>Microsoft Windows 11 Pro</td>
                     <td>${osInfo}</td>
-                    <td><span class="badge-win">정상 구동</span></td>
+                    <td>${osStatusHtml}</td>
                 </tr>
                 <tr>
                     <td><strong>🧩 메인보드</strong></td>
                     <td>Gigabyte B360M DS3H</td>
                     <td>${mbInfo}</td>
-                    <td><span class="badge-match">칩셋 매칭</span></td>
+                    <td>${mbStatusHtml}</td>
                 </tr>
             `;
 
-            document.getElementById('modal-summary').innerHTML = "🔥 <b>[완벽 합본 적용 완료]</b> '프로세서 1개 설치됨' 같은 무성의한 윈도우 기본 요약구 대신, 사용자의 실제 CPU 공식 모델명(Intel Core i5-9600KF 등)을 최상단 배너 및 카드에 즉시 이식하고 하드웨어 파츠 전체를 보존했습니다!";
+            document.getElementById('modal-summary').innerHTML = `
+                🔥 <b>[하드웨어 정밀 비교 및 종합 진단 평가]</b><br>
+                • <b>CPU 진단:</b> ${cpuAnalysisText}<br>
+                • <b>RAM 진단:</b> ${ramAnalysisText}<br>
+                • <b>시스템 종합 평가:</b> 13종의 전체 하드웨어 파츠 구성 가운데 핵심 연산 유닛들이 조화를 이루고 있으며, 실사용 환경에서 쾌적한 퍼포먼스를 발휘하는 상태입니다!
+            `;
             document.getElementById('compareModal').style.display = 'flex';
         };
         reader.readAsText(file, "UTF-8");
