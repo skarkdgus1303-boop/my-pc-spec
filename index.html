@@ -25,7 +25,7 @@
             background: radial-gradient(circle at center, #140505 0%, #030101 100%);
         }
 
-        /* 비밀번호 잠금 화면 스타일 */
+        /* 비밀번호 및 메뉴 잠금 화면 스타일 */
         #auth-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(3, 1, 1, 0.95); backdrop-filter: blur(10px);
@@ -34,21 +34,41 @@
         .auth-box {
             background: linear-gradient(135deg, rgba(30, 8, 8, 0.98) 0%, rgba(10, 2, 2, 0.98) 100%);
             border: 2px solid #ff3333; border-radius: 12px; padding: 40px; text-align: center;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); width: 90%; max-width: 400px;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); width: 90%; max-width: 420px;
         }
-        .auth-box h2 { color: #ff3333; margin-top: 0; margin-bottom: 15px; font-size: 22px; }
-        .auth-box p { color: #9ca3af; font-size: 13px; margin-bottom: 20px; }
+        .auth-box h2 { color: #ff3333; margin-top: 0; margin-bottom: 10px; font-size: 22px; }
+        .auth-box p { color: #9ca3af; font-size: 13px; margin-bottom: 25px; }
+        
+        .auth-btn-group { display: flex; flex-direction: column; gap: 12px; }
+        .auth-custom-btn {
+            width: 100%; padding: 14px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer;
+            transition: 0.2s; font-family: inherit;
+        }
+        .btn-view {
+            background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
+            color: #fff; border: none; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        .btn-view:hover { background: linear-gradient(135deg, #ff4d4d, #cc0000); }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: #f3f4f6; border: 1px solid #ff3333;
+        }
+        .btn-download:hover { background: linear-gradient(135deg, #374151, #1f2937); }
+
         .auth-box input[type="password"] {
             width: 100%; padding: 12px; background: #1f0505; border: 1px solid #ff3333;
-            color: #fff; border-radius: 6px; font-size: 16px; text-align: center; margin-bottom: 15px; outline: none;
+            color: #fff; border-radius: 6px; font-size: 16px; text-align: center; margin-bottom: 10px; outline: none;
         }
-        .auth-box button {
+        .auth-box button.submit-btn {
             width: 100%; padding: 12px; background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
             color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); transition: 0.2s;
         }
-        .auth-box button:hover { background: linear-gradient(135deg, #ff4d4d, #cc0000); }
-        .auth-error { color: #f87171; font-size: 12px; margin-top: 10px; display: none; }
+        .auth-box button.back-btn {
+            width: 100%; padding: 8px; background: #2a0808; color: #9ca3af; border: 1px solid rgba(255,51,51,0.3);
+            border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 8px;
+        }
+        .auth-error { color: #f87171; font-size: 12px; margin-top: 8px; display: none; }
 
         /* 메인 콘텐츠 (처기엔 숨김 처리) */
         #main-content-wrapper { display: none; }
@@ -171,14 +191,26 @@
 
 <canvas id="hardcore-canvas"></canvas>
 
-<!-- 비밀번호 입력 오버레이 (보안 잠금) -->
+<!-- 초기 선택 오버레이 (두 개의 버튼 제공) -->
 <div id="auth-overlay">
     <div class="auth-box">
-        <h2>🔒 SYSTEM ACCESS LOCKED</h2>
-        <p>보안된 하드웨어 사양을 보려면 비밀번호를 입력하세요.</p>
-        <input type="password" id="access-password" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter') checkPassword()">
-        <button onclick="checkPassword()">시스템 해제</button>
-        <div id="auth-error" class="auth-error">⚠️ 비밀번호가 틀렸습니다!</div>
+        <h2>🔒 SYSTEM COMMAND CENTER</h2>
+        <p>원하시는 작업을 선택하세요.</p>
+
+        <!-- 첫 화면 버튼 2개 -->
+        <div id="landing-buttons" class="auth-btn-group">
+            <button class="auth-custom-btn btn-view" onclick="showPasswordPrompt()">📂 내 사양 13개 보기 (비밀번호 인증)</button>
+            <button class="auth-custom-btn btn-download" onclick="downloadCmdScript()">📥 스캔 프로그램(.bat) 다운로드</button>
+        </div>
+
+        <!-- 사양 보기 선택 시 나타나는 비밀번호 입력 영역 -->
+        <div id="password-prompt-area" style="display: none;">
+            <p style="color: #ff4d4d; margin-bottom: 10px;">🔐 사양 확인 비밀번호 입력</p>
+            <input type="password" id="access-password" placeholder="비밀번호 (0912)" onkeydown="if(event.key==='Enter') checkPassword()">
+            <button class="submit-btn" onclick="checkPassword()">확인</button>
+            <button class="back-btn" onclick="hidePasswordPrompt()">돌아가기</button>
+            <div id="auth-error" class="auth-error">⚠️ 비밀번호가 틀렸습니다!</div>
+        </div>
     </div>
 </div>
 
@@ -253,8 +285,21 @@
 </div>
 
 <script>
-    // ★ 비밀번호 설정 (0912 적용 완료)
+    // ★ 비밀번호 0912 설정 완료
     const correctPassword = "0912";
+
+    function showPasswordPrompt() {
+        document.getElementById('landing-buttons').style.display = 'none';
+        document.getElementById('password-prompt-area').style.display = 'block';
+        document.getElementById('access-password').focus();
+    }
+
+    function hidePasswordPrompt() {
+        document.getElementById('password-prompt-area').style.display = 'none';
+        document.getElementById('landing-buttons').style.display = 'flex';
+        document.getElementById('auth-error').style.display = 'none';
+        document.getElementById('access-password').value = '';
+    }
 
     function checkPassword() {
         const inputVal = document.getElementById('access-password').value;
