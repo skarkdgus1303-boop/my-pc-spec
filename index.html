@@ -80,7 +80,6 @@
         .value { font-size: 20px; font-weight: bold; line-height: 1.5; }
         .detail { color: #9ca3af; font-size: 14px; margin-top: 6px; }
 
-        /* 진짜 CMD 연동 및 비교 섹션 */
         .remote-compare-section {
             margin-top: 50px; text-align: center;
             background: linear-gradient(135deg, rgba(25, 8, 8, 0.9) 0%, rgba(10, 2, 2, 0.95) 100%);
@@ -106,7 +105,6 @@
             padding: 10px; border-radius: 6px; cursor: pointer;
         }
 
-        /* 결과 비교 모달 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
@@ -150,7 +148,6 @@
         </div>
     </header>
 
-    <!-- 기존 13개 부품 스펙 카드 -->
     <div class="section-title">📂 COMPLETE SYSTEM SPECS</div>
     <div class="grid">
         <div class="card"><div class="icon">🧠</div><div class="title">CPU</div><div class="value">Intel Core i5-9600KF</div><div class="detail">6코어 / 6스레드 · 3.696 GHz</div></div>
@@ -168,12 +165,10 @@
         <div class="card"><div class="icon">🔊</div><div class="title">스피커</div><div class="value">ZIO-S100 SOUNDBAR-US</div><div class="detail">USB 전원 공급형 PC 사운드바</div></div>
     </div>
 
-    <!-- 🌐 진짜 CMD 다운로드 및 비교 섹션 -->
     <div class="remote-compare-section">
         <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ REAL-TIME HARDWARE BATTLE RADAR</h3>
         <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 눌러 <b>진짜 CMD 진단 프로그램</b>을 실행한 뒤, 생성된 파일을 업로드하세요!</p>
         
-        <!-- 진짜 CMD 파일을 브라우저에서 바로 생성해 다운로드하게 해주는 버튼 -->
         <button class="remote-compare-btn" onclick="downloadCmdScript()">📥 [1단계] 진짜 CMD 진단 프로그램(.bat) 다운로드</button>
         
         <div class="file-upload-box">
@@ -185,7 +180,6 @@
     <footer>DESKTOP-L0P5QLC</footer>
 </div>
 
-<!-- 결과 비교 모달 -->
 <div class="modal-overlay" id="compareModal">
     <div class="modal-box">
         <div class="modal-header">
@@ -212,7 +206,6 @@
 </div>
 
 <script>
-    // 캔버스 애니메이션
     const canvas = document.getElementById('hardcore-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, sparks = [];
@@ -235,7 +228,6 @@
     }
     animateHardcore();
 
-    // 시계
     setInterval(() => {
         const now = new Date();
         const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
@@ -244,7 +236,7 @@
         document.getElementById('realtime-clock').innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
     }, 30);
 
-    // 1단계: 버튼 누르면 브라우저에서 진짜 CMD 실행 파일(.bat)을 자동 생성하여 다운로드시킴
+    // 수정된 배치 파일 생성 함수 (인코딩 깨짐 방지 파워쉘 활용 우회 방식 적용)
     function downloadCmdScript() {
         const batContent = `@echo off
 chcp 65001 > nul
@@ -254,13 +246,7 @@ echo ========================================================
 echo   [!] 친구분의 PC 하드웨어를 정밀 진단하는 중...
 echo ========================================================
 echo.
-echo === [PC 하드웨어 진단 리포트] === > "%USERPROFILE%\\Desktop\\myspec.txt"
-echo. >> "%USERPROFILE%\\Desktop\\myspec.txt"
-echo [1] OS 및 프로세서 수집 중...
-systeminfo | findstr /C:"OS 이름" /C:"프로세서" /C:"총 물리적 메모리" >> "%USERPROFILE%\\Desktop\\myspec.txt"
-echo. >> "%USERPROFILE%\\Desktop\\myspec.txt"
-echo [2] 그래픽카드 수집 중...
-wmic path win32_videocontroller get caption >> "%USERPROFILE%\\Desktop\\myspec.txt"
+powershell -Command "Add-Type -AssemblyName System.Windows.Forms; [System.IO.File]::WriteAllText([Environment]::GetFolderPath('Desktop') + '\\myspec.txt', '=== [PC 하드웨어 진단 리포트] ===`r`n' + (systeminfo))"
 echo.
 echo ========================================================
 echo   [!] 진단 완료! 바탕화면에 [myspec.txt]가 생성되었습니다.
@@ -275,7 +261,7 @@ pause`;
         link.click();
     }
 
-    // 2단계: 업로드된 진짜 텍스트 파일을 분석해서 모달 띄우기
+    // 업로드된 텍스트 파일 분석 (인코딩 자동 감지 대응)
     function compareFriendSpec(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -286,7 +272,6 @@ pause`;
             
             let cpuInfo = "추출 완료";
             let ramInfo = "확인 완료";
-            let gpuInfo = "그래픽카드 대조 완료";
 
             const lines = text.split('\n');
             for (let line of lines) {
@@ -323,7 +308,7 @@ pause`;
             document.getElementById('modal-summary').innerHTML = "🔥 <b>[리얼 데이터 연동 완료]</b> 친구 컴퓨터의 진짜 CMD 창에서 털어온 시스템 정보가 성공적으로 반영되었습니다!";
             document.getElementById('compareModal').style.display = 'flex';
         };
-        reader.readAsText(file, "EUC-KR");
+        reader.readAsText(file);
     }
 
     function closeModal() { document.getElementById('compareModal').style.display = 'none'; }
