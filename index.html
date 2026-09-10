@@ -80,7 +80,7 @@
         .value { font-size: 20px; font-weight: bold; line-height: 1.5; }
         .detail { color: #9ca3af; font-size: 14px; margin-top: 6px; }
 
-        /* 🌐 웹사이트 안에서 바로 실행되는 실시간 스캔 버튼 영역 */
+        /* 실시간 스캔 및 비교 버튼 섹션 */
         .remote-compare-section {
             margin-top: 50px; text-align: center;
             background: linear-gradient(135deg, rgba(25, 8, 8, 0.9) 0%, rgba(10, 2, 2, 0.95) 100%);
@@ -100,7 +100,7 @@
             box-shadow: 0 0 30px rgba(255, 0, 0, 0.9);
         }
 
-        /* 💻 가짜 터미널 해킹/스캔 감성 모달 */
+        /* 터미널 감성 모달 */
         .cmd-modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
@@ -119,7 +119,7 @@
             padding: 20px; height: 320px; overflow-y: auto; color: #00ff66; font-size: 14px; line-height: 1.5; white-space: pre-wrap;
         }
 
-        /* 🌐 결과 모달 */
+        /* 결과 모달 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
@@ -140,7 +140,6 @@
         .modal-table th, .modal-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 51, 51, 0.2); font-size: 14px; }
         .modal-table th { color: #ff4d4d; background: rgba(255, 51, 51, 0.05); }
         .badge-win { color: #4ade80; font-weight: bold; }
-        .badge-lose { color: #f87171; font-weight: bold; }
         .badge-draw { color: #facc15; font-weight: bold; }
         .modal-summary {
             background: rgba(0, 0, 0, 0.7); border-left: 4px solid #ff3333;
@@ -164,6 +163,7 @@
         </div>
     </header>
 
+    <!-- 기존 13개 부품 스펙 카드 전부 그대로 유지 -->
     <div class="section-title">📂 COMPLETE SYSTEM SPECS</div>
     <div class="grid">
         <div class="card"><div class="icon">🧠</div><div class="title">CPU</div><div class="value">Intel Core i5-9600KF</div><div class="detail">6코어 / 6스레드 · 3.696 GHz</div></div>
@@ -181,17 +181,17 @@
         <div class="card"><div class="icon">🔊</div><div class="title">스피커</div><div class="value">ZIO-S100 SOUNDBAR-US</div><div class="detail">USB 전원 공급형 PC 사운드바</div></div>
     </div>
 
-    <!-- 🌐 웹에서 바로 작동하는 실시간 스캔 및 비교 버튼 -->
+    <!-- 하단 실시간 스캔 및 비교 실행 버튼 -->
     <div class="remote-compare-section">
         <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ REAL-TIME HARDWARE COMBAT RADAR</h3>
-        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">링크를 누르고 접속한 친구(또는 스마트폰)의 기기 성능을 브라우저 안에서 즉시 스캔하여 비교합니다!</p>
+        <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">링크를 누르고 접속한 친구(또는 기기)의 성능을 즉시 스캔하여 비교합니다!</p>
         <button class="remote-compare-btn" onclick="runDirectWebScan()">💻 [즉시 스캔 실행] 접속 기기 vs DESKTOP-L0P5QLC 비교</button>
     </div>
 
     <footer>DESKTOP-L0P5QLC</footer>
 </div>
 
-<!-- 💻 터미널 해킹/스캔 감성 모달 -->
+<!-- 터미널 감성 모달 -->
 <div class="cmd-modal-overlay" id="cmdModal">
     <div class="cmd-window">
         <div class="cmd-titlebar">
@@ -202,7 +202,7 @@
     </div>
 </div>
 
-<!-- 🌐 최종 성능 비교 결과 모달 -->
+<!-- 결과 비교 모달 -->
 <div class="modal-overlay" id="compareModal">
     <div class="modal-box">
         <div class="modal-header">
@@ -252,7 +252,7 @@
     }
     animateHardcore();
 
-    // 실시간 시계
+    // 실시간 네이버 스타일 시계
     setInterval(() => {
         const now = new Date();
         const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
@@ -261,7 +261,7 @@
         document.getElementById('realtime-clock').innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
     }, 30);
 
-    // 💻 버튼 누르면 웹 안에서 즉시 터미널 뜨고 실시간 스캔 후 비교창 띄우기
+    // 스캔 및 비교 실행 로직
     function runDirectWebScan() {
         const cmdModal = document.getElementById('cmdModal');
         const cmdText = document.getElementById('cmdTextContent');
@@ -314,7 +314,6 @@
         typeLine();
     }
 
-    // 결과 모달 세팅
     function openDirectCompareModal(cores, ramVal, realGpu) {
         const modal = document.getElementById('compareModal');
         const tbody = document.getElementById('modal-tbody');
