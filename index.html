@@ -120,31 +120,6 @@
         .value { font-size: 20px; font-weight: bold; line-height: 1.5; }
         .detail { color: #9ca3af; font-size: 14px; margin-top: 6px; }
 
-        .remote-compare-section {
-            margin-top: 50px; text-align: center;
-            background: linear-gradient(135deg, rgba(25, 8, 8, 0.9) 0%, rgba(10, 2, 2, 0.95) 100%);
-            border: 2px dashed rgba(255, 51, 51, 0.6);
-            padding: 35px; border-radius: 12px;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
-        }
-        .remote-compare-btn {
-            background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
-            color: #ffffff; border: none; padding: 16px 30px;
-            font-size: 16px; font-weight: 900; border-radius: 8px;
-            cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-            transition: all 0.2s; font-family: inherit; margin-bottom: 15px; display: inline-block; text-decoration: none;
-        }
-        .remote-compare-btn:hover {
-            transform: scale(1.05); background: linear-gradient(135deg, #ff4d4d, #cc0000);
-        }
-        .file-upload-box {
-            margin-top: 20px; border-top: 1px solid rgba(255, 51, 51, 0.3); padding-top: 20px;
-        }
-        .file-upload-box input[type="file"] {
-            color: #f3f4f6; background: #1f0505; border: 1px solid #ff3333;
-            padding: 10px; border-radius: 6px; cursor: pointer;
-        }
-
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
@@ -190,8 +165,15 @@
 
         <!-- 첫 화면 버튼 2개 -->
         <div id="landing-buttons" class="auth-btn-group">
-            <button class="auth-custom-btn btn-view" onclick="openMainContent()">📂 내 사양 13개 보기</button>
+            <button class="auth-custom-btn btn-view" onclick="showViewPrompt()">📂 내 사양 13개 보기</button>
             <button class="auth-custom-btn btn-download" onclick="showDownloadPrompt()">📥 스캔 프로그램(.bat) 다운로드</button>
+        </div>
+
+        <!-- '내 사양 13개 보기' 선택 시 나타나는 영역 (뒤로가기 포함) -->
+        <div id="view-prompt-area" style="display: none;">
+            <p style="color: #ff4d4d; margin-bottom: 15px;">📂 내 사양을 확인하시겠습니까?</p>
+            <button class="auth-custom-btn btn-view" onclick="openMainContent()" style="margin-bottom: 10px;">확인 및 사양 화면 진입</button>
+            <button class="back-btn" onclick="hideLandingSub('view-prompt-area')">돌아가기</button>
         </div>
 
         <!-- 다운로드 버튼 선택 시 나타나는 다운로드 및 파일 업로드 안내 영역 -->
@@ -219,6 +201,8 @@
                 <div class="clock-top-label"><div class="live-dot"></div>COMBAT TIME SYNCED</div>
                 <div id="realtime-clock" class="clock-time-display">0000.00.00 (0) 00:00:00.00</div>
             </div>
+            <!-- 사양 화면 내부에서도 필요시 처음 화면으로 돌아갈 수 있는 버튼 추가 -->
+            <button class="back-btn" onclick="goBackToLanding()" style="margin-top: 15px; width: auto; padding: 6px 15px;">⬅️ 첫 화면으로 돌아가기</button>
         </header>
 
         <div class="section-title">📂 COMPLETE SYSTEM SPECS (모든 부품 13종 완벽 보존)</div>
@@ -268,6 +252,11 @@
 </div>
 
 <script>
+    function showViewPrompt() {
+        document.getElementById('landing-buttons').style.display = 'none';
+        document.getElementById('view-prompt-area').style.display = 'block';
+    }
+
     function openMainContent() {
         document.getElementById('auth-overlay').style.display = 'none';
         document.getElementById('main-content-wrapper').style.display = 'block';
@@ -281,6 +270,14 @@
     function hideLandingSub(areaId) {
         document.getElementById(areaId).style.display = 'none';
         document.getElementById('landing-buttons').style.display = 'flex';
+    }
+
+    function goBackToLanding() {
+        document.getElementById('main-content-wrapper').style.display = 'none';
+        document.getElementById('auth-overlay').style.display = 'flex';
+        document.getElementById('landing-buttons').style.display = 'flex';
+        document.getElementById('view-prompt-area').style.display = 'none';
+        document.getElementById('download-prompt-area').style.display = 'none';
     }
 
     const canvas = document.getElementById('hardcore-canvas');
