@@ -3,48 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 PC 사양 - DESKTOP-L0P5QLC (합본)</title>
+    <title>내 PC 사양 - DESKTOP-L0P5QLC</title>
 
     <style>
         * { box-sizing: border-box; }
         body {
             margin: 0;
             font-family: Arial, "Malgun Gothic", sans-serif;
-            background-color: #030101;
+            background-color: #000000;
             color: #f3f4f6;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* 전체 화면 불꽃 애니메이션 배경 캔버스 */
+        /* 2개 버튼이 있는 첫 화면 전용 화려한 불꽃 애니메이션 캔버스 */
         #hardcore-canvas {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
             z-index: 1;
             pointer-events: none;
-            background: radial-gradient(circle at center, #180303 0%, #030101 100%);
+            background: radial-gradient(circle at center, #260505 0%, #000000 100%);
         }
 
-        /* 1. 처음 메인 화면 (오버레이) - 크고 웅장하며 뒤의 불꽃 배경이 선명하게 보임 */
+        /* 1. 처음 화면 오버레이 (2개 버튼 있는 화면) */
         #auth-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 1, 1, 0.45); backdrop-filter: blur(6px);
-            z-index: 99999; display: flex; justify-content: center; align-items: center;
+            background: rgba(3, 1, 1, 0.5); backdrop-filter: blur(5px);
+            z-index: 9999; display: flex; justify-content: center; align-items: center;
         }
         .auth-box {
-            background: linear-gradient(135deg, rgba(30, 8, 8, 0.75) 0%, rgba(10, 2, 2, 0.85) 100%);
+            background: linear-gradient(135deg, rgba(35, 8, 8, 0.9) 0%, rgba(10, 2, 2, 0.95) 100%);
             border: 2px solid #ff3333; border-radius: 16px; 
             padding: 55px 50px; text-align: center;
-            box-shadow: 0 0 60px rgba(255, 0, 0, 0.65), inset 0 0 20px rgba(255, 51, 51, 0.2); 
+            box-shadow: 0 0 70px rgba(255, 0, 0, 0.85), inset 0 0 25px rgba(255, 51, 51, 0.35); 
             width: 92%; max-width: 580px;
-            position: relative; z-index: 2;
+            position: relative; z-index: 10;
         }
         .auth-box h2 { 
             color: #ff3333; margin-top: 0; margin-bottom: 15px; 
             font-size: 28px; letter-spacing: 1px;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8); 
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.9); 
         }
         .auth-box p { color: #d1d5db; font-size: 15px; margin-bottom: 30px; font-weight: bold; }
         
@@ -55,7 +55,7 @@
         }
         .btn-view {
             background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
-            color: #fff; border: none; box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            color: #fff; border: none; box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
         }
         .btn-view:hover { background: linear-gradient(135deg, #ff4d4d, #cc0000); transform: translateY(-2px); }
         
@@ -71,13 +71,13 @@
         }
         .auth-box button.back-btn:hover { background: #3d0c0c; color: #fff; }
 
-        /* 2. 메인 사양 콘텐츠 (처음엔 숨김 처리, 진입 시 표시) */
-        #main-content-wrapper { display: none; position: relative; z-index: 2; }
+        /* 2. 메인 사양 콘텐츠 (처음엔 숨김 처리) */
+        #main-content-wrapper { display: none; position: relative; z-index: 5; background-color: #030101; min-height: 100vh; }
 
         .container {
             width: 90%; max-width: 1000px;
             margin: auto; padding: 50px 0;
-            position: relative; z-index: 2;
+            position: relative; z-index: 5;
         }
         header { text-align: center; margin-bottom: 40px; }
         header h1 {
@@ -130,7 +130,7 @@
         .value { font-size: 20px; font-weight: bold; line-height: 1.5; }
         .detail { color: #9ca3af; font-size: 14px; margin-top: 6px; }
 
-        /* 모달 오버레이 (성능 비교 리포트) */
+        /* 모달 오버레이 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
@@ -166,9 +166,10 @@
 </head>
 <body>
 
+<!-- 2개 버튼이 있는 첫 화면 전용 불꽃 애니메이션 배경 캔버스 -->
 <canvas id="hardcore-canvas"></canvas>
 
-<!-- 1. 초기 메뉴 선택 화면 (오버레이) -->
+<!-- 1. 처음 화면 오버레이 (2개 버튼 있는 화면) -->
 <div id="auth-overlay">
     <div class="auth-box">
         <h2>🔒 SYSTEM COMMAND CENTER</h2>
@@ -271,6 +272,7 @@
     }
 
     function openMainContent() {
+        document.getElementById('hardcore-canvas').style.display = 'none';
         document.getElementById('auth-overlay').style.display = 'none';
         document.getElementById('main-content-wrapper').style.display = 'block';
     }
@@ -287,13 +289,14 @@
 
     function goBackToLanding() {
         document.getElementById('main-content-wrapper').style.display = 'none';
+        document.getElementById('hardcore-canvas').style.display = 'block';
         document.getElementById('auth-overlay').style.display = 'flex';
         document.getElementById('landing-buttons').style.display = 'flex';
         document.getElementById('view-prompt-area').style.display = 'none';
         document.getElementById('download-prompt-area').style.display = 'none';
     }
 
-    /* 배경 불꽃 애니메이션 파티클 구동 */
+    /* 2개 버튼이 있는 첫 화면 전용 불꽃 애니메이션 파티클 구동 */
     const canvas = document.getElementById('hardcore-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, sparks = [];
@@ -308,18 +311,18 @@
     function createSpark() {
         return { 
             x: Math.random() * width, 
-            y: Math.random() * height, 
-            vx: (Math.random() - 0.5) * 8, 
-            vy: (Math.random() - 0.5) * 8, 
-            size: Math.random() * 2.5 + 1, 
-            color: Math.random() > 0.3 ? '#ff3333' : '#ff9900', 
-            life: Math.random() * 80 + 20 
+            y: height + Math.random() * 20, 
+            vx: (Math.random() - 0.5) * 4, 
+            vy: -Math.random() * 6 - 2, 
+            size: Math.random() * 3.5 + 1, 
+            color: Math.random() > 0.25 ? '#ff3333' : '#ff9900', 
+            life: Math.random() * 100 + 30 
         };
     }
-    for (let i = 0; i < 70; i++) sparks.push(createSpark());
+    for (let i = 0; i < 150; i++) sparks.push(createSpark());
 
     function animateHardcore() {
-        ctx.fillStyle = 'rgba(3, 1, 1, 0.25)'; 
+        ctx.fillStyle = 'rgba(3, 1, 1, 0.22)'; 
         ctx.fillRect(0, 0, width, height);
         sparks.forEach((s, index) => {
             s.x += s.vx; 
@@ -327,7 +330,7 @@
             s.life--;
             ctx.fillStyle = s.color; 
             ctx.fillRect(s.x, s.y, s.size, s.size);
-            if (s.life <= 0) sparks[index] = createSpark();
+            if (s.y < 0 || s.life <= 0) sparks[index] = createSpark();
         });
         requestAnimationFrame(animateHardcore);
     }
@@ -486,7 +489,7 @@ exit`;
                 • <b>GPU 진단:</b> ${gpuAnalysisText}<br>
                 • <b>RAM 진단:</b> ${ramAnalysisText}<br>
                 • <b>SSD 진단:</b> ${ssdAnalysisText}<br>
-                • <b>종합 결론:</b> 첫 화면 크기 확대 + 배경 불꽃 애니메이션 연동 + 13개 부품 데이터 및 .bat 스캔 비교 기능이 모두 포함된 완벽한 합본 파일입니다!
+                • <b>종합 결론:</b> GitHub Pages 배포용 첫 화면 불꽃 애니메이션 세팅이 완료되었습니다!
             `;
             document.getElementById('compareModal').style.display = 'flex';
         };
