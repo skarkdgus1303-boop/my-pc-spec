@@ -59,7 +59,7 @@
         .auth-box input[type="password"] {
             width: 100%; padding: 12px; background: #1f0505; border: 1px solid #ff3333;
             color: #fff; border-radius: 6px; font-size: 16px; text-align: center; margin-bottom: 10px; outline: none;
-            -webkit-text-security: disc; /* 브라우저 호환성을 위한 추가 마스킹 처리 */
+            -webkit-text-security: disc;
         }
         .auth-box button.submit-btn {
             width: 100%; padding: 12px; background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
@@ -201,7 +201,7 @@
         <!-- 첫 화면 버튼 2개 -->
         <div id="landing-buttons" class="auth-btn-group">
             <button class="auth-custom-btn btn-view" onclick="showPasswordPrompt()">📂 내 사양 13개 보기 (비밀번호 인증)</button>
-            <button class="auth-custom-btn btn-download" onclick="downloadCmdScript()">📥 스캔 프로그램(.bat) 다운로드</button>
+            <button class="auth-custom-btn btn-download" onclick="showDownloadPrompt()">📥 스캔 프로그램(.bat) 다운로드</button>
         </div>
 
         <!-- 사양 보기 선택 시 나타나는 비밀번호 입력 영역 -->
@@ -209,8 +209,15 @@
             <p style="color: #ff4d4d; margin-bottom: 10px;">🔐 사양 확인 비밀번호 입력</p>
             <input type="password" id="access-password" placeholder="비밀번호 (0912)" autocomplete="new-password" onkeydown="if(event.key==='Enter') checkPassword()">
             <button class="submit-btn" onclick="checkPassword()">확인</button>
-            <button class="back-btn" onclick="hidePasswordPrompt()">돌아가기</button>
+            <button class="back-btn" onclick="hideLandingSub('password-prompt-area')">돌아가기</button>
             <div id="auth-error" class="auth-error">⚠️ 비밀번호가 틀렸습니다!</div>
+        </div>
+
+        <!-- 다운로드 버튼 선택 시 나타나는 다운로드 안내 영역 -->
+        <div id="download-prompt-area" style="display: none;">
+            <p style="color: #ff4d4d; margin-bottom: 15px;">📥 스캔 프로그램(.bat) 다운로드 안내</p>
+            <button class="submit-btn" onclick="downloadCmdScript()">💾 다운로드 시작하기</button>
+            <button class="back-btn" onclick="hideLandingSub('download-prompt-area')">돌아가기</button>
         </div>
     </div>
 </div>
@@ -291,12 +298,19 @@
 
     function showPasswordPrompt() {
         document.getElementById('landing-buttons').style.display = 'none';
+        document.getElementById('download-prompt-area').style.display = 'none';
         document.getElementById('password-prompt-area').style.display = 'block';
         document.getElementById('access-password').focus();
     }
 
-    function hidePasswordPrompt() {
+    function showDownloadPrompt() {
+        document.getElementById('landing-buttons').style.display = 'none';
         document.getElementById('password-prompt-area').style.display = 'none';
+        document.getElementById('download-prompt-area').style.display = 'block';
+    }
+
+    function hideLandingSub(areaId) {
+        document.getElementById(areaId).style.display = 'none';
         document.getElementById('landing-buttons').style.display = 'flex';
         document.getElementById('auth-error').style.display = 'none';
         document.getElementById('access-password').value = '';
