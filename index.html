@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 PC 사양 - DESKTOP-L0P5QLC</title>
+    <title>내 PC 사양 - DESKTOP-L0P5QLC (합본)</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -16,59 +16,68 @@
             position: relative;
             overflow-x: hidden;
         }
+
+        /* 전체 화면 불꽃 애니메이션 배경 캔버스 */
         #hardcore-canvas {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            z-index: 0; /* 배경 레이어 설정 */
+            z-index: 1;
             pointer-events: none;
-            background: radial-gradient(circle at center, #140505 0%, #030101 100%);
+            background: radial-gradient(circle at center, #180303 0%, #030101 100%);
         }
 
-        /* 비밀번호 및 메뉴 잠금 화면 스타일 (첫 화면에서도 배경 불꽃이 은은하게 비치도록 투명도 조정) */
+        /* 1. 처음 메인 화면 (오버레이) - 크고 웅장하며 뒤의 불꽃 배경이 선명하게 보임 */
         #auth-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 1, 1, 0.75); backdrop-filter: blur(8px);
+            background: rgba(3, 1, 1, 0.45); backdrop-filter: blur(6px);
             z-index: 99999; display: flex; justify-content: center; align-items: center;
         }
         .auth-box {
-            background: linear-gradient(135deg, rgba(30, 8, 8, 0.92) 0%, rgba(10, 2, 2, 0.95) 100%);
-            border: 2px solid #ff3333; border-radius: 12px; padding: 40px; text-align: center;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); width: 90%; max-width: 420px;
+            background: linear-gradient(135deg, rgba(30, 8, 8, 0.75) 0%, rgba(10, 2, 2, 0.85) 100%);
+            border: 2px solid #ff3333; border-radius: 16px; 
+            padding: 55px 50px; text-align: center;
+            box-shadow: 0 0 60px rgba(255, 0, 0, 0.65), inset 0 0 20px rgba(255, 51, 51, 0.2); 
+            width: 92%; max-width: 580px;
             position: relative; z-index: 2;
         }
-        .auth-box h2 { color: #ff3333; margin-top: 0; margin-bottom: 10px; font-size: 22px; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
-        .auth-box p { color: #9ca3af; font-size: 13px; margin-bottom: 25px; }
+        .auth-box h2 { 
+            color: #ff3333; margin-top: 0; margin-bottom: 15px; 
+            font-size: 28px; letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8); 
+        }
+        .auth-box p { color: #d1d5db; font-size: 15px; margin-bottom: 30px; font-weight: bold; }
         
-        .auth-btn-group { display: flex; flex-direction: column; gap: 12px; }
+        .auth-btn-group { display: flex; flex-direction: column; gap: 16px; }
         .auth-custom-btn {
-            width: 100%; padding: 14px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer;
-            transition: 0.2s; font-family: inherit;
+            width: 100%; padding: 16px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;
+            transition: 0.2s; font-family: inherit; letter-spacing: 0.5px;
         }
         .btn-view {
             background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
-            color: #fff; border: none; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            color: #fff; border: none; box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
         }
-        .btn-view:hover { background: linear-gradient(135deg, #ff4d4d, #cc0000); }
+        .btn-view:hover { background: linear-gradient(135deg, #ff4d4d, #cc0000); transform: translateY(-2px); }
         
         .btn-download {
             background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
             color: #f3f4f6; border: 1px solid #ff3333;
         }
-        .btn-download:hover { background: linear-gradient(135deg, #374151, #1f2937); }
+        .btn-download:hover { background: linear-gradient(135deg, #374151, #1f2937); transform: translateY(-2px); }
 
         .auth-box button.back-btn {
-            width: 100%; padding: 8px; background: #2a0808; color: #9ca3af; border: 1px solid rgba(255,51,51,0.3);
-            border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 8px;
+            width: 100%; padding: 12px; background: #2a0808; color: #9ca3af; border: 1px solid rgba(255,51,51,0.3);
+            border-radius: 8px; font-size: 14px; cursor: pointer; margin-top: 12px;
         }
+        .auth-box button.back-btn:hover { background: #3d0c0c; color: #fff; }
 
-        /* 메인 콘텐츠 (처기엔 숨김 처리) */
-        #main-content-wrapper { display: none; position: relative; z-index: 1; }
+        /* 2. 메인 사양 콘텐츠 (처음엔 숨김 처리, 진입 시 표시) */
+        #main-content-wrapper { display: none; position: relative; z-index: 2; }
 
         .container {
             width: 90%; max-width: 1000px;
             margin: auto; padding: 50px 0;
-            position: relative; z-index: 1;
+            position: relative; z-index: 2;
         }
         header { text-align: center; margin-bottom: 40px; }
         header h1 {
@@ -121,6 +130,7 @@
         .value { font-size: 20px; font-weight: bold; line-height: 1.5; }
         .detail { color: #9ca3af; font-size: 14px; margin-top: 6px; }
 
+        /* 모달 오버레이 (성능 비교 리포트) */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
@@ -158,41 +168,41 @@
 
 <canvas id="hardcore-canvas"></canvas>
 
-<!-- 초기 선택 오버레이 -->
+<!-- 1. 초기 메뉴 선택 화면 (오버레이) -->
 <div id="auth-overlay">
     <div class="auth-box">
         <h2>🔒 SYSTEM COMMAND CENTER</h2>
         <p>원하시는 작업을 선택하세요.</p>
 
-        <!-- 첫 화면 버튼 2개 -->
+        <!-- 버튼 2개 그룹 -->
         <div id="landing-buttons" class="auth-btn-group">
             <button class="auth-custom-btn btn-view" onclick="showViewPrompt()">📂 내 사양 13개 보기</button>
             <button class="auth-custom-btn btn-download" onclick="showDownloadPrompt()">📥 스캔 프로그램(.bat) 다운로드</button>
         </div>
 
-        <!-- '내 사양 13개 보기' 선택 시 나타나는 영역 -->
+        <!-- '내 사양 13개 보기' 선택 시 하위 영역 -->
         <div id="view-prompt-area" style="display: none;">
-            <p style="color: #ff4d4d; margin-bottom: 15px;">📂 내 사양을 확인하시겠습니까?</p>
-            <button class="auth-custom-btn btn-view" onclick="openMainContent()" style="margin-bottom: 10px;">확인 및 사양 화면 진입</button>
+            <p style="color: #ff4d4d; margin-bottom: 18px; font-size: 15px;">📂 내 사양을 확인하시겠습니까?</p>
+            <button class="auth-custom-btn btn-view" onclick="openMainContent()" style="margin-bottom: 12px;">확인 및 사양 화면 진입</button>
             <button class="back-btn" onclick="hideLandingSub('view-prompt-area')">돌아가기</button>
         </div>
 
-        <!-- 다운로드 버튼 선택 시 나타나는 영역 -->
+        <!-- 다운로드 버튼 선택 시 하위 영역 -->
         <div id="download-prompt-area" style="display: none;">
-            <p style="color: #ff4d4d; margin-bottom: 15px;">📥 스캔 프로그램(.bat) 다운로드 및 업로드</p>
-            <button class="auth-custom-btn btn-view" onclick="downloadCmdScript()" style="margin-bottom: 15px;">💾 다운로드 시작하기</button>
+            <p style="color: #ff4d4d; margin-bottom: 18px; font-size: 15px;">📥 스캔 프로그램(.bat) 다운로드 및 업로드</p>
+            <button class="auth-custom-btn btn-view" onclick="downloadCmdScript()" style="margin-bottom: 18px;">💾 다운로드 시작하기</button>
             
-            <div style="border-top: 1px solid rgba(255, 51, 51, 0.3); padding-top: 15px; text-align: left;">
-                <p style="color: #f3f4f6; font-size: 13px; margin-bottom: 8px;">바탕화면의 <code>myspec.txt</code> 파일 업로드</p>
-                <input type="file" id="authFileInput" onchange="compareSystemSpec(event)" style="width: 100%; color: #f3f4f6; background: #1f0505; border: 1px solid #ff3333; padding: 10px; border-radius: 6px; cursor: pointer;">
+            <div style="border-top: 1px solid rgba(255, 51, 51, 0.3); padding-top: 18px; text-align: left;">
+                <p style="color: #f3f4f6; font-size: 14px; margin-bottom: 10px;">바탕화면의 <code>myspec.txt</code> 파일 업로드</p>
+                <input type="file" id="authFileInput" onchange="compareSystemSpec(event)" style="width: 100%; color: #f3f4f6; background: #1f0505; border: 1px solid #ff3333; padding: 12px; border-radius: 6px; cursor: pointer;">
             </div>
 
-            <button class="back-btn" onclick="hideLandingSub('download-prompt-area')" style="margin-top: 15px;">돌아가기</button>
+            <button class="back-btn" onclick="hideLandingSub('download-prompt-area')" style="margin-top: 18px;">돌아가기</button>
         </div>
     </div>
 </div>
 
-<!-- 메인 사양 콘텐츠 -->
+<!-- 2. 메인 사양 콘텐츠 영역 (13종 부품, 시계 등) -->
 <div id="main-content-wrapper">
     <div class="container">
         <header>
@@ -202,7 +212,6 @@
                 <div class="clock-top-label"><div class="live-dot"></div>COMBAT TIME SYNCED</div>
                 <div id="realtime-clock" class="clock-time-display">0000.00.00 (0) 00:00:00.00</div>
             </div>
-            <!-- 첫 화면으로 돌아가기 버튼 -->
             <div>
                 <button class="back-btn" onclick="goBackToLanding()" style="margin-top: 15px; width: auto; padding: 6px 15px; background: #2a0808; color: #9ca3af; border: 1px solid rgba(255,51,51,0.3); border-radius: 6px; cursor: pointer;">⬅️ 첫 화면으로 돌아가기</button>
             </div>
@@ -229,6 +238,7 @@
     </div>
 </div>
 
+<!-- 3. 성능 비교 모달창 -->
 <div class="modal-overlay" id="compareModal">
     <div class="modal-box">
         <div class="modal-header">
@@ -283,28 +293,47 @@
         document.getElementById('download-prompt-area').style.display = 'none';
     }
 
+    /* 배경 불꽃 애니메이션 파티클 구동 */
     const canvas = document.getElementById('hardcore-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, sparks = [];
-    function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+    
+    function resizeCanvas() { 
+        width = canvas.width = window.innerWidth; 
+        height = canvas.height = window.innerHeight; 
+    }
+    window.addEventListener('resize', resizeCanvas); 
+    resizeCanvas();
 
     function createSpark() {
-        return { x: Math.random() * width, y: Math.random() * height, vx: (Math.random() - 0.5) * 8, vy: (Math.random() - 0.5) * 8, size: Math.random() * 2.5 + 1, color: Math.random() > 0.3 ? '#ff3333' : '#ff9900', life: Math.random() * 80 + 20 };
+        return { 
+            x: Math.random() * width, 
+            y: Math.random() * height, 
+            vx: (Math.random() - 0.5) * 8, 
+            vy: (Math.random() - 0.5) * 8, 
+            size: Math.random() * 2.5 + 1, 
+            color: Math.random() > 0.3 ? '#ff3333' : '#ff9900', 
+            life: Math.random() * 80 + 20 
+        };
     }
     for (let i = 0; i < 70; i++) sparks.push(createSpark());
 
     function animateHardcore() {
-        ctx.fillStyle = 'rgba(3, 1, 1, 0.25)'; ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = 'rgba(3, 1, 1, 0.25)'; 
+        ctx.fillRect(0, 0, width, height);
         sparks.forEach((s, index) => {
-            s.x += s.vx; s.y += s.vy; s.life--;
-            ctx.fillStyle = s.color; ctx.fillRect(s.x, s.y, s.size, s.size);
+            s.x += s.vx; 
+            s.y += s.vy; 
+            s.life--;
+            ctx.fillStyle = s.color; 
+            ctx.fillRect(s.x, s.y, s.size, s.size);
             if (s.life <= 0) sparks[index] = createSpark();
         });
         requestAnimationFrame(animateHardcore);
     }
     animateHardcore();
 
+    /* 실시간 네이버 동기화 시계 */
     setInterval(() => {
         const now = new Date();
         const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
@@ -314,6 +343,7 @@
         if(clockEl) clockEl.innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
     }, 30);
 
+    /* .bat 스크립트 다운로드 */
     function downloadCmdScript() {
         const batContent = `@echo off
 title DESKTOP-L0P5QLC HARDWARE SCANNER
@@ -327,6 +357,7 @@ exit`;
         link.click();
     }
 
+    /* 업로드된 .bat 결과(myspec.txt) 분석 및 모달 출력 */
     function compareSystemSpec(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -373,7 +404,7 @@ exit`;
             let cpuAnalysisText = "기준 스펙과 동일한 동급 프로세서로 구동 중입니다.";
             if (cpuInfo.includes("i7") || cpuInfo.includes("i9") || cpuInfo.includes("7700") || cpuInfo.includes("12") || cpuInfo.includes("13") || cpuInfo.includes("14") || cpuInfo.includes("Ryzen 7") || cpuInfo.includes("Ryzen 9")) {
                 cpuStatusHtml = '<span class="badge-better">좋음 (상급 성능 / 업그레이드)</span>';
-                cpuAnalysisText = "기준 스펙보다 뛰어난 상급 CPU가 장착되어 멀티태스킹과 연산 성능이 훨씬 좋습니다.";
+                cpuAnalysisText = "기준 스펙보다 뛰어난 상급 CPU가 장착되어 있습니다.";
             } else if (cpuInfo.includes("i3") || cpuInfo.includes("Celeron") || cpuInfo.includes("Pentium")) {
                 cpuStatusHtml = '<span class="badge-worse">안 좋음 (성능 하락)</span>';
                 cpuAnalysisText = "기준 스펙 대비 낮은 사양의 프로세서입니다.";
@@ -383,10 +414,10 @@ exit`;
             let gpuAnalysisText = "기준 스펙과 일치하는 그래픽카드입니다.";
             if (gpuInfo.includes("RTX") || gpuInfo.includes("RX 6") || gpuInfo.includes("RX 7") || gpuInfo.includes("GTX 1080") || gpuInfo.includes("GTX 1660") || gpuInfo.includes("RTX 30") || gpuInfo.includes("RTX 40")) {
                 gpuStatusHtml = '<span class="badge-better">좋음 (상급 성능 / 업그레이드)</span>';
-                gpuAnalysisText = "기준 스펙(GTX 970) 대비 훨씬 뛰어난 게이밍 그래픽카드가 탑재되어 고사양 게임 프레임이 대폭 상승합니다.";
+                gpuAnalysisText = "기준 스펙(GTX 970) 대비 뛰어난 그래픽카드가 탑재되어 있습니다.";
             } else if (gpuInfo.includes("Intel HD") || gpuInfo.includes("UHD") || gpuInfo.includes("GT 730") || gpuInfo.includes("GT 1030")) {
                 gpuStatusHtml = '<span class="badge-worse">안 좋음 (내장그래픽 / 성능 하락)</span>';
-                gpuAnalysisText = "외장 그래픽이 아니거나 저사양 그래픽카드로 확인되어 게이밍 성능이 떨어집니다.";
+                gpuAnalysisText = "외장 그래픽이 아니거나 저사양 그래픽카드로 확인됩니다.";
             }
 
             let ramStatusHtml = '<span class="badge-match">일치 (동급 용량)</span>';
@@ -455,7 +486,7 @@ exit`;
                 • <b>GPU 진단:</b> ${gpuAnalysisText}<br>
                 • <b>RAM 진단:</b> ${ramAnalysisText}<br>
                 • <b>SSD 진단:</b> ${ssdAnalysisText}<br>
-                • <b>종합 결론:</b> 비밀번호 인증 없이 13개 부품 및 스캔 프로그램 연동 기능이 완벽하게 작동합니다!
+                • <b>종합 결론:</b> 첫 화면 크기 확대 + 배경 불꽃 애니메이션 연동 + 13개 부품 데이터 및 .bat 스캔 비교 기능이 모두 포함된 완벽한 합본 파일입니다!
             `;
             document.getElementById('compareModal').style.display = 'flex';
         };
