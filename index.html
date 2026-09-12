@@ -20,23 +20,24 @@
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            z-index: -1;
+            z-index: 0; /* 배경 레이어 설정 */
             pointer-events: none;
             background: radial-gradient(circle at center, #140505 0%, #030101 100%);
         }
 
-        /* 비밀번호 및 메뉴 잠금 화면 스타일 */
+        /* 비밀번호 및 메뉴 잠금 화면 스타일 (첫 화면에서도 배경 불꽃이 은은하게 비치도록 투명도 조정) */
         #auth-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 1, 1, 0.95); backdrop-filter: blur(10px);
+            background: rgba(3, 1, 1, 0.75); backdrop-filter: blur(8px);
             z-index: 99999; display: flex; justify-content: center; align-items: center;
         }
         .auth-box {
-            background: linear-gradient(135deg, rgba(30, 8, 8, 0.98) 0%, rgba(10, 2, 2, 0.98) 100%);
+            background: linear-gradient(135deg, rgba(30, 8, 8, 0.92) 0%, rgba(10, 2, 2, 0.95) 100%);
             border: 2px solid #ff3333; border-radius: 12px; padding: 40px; text-align: center;
             box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); width: 90%; max-width: 420px;
+            position: relative; z-index: 2;
         }
-        .auth-box h2 { color: #ff3333; margin-top: 0; margin-bottom: 10px; font-size: 22px; }
+        .auth-box h2 { color: #ff3333; margin-top: 0; margin-bottom: 10px; font-size: 22px; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
         .auth-box p { color: #9ca3af; font-size: 13px; margin-bottom: 25px; }
         
         .auth-btn-group { display: flex; flex-direction: column; gap: 12px; }
@@ -62,7 +63,7 @@
         }
 
         /* 메인 콘텐츠 (처기엔 숨김 처리) */
-        #main-content-wrapper { display: none; }
+        #main-content-wrapper { display: none; position: relative; z-index: 1; }
 
         .container {
             width: 90%; max-width: 1000px;
@@ -123,7 +124,7 @@
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center;
+            backdrop-filter: blur(8px); z-index: 99999; justify-content: center; align-items: center;
         }
         .modal-box {
             background: linear-gradient(135deg, rgba(30, 8, 8, 0.98) 0%, rgba(10, 2, 2, 0.98) 100%);
@@ -169,14 +170,14 @@
             <button class="auth-custom-btn btn-download" onclick="showDownloadPrompt()">📥 스캔 프로그램(.bat) 다운로드</button>
         </div>
 
-        <!-- '내 사양 13개 보기' 선택 시 나타나는 영역 (뒤로가기 포함) -->
+        <!-- '내 사양 13개 보기' 선택 시 나타나는 영역 -->
         <div id="view-prompt-area" style="display: none;">
             <p style="color: #ff4d4d; margin-bottom: 15px;">📂 내 사양을 확인하시겠습니까?</p>
             <button class="auth-custom-btn btn-view" onclick="openMainContent()" style="margin-bottom: 10px;">확인 및 사양 화면 진입</button>
             <button class="back-btn" onclick="hideLandingSub('view-prompt-area')">돌아가기</button>
         </div>
 
-        <!-- 다운로드 버튼 선택 시 나타나는 다운로드 및 파일 업로드 안내 영역 -->
+        <!-- 다운로드 버튼 선택 시 나타나는 영역 -->
         <div id="download-prompt-area" style="display: none;">
             <p style="color: #ff4d4d; margin-bottom: 15px;">📥 스캔 프로그램(.bat) 다운로드 및 업로드</p>
             <button class="auth-custom-btn btn-view" onclick="downloadCmdScript()" style="margin-bottom: 15px;">💾 다운로드 시작하기</button>
@@ -201,8 +202,10 @@
                 <div class="clock-top-label"><div class="live-dot"></div>COMBAT TIME SYNCED</div>
                 <div id="realtime-clock" class="clock-time-display">0000.00.00 (0) 00:00:00.00</div>
             </div>
-            <!-- 사양 화면 내부에서도 필요시 처음 화면으로 돌아갈 수 있는 버튼 추가 -->
-            <button class="back-btn" onclick="goBackToLanding()" style="margin-top: 15px; width: auto; padding: 6px 15px;">⬅️ 첫 화면으로 돌아가기</button>
+            <!-- 첫 화면으로 돌아가기 버튼 -->
+            <div>
+                <button class="back-btn" onclick="goBackToLanding()" style="margin-top: 15px; width: auto; padding: 6px 15px; background: #2a0808; color: #9ca3af; border: 1px solid rgba(255,51,51,0.3); border-radius: 6px; cursor: pointer;">⬅️ 첫 화면으로 돌아가기</button>
+            </div>
         </header>
 
         <div class="section-title">📂 COMPLETE SYSTEM SPECS (모든 부품 13종 완벽 보존)</div>
