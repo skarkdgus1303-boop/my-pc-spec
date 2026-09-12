@@ -56,20 +56,10 @@
         }
         .btn-download:hover { background: linear-gradient(135deg, #374151, #1f2937); }
 
-        .auth-box input[type="password"] {
-            width: 100%; padding: 12px; background: #1f0505; border: 1px solid #ff3333;
-            color: #fff; border-radius: 6px; font-size: 16px; text-align: center; margin-bottom: 10px; outline: none;
-            -webkit-text-security: disc;
-        }
-        .auth-box button.submit-btn {
-            width: 100%; padding: 12px; background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
-            color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;
-        }
         .auth-box button.back-btn {
             width: 100%; padding: 8px; background: #2a0808; color: #9ca3af; border: 1px solid rgba(255,51,51,0.3);
             border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 8px;
         }
-        .auth-error { color: #f87171; font-size: 12px; margin-top: 8px; display: none; }
 
         /* 메인 콘텐츠 (처기엔 숨김 처리) */
         #main-content-wrapper { display: none; }
@@ -192,7 +182,7 @@
 
 <canvas id="hardcore-canvas"></canvas>
 
-<!-- 초기 선택 오버레이 (두 개의 버튼 제공) -->
+<!-- 초기 선택 오버레이 -->
 <div id="auth-overlay">
     <div class="auth-box">
         <h2>🔒 SYSTEM COMMAND CENTER</h2>
@@ -200,24 +190,21 @@
 
         <!-- 첫 화면 버튼 2개 -->
         <div id="landing-buttons" class="auth-btn-group">
-            <button class="auth-custom-btn btn-view" onclick="showPasswordPrompt()">📂 내 사양 13개 보기 (비밀번호 인증)</button>
+            <button class="auth-custom-btn btn-view" onclick="openMainContent()">📂 내 사양 13개 보기</button>
             <button class="auth-custom-btn btn-download" onclick="showDownloadPrompt()">📥 스캔 프로그램(.bat) 다운로드</button>
         </div>
 
-        <!-- 사양 보기 선택 시 나타나는 비밀번호 입력 영역 -->
-        <div id="password-prompt-area" style="display: none;">
-            <p style="color: #ff4d4d; margin-bottom: 10px;">🔐 사양 확인 비밀번호 입력</p>
-            <input type="password" id="access-password" placeholder="비밀번호 (0912)" autocomplete="new-password" onkeydown="if(event.key==='Enter') checkPassword()">
-            <button class="submit-btn" onclick="checkPassword()">확인</button>
-            <button class="back-btn" onclick="hideLandingSub('password-prompt-area')">돌아가기</button>
-            <div id="auth-error" class="auth-error">⚠️ 비밀번호가 틀렸습니다!</div>
-        </div>
-
-        <!-- 다운로드 버튼 선택 시 나타나는 다운로드 안내 영역 -->
+        <!-- 다운로드 버튼 선택 시 나타나는 다운로드 및 파일 업로드 안내 영역 -->
         <div id="download-prompt-area" style="display: none;">
-            <p style="color: #ff4d4d; margin-bottom: 15px;">📥 스캔 프로그램(.bat) 다운로드 안내</p>
-            <button class="submit-btn" onclick="downloadCmdScript()">💾 다운로드 시작하기</button>
-            <button class="back-btn" onclick="hideLandingSub('download-prompt-area')">돌아가기</button>
+            <p style="color: #ff4d4d; margin-bottom: 15px;">📥 스캔 프로그램(.bat) 다운로드 및 업로드</p>
+            <button class="auth-custom-btn btn-view" onclick="downloadCmdScript()" style="margin-bottom: 15px;">💾 다운로드 시작하기</button>
+            
+            <div style="border-top: 1px solid rgba(255, 51, 51, 0.3); padding-top: 15px; text-align: left;">
+                <p style="color: #f3f4f6; font-size: 13px; margin-bottom: 8px;">바탕화면의 <code>myspec.txt</code> 파일 업로드</p>
+                <input type="file" id="authFileInput" onchange="compareSystemSpec(event)" style="width: 100%; color: #f3f4f6; background: #1f0505; border: 1px solid #ff3333; padding: 10px; border-radius: 6px; cursor: pointer;">
+            </div>
+
+            <button class="back-btn" onclick="hideLandingSub('download-prompt-area')" style="margin-top: 15px;">돌아가기</button>
         </div>
     </div>
 </div>
@@ -251,18 +238,6 @@
             <div class="card"><div class="icon">🔊</div><div class="title">스피커</div><div class="value">ZIO-S100 SOUNDBAR-US</div><div class="detail">USB 전원 공급형 PC 사운드바</div></div>
         </div>
 
-        <div class="remote-compare-section">
-            <h3 style="color: #ff4d4d; margin-top: 0; margin-bottom: 10px;">🛡️ ULTIMATE HARDWARE RADAR</h3>
-            <p style="color: #9ca3af; font-size: 14px; margin-bottom: 20px;">버튼을 눌러 스크립트를 다운로드하세요. 실행 즉시 백그라운드에서 <b>CPU, GPU, RAM, SSD, OS, 메인보드를 정밀 스캔</b>합니다.</p>
-            
-            <button class="remote-compare-btn" onclick="downloadCmdScript()">📥 [1단계] 정밀 하드웨어 스캔 프로그램(.bat) 다운로드</button>
-            
-            <div class="file-upload-box">
-                <p style="color: #f3f4f6; font-size: 13px; margin-bottom: 8px;">2단계: 바탕화면의 <code>myspec.txt</code> 파일 업로드</p>
-                <input type="file" id="specFileInput" onchange="compareSystemSpec(event)">
-            </div>
-        </div>
-
         <footer>DESKTOP-L0P5QLC</footer>
     </div>
 </div>
@@ -293,41 +268,19 @@
 </div>
 
 <script>
-    // ★ 비밀번호 0912 설정 완료
-    const correctPassword = "0912";
-
-    function showPasswordPrompt() {
-        document.getElementById('landing-buttons').style.display = 'none';
-        document.getElementById('download-prompt-area').style.display = 'none';
-        document.getElementById('password-prompt-area').style.display = 'block';
-        document.getElementById('access-password').focus();
+    function openMainContent() {
+        document.getElementById('auth-overlay').style.display = 'none';
+        document.getElementById('main-content-wrapper').style.display = 'block';
     }
 
     function showDownloadPrompt() {
         document.getElementById('landing-buttons').style.display = 'none';
-        document.getElementById('password-prompt-area').style.display = 'none';
         document.getElementById('download-prompt-area').style.display = 'block';
     }
 
     function hideLandingSub(areaId) {
         document.getElementById(areaId).style.display = 'none';
         document.getElementById('landing-buttons').style.display = 'flex';
-        document.getElementById('auth-error').style.display = 'none';
-        document.getElementById('access-password').value = '';
-    }
-
-    function checkPassword() {
-        const inputVal = document.getElementById('access-password').value;
-        const errorMsg = document.getElementById('auth-error');
-
-        if (inputVal === correctPassword) {
-            document.getElementById('auth-overlay').style.display = 'none';
-            document.getElementById('main-content-wrapper').style.display = 'block';
-        } else {
-            errorMsg.style.display = 'block';
-            document.getElementById('access-password').value = '';
-            document.getElementById('access-password').focus();
-        }
     }
 
     const canvas = document.getElementById('hardcore-canvas');
@@ -357,13 +310,14 @@
         const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
         const days = ['일','월','화','수','목','금','토'][now.getDay()];
         const h = String(now.getHours()).padStart(2,'0'), min = String(now.getMinutes()).padStart(2,'0'), s = String(now.getSeconds()).padStart(2,'0'), ms = String(Math.floor(now.getMilliseconds()/10)).padStart(2,'0');
-        document.getElementById('realtime-clock').innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
+        const clockEl = document.getElementById('realtime-clock');
+        if(clockEl) clockEl.innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
     }, 30);
 
     function downloadCmdScript() {
         const batContent = `@echo off
 title DESKTOP-L0P5QLC HARDWARE SCANNER
-powershell -Command "$cpu = (Get-CimInstance Win32_Processor).Name; $gpu = (Get-CimInstance Win32_VideoController).Name; $ram = [math]::round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 2); $ssd = (Get-CimInstance Win32_DiskDrive | Select-Object -First 1).Model; $os = (Get-CimInstance Win32_OperatingSystem).Caption; $mb = (Get-CimInstance Win32_BaseBoard).Product; $content = \"CPU: $cpu\`nGPU: $gpu\`nRAM: $ram GB\`nSSD: $ssd\`nOS: $os\`nMainboard: $mb\"; Set-Content -Path ([Environment]::GetFolderPath('Desktop') + '\\myspec.txt') -Value $content -Encoding UTF8"
+powershell -Command "$cpu = (Get-CimInstance Win32_Processor).Name; $gpu = (Get-CimInstance Win32_VideoController).Name; $ram = [math]::round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 2); $ssd = (Get-CimInstance Win32_DiskDrive | Select-Object -First 1).Model; $os = (Get-CimInstance Win32_OperatingSystem).Caption; $mb = (Get-CimInstance Win32_BaseBoard).Product; $content = \\"CPU: $cpu\`nGPU: $gpu\`nRAM: $ram GB\`nSSD: $ssd\`nOS: $os\`nMainboard: $mb\\"; Set-Content -Path ([Environment]::GetFolderPath('Desktop') + '\\myspec.txt') -Value $content -Encoding UTF8"
 exit`;
 
         const blob = new Blob([batContent], { type: 'text/plain;charset=utf-8' });
@@ -401,12 +355,19 @@ exit`;
                 if (line.startsWith("Mainboard:")) mbInfo = line.replace("Mainboard:", "").trim();
             }
 
-            document.getElementById('card-cpu-val').innerText = cpuInfo;
-            document.getElementById('card-gpu-val').innerText = gpuInfo;
-            document.getElementById('card-ram-val').innerText = ramInfoNum + " GB (약 16 GB)";
-            document.getElementById('card-ssd-val').innerText = ssdInfo;
-            document.getElementById('card-os-val').innerText = osInfo;
-            document.getElementById('card-mb-val').innerText = mbInfo;
+            const cpuCard = document.getElementById('card-cpu-val');
+            const gpuCard = document.getElementById('card-gpu-val');
+            const ramCard = document.getElementById('card-ram-val');
+            const ssdCard = document.getElementById('card-ssd-val');
+            const osCard = document.getElementById('card-os-val');
+            const mbCard = document.getElementById('card-mb-val');
+
+            if(cpuCard) cpuCard.innerText = cpuInfo;
+            if(gpuCard) gpuCard.innerText = gpuInfo;
+            if(ramCard) ramCard.innerText = ramInfoNum + " GB (약 16 GB)";
+            if(ssdCard) ssdCard.innerText = ssdInfo;
+            if(osCard) osCard.innerText = osInfo;
+            if(mbCard) mbCard.innerText = mbInfo;
 
             let cpuStatusHtml = '<span class="badge-match">일치 (동급 성능)</span>';
             let cpuAnalysisText = "기준 스펙과 동일한 동급 프로세서로 구동 중입니다.";
@@ -494,7 +455,7 @@ exit`;
                 • <b>GPU 진단:</b> ${gpuAnalysisText}<br>
                 • <b>RAM 진단:</b> ${ramAnalysisText}<br>
                 • <b>SSD 진단:</b> ${ssdAnalysisText}<br>
-                • <b>종합 결론:</b> 비밀번호(0912) 보안 인증이 완료되었으며 13개 부품 및 실시간 스캔 기능이 완벽하게 작동합니다!
+                • <b>종합 결론:</b> 비밀번호 인증 없이 13개 부품 및 스캔 프로그램 연동 기능이 완벽하게 작동합니다!
             `;
             document.getElementById('compareModal').style.display = 'flex';
         };
