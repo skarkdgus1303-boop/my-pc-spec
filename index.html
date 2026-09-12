@@ -17,7 +17,6 @@
             overflow-x: hidden;
         }
 
-        /* 2개 버튼이 있는 첫 화면 전용 화려한 불꽃 애니메이션 캔버스 */
         #hardcore-canvas {
             position: fixed;
             top: 0; left: 0;
@@ -27,7 +26,6 @@
             background: radial-gradient(circle at center, #260505 0%, #000000 100%);
         }
 
-        /* 1. 처음 화면 오버레이 (2개 버튼 있는 화면) */
         #auth-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(3, 1, 1, 0.5); backdrop-filter: blur(5px);
@@ -71,7 +69,6 @@
         }
         .auth-box button.back-btn:hover { background: #3d0c0c; color: #fff; }
 
-        /* 2. 메인 사양 콘텐츠 (처음엔 숨김 처리) */
         #main-content-wrapper { display: none; position: relative; z-index: 5; background-color: #030101; min-height: 100vh; }
 
         .container {
@@ -130,7 +127,6 @@
         .value { font-size: 20px; font-weight: bold; line-height: 1.5; }
         .detail { color: #9ca3af; font-size: 14px; margin-top: 6px; }
 
-        /* 모달 오버레이 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85);
@@ -166,32 +162,30 @@
 </head>
 <body>
 
-<!-- 2개 버튼이 있는 첫 화면 전용 불꽃 애니메이션 배경 캔버스 -->
 <canvas id="hardcore-canvas"></canvas>
 
-<!-- 1. 처음 화면 오버레이 (2개 버튼 있는 화면) -->
+<!-- 1. 처음 화면 오버레이 -->
 <div id="auth-overlay">
     <div class="auth-box">
         <h2>🔒 SYSTEM COMMAND CENTER</h2>
         <p>원하시는 작업을 선택하세요.</p>
 
-        <!-- 버튼 2개 그룹 -->
         <div id="landing-buttons" class="auth-btn-group">
             <button class="auth-custom-btn btn-view" onclick="showViewPrompt()">📂 내 사양 13개 보기</button>
             <button class="auth-custom-btn btn-download" onclick="showDownloadPrompt()">📥 스캔 프로그램(.bat) 다운로드</button>
         </div>
 
-        <!-- '내 사양 13개 보기' 선택 시 하위 영역 -->
         <div id="view-prompt-area" style="display: none;">
             <p style="color: #ff4d4d; margin-bottom: 18px; font-size: 15px;">📂 내 사양을 확인하시겠습니까?</p>
             <button class="auth-custom-btn btn-view" onclick="openMainContent()" style="margin-bottom: 12px;">확인 및 사양 화면 진입</button>
             <button class="back-btn" onclick="hideLandingSub('view-prompt-area')">돌아가기</button>
         </div>
 
-        <!-- 다운로드 버튼 선택 시 하위 영역 -->
         <div id="download-prompt-area" style="display: none;">
-            <p style="color: #ff4d4d; margin-bottom: 18px; font-size: 15px;">📥 스캔 프로그램(.bat) 다운로드 및 업로드</p>
-            <button class="auth-custom-btn btn-view" onclick="downloadCmdScript()" style="margin-bottom: 18px;">💾 다운로드 시작하기</button>
+            <p style="color: #ff4d4d; margin-bottom: 12px; font-size: 15px;">📥 스캔 프로그램(.bat) 원클릭 다운로드</p>
+            <p style="color: #9ca3af; font-size: 12px; margin-bottom: 18px; font-weight: normal;">버튼을 누르면 즉시 다운로드되며, 다운로드된 파일을 실행하신 후 아래 박스에 파일을 올려주세요.</p>
+            
+            <button class="auth-custom-btn btn-view" onclick="downloadCmdScript()" style="margin-bottom: 18px;">⚡ check_spec.bat 즉시 다운로드</button>
             
             <div style="border-top: 1px solid rgba(255, 51, 51, 0.3); padding-top: 18px; text-align: left;">
                 <p style="color: #f3f4f6; font-size: 14px; margin-bottom: 10px;">바탕화면의 <code>myspec.txt</code> 파일 업로드</p>
@@ -203,7 +197,7 @@
     </div>
 </div>
 
-<!-- 2. 메인 사양 콘텐츠 영역 (13종 부품, 시계 등) -->
+<!-- 2. 메인 사양 콘텐츠 영역 -->
 <div id="main-content-wrapper">
     <div class="container">
         <header>
@@ -296,7 +290,6 @@
         document.getElementById('download-prompt-area').style.display = 'none';
     }
 
-    /* 2개 버튼이 있는 첫 화면 전용 불꽃 애니메이션 파티클 구동 */
     const canvas = document.getElementById('hardcore-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, sparks = [];
@@ -336,7 +329,6 @@
     }
     animateHardcore();
 
-    /* 실시간 네이버 동기화 시계 */
     setInterval(() => {
         const now = new Date();
         const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
@@ -346,11 +338,15 @@
         if(clockEl) clockEl.innerText = `${y}.${m}.${d} (${days}) ${h}:${min}:${s}.${ms}`;
     }, 30);
 
-    /* .bat 스크립트 다운로드 */
     function downloadCmdScript() {
         const batContent = `@echo off
 title DESKTOP-L0P5QLC HARDWARE SCANNER
+echo [!] PC 하드웨어를 정밀 스캔 중입니다... 잠시만 기다려주세요.
 powershell -Command "$cpu = (Get-CimInstance Win32_Processor).Name; $gpu = (Get-CimInstance Win32_VideoController).Name; $ram = [math]::round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 2); $ssd = (Get-CimInstance Win32_DiskDrive | Select-Object -First 1).Model; $os = (Get-CimInstance Win32_OperatingSystem).Caption; $mb = (Get-CimInstance Win32_BaseBoard).Product; $content = \\"CPU: $cpu\`nGPU: $gpu\`nRAM: $ram GB\`nSSD: $ssd\`nOS: $os\`nMainboard: $mb\\"; Set-Content -Path ([Environment]::GetFolderPath('Desktop') + '\\myspec.txt') -Value $content -Encoding UTF8"
+echo.
+echo [+] 스캔이 완료되었습니다! 바탕화면에 'myspec.txt' 파일이 생성되었습니다.
+echo [+] 이제 웹페이지로 돌아가서 해당 파일을 업로드해주세요.
+pause
 exit`;
 
         const blob = new Blob([batContent], { type: 'text/plain;charset=utf-8' });
@@ -360,7 +356,6 @@ exit`;
         link.click();
     }
 
-    /* 업로드된 .bat 결과(myspec.txt) 분석 및 모달 출력 */
     function compareSystemSpec(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -389,19 +384,12 @@ exit`;
                 if (line.startsWith("Mainboard:")) mbInfo = line.replace("Mainboard:", "").trim();
             }
 
-            const cpuCard = document.getElementById('card-cpu-val');
-            const gpuCard = document.getElementById('card-gpu-val');
-            const ramCard = document.getElementById('card-ram-val');
-            const ssdCard = document.getElementById('card-ssd-val');
-            const osCard = document.getElementById('card-os-val');
-            const mbCard = document.getElementById('card-mb-val');
-
-            if(cpuCard) cpuCard.innerText = cpuInfo;
-            if(gpuCard) gpuCard.innerText = gpuInfo;
-            if(ramCard) ramCard.innerText = ramInfoNum + " GB (약 16 GB)";
-            if(ssdCard) ssdCard.innerText = ssdInfo;
-            if(osCard) osCard.innerText = osInfo;
-            if(mbCard) mbCard.innerText = mbInfo;
+            document.getElementById('card-cpu-val').innerText = cpuInfo;
+            document.getElementById('card-gpu-val').innerText = gpuInfo;
+            document.getElementById('card-ram-val').innerText = ramInfoNum + " GB (약 16 GB)";
+            document.getElementById('card-ssd-val').innerText = ssdInfo;
+            document.getElementById('card-os-val').innerText = osInfo;
+            document.getElementById('card-mb-val').innerText = mbInfo;
 
             let cpuStatusHtml = '<span class="badge-match">일치 (동급 성능)</span>';
             let cpuAnalysisText = "기준 스펙과 동일한 동급 프로세서로 구동 중입니다.";
@@ -440,9 +428,6 @@ exit`;
                 ssdAnalysisText = "고속 NVMe SSD로 로딩 속도와 시스템 반응 속도가 매우 빠릅니다.";
             }
 
-            let osStatusHtml = '<span class="badge-match">일치 (정상 구동)</span>';
-            let mbStatusHtml = '<span class="badge-match">일치 (칩셋 매칭)</span>';
-
             const tbody = document.getElementById('modal-tbody');
             tbody.innerHTML = `
                 <tr>
@@ -473,13 +458,13 @@ exit`;
                     <td><strong>🪟 운영체제 (OS)</strong></td>
                     <td>Microsoft Windows 11 Pro</td>
                     <td>${osInfo}</td>
-                    <td>${osStatusHtml}</td>
+                    <td><span class="badge-match">일치 (정상 구동)</span></td>
                 </tr>
                 <tr>
                     <td><strong>🧩 메인보드</strong></td>
                     <td>Gigabyte B360M DS3H</td>
                     <td>${mbInfo}</td>
-                    <td>${mbStatusHtml}</td>
+                    <td><span class="badge-match">일치 (칩셋 매칭)</span></td>
                 </tr>
             `;
 
@@ -489,7 +474,7 @@ exit`;
                 • <b>GPU 진단:</b> ${gpuAnalysisText}<br>
                 • <b>RAM 진단:</b> ${ramAnalysisText}<br>
                 • <b>SSD 진단:</b> ${ssdAnalysisText}<br>
-                • <b>종합 결론:</b> GitHub Pages 배포용 첫 화면 불꽃 애니메이션 세팅이 완료되었습니다!
+                • <b>종합 결론:</b> GitHub Pages 연동 및 원클릭 다운로드 완료!
             `;
             document.getElementById('compareModal').style.display = 'flex';
         };
